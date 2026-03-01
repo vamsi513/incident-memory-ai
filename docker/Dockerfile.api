@@ -5,7 +5,18 @@ WORKDIR /app
 COPY requirements.txt requirements-dev.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY app ./app
+COPY core ./core
+COPY ingestion ./ingestion
+COPY retrieval ./retrieval
+COPY rerank ./rerank
+COPY evals ./evals
+COPY ui ./ui
+COPY scripts ./scripts
+COPY data ./data
+COPY README.md .
+COPY LICENSE .
+COPY Makefile .
+COPY .env.example .
 
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-10000}"]
-
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
