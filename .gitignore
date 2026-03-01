@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.env
+*.pyc
+.DS_Store
+logs/*
+!logs/.gitkeep
+.streamlit/secrets.toml
+coverage.xml
+htmlcov/

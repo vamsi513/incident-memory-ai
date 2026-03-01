@@ -1,0 +1,54 @@
+[
+  {
+    "doc_id": "database_latency_runbook",
+    "source": "local_markdown",
+    "title": "Database Latency Runbook",
+    "content": "# Database Latency Runbook\n\n## Symptoms\n- Elevated p95 latency\n- Increased timeout rate\n- Connection pool saturation\n\n## Immediate Checks\n- Check database CPU\n- Check active connections\n- Check recent deploys\n\n## Mitigation Steps\n- Roll back recent deploys\n- Increase connection pool size temporarily\n- Shift read traffic to replicas if available\n\n## Escalation\n- Escalate to database owner if saturation persists for more than 10 minutes\n\n",
+    "url": null,
+    "path": "data/raw/runbooks/database_latency_runbook.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "checkout_architecture",
+    "source": "local_markdown",
+    "title": "Checkout Architecture",
+    "content": "# Checkout Architecture\n\n## Services\nThe checkout flow depends on the API gateway, checkout service, payment service, and PostgreSQL database.\n\n## Failure Modes\nCommon failure modes include connection pool saturation, downstream payment timeout, and slow database queries.\n\n## Mitigations\nMitigations include rollback, traffic shaping, and increasing temporary connection pool limits.\n\n",
+    "url": null,
+    "path": "data/raw/docs/checkout_architecture.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2025_01_checkout_timeout",
+    "source": "local_markdown",
+    "title": "Incident 2025 01 Checkout Timeout",
+    "content": "# Checkout Timeout Incident\n\n## Summary\nUsers experienced elevated checkout timeout errors.\n\n## Impact\nCheckout success rate dropped by 18 percent for 22 minutes.\n\n## Root Cause\nA deployment changed database connection pool behavior, causing saturation.\n\n## Mitigation\nThe on-call engineer rolled back the deployment and increased connection pool size.\n\n## Follow-up Actions\n- Add load test for connection pool saturation\n- Add alert on pool exhaustion\n\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2025_01_checkout_timeout.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2025_02_search_latency",
+    "source": "local_markdown",
+    "title": "Incident 2025 02 Search Latency",
+    "content": "# Search Latency Incident\n\n## Summary\nSearch API latency spiked after a cache invalidation bug.\n\n## Impact\np95 latency rose from 220 ms to 2400 ms for 17 minutes.\n\n## Root Cause\nA cache invalidation job cleared hot keys too aggressively, causing repeated database reads.\n\n## Mitigation\nThe team disabled the invalidation worker and restored cached key warmup.\n\n## Follow-up Actions\n- Add rate limits to invalidation worker\n- Add monitoring for cache hit ratio\n\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2025_02_search_latency.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  }
+]

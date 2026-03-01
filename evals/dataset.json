@@ -1,0 +1,18 @@
+[
+  {
+    "query": "What was the root cause of the checkout timeout incident?",
+    "expected_doc_ids": ["incident_2025_01_checkout_timeout"]
+  },
+  {
+    "query": "What was the root cause of the search latency incident?",
+    "expected_doc_ids": ["incident_2025_02_search_latency"]
+  },
+  {
+    "query": "What runbook steps help with database latency?",
+    "expected_doc_ids": ["database_latency_runbook"]
+  },
+  {
+    "query": "Which document describes checkout failure modes?",
+    "expected_doc_ids": ["checkout_architecture"]
+  }
+]
