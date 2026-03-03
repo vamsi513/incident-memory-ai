@@ -1,120 +1,120 @@
 # IncidentMemory AI
 
-IncidentMemory AI is a production-style RAG system for engineering incident knowledge. It ingests incident postmortems, runbooks, architecture docs, and issue-style operational notes, then answers incident-response questions with grounded citations and retrieval traces.
+IncidentMemory AI is a production-style RAG system for engineering incident knowledge.
 
-This is not a generic PDF chatbot. The repo is built to demonstrate the parts recruiters and interviewers expect from an LLM engineer:
-- hybrid retrieval (`BM25 + FAISS embeddings`)
-- query rewriting
-- reranking with a cross-encoder
-- section-aware ranking heuristics for `Root Cause` and `Mitigation`
-- grounded generation with citation requirements and `I don't know` fallback
-- retrieval evaluation with `Recall@k` and `MRR`
-- structured logging and basic prompt-injection defenses
+It ingests:
+- incident postmortems
+- runbooks
+- architecture docs
+- optional GitHub issues and PRs
+
+It provides:
+- grounded answers with citations
+- hybrid retrieval (BM25 + vector search)
+- query rewriting and reranking
+- section-aware ranking for root-cause and mitigation queries
+- evaluation metrics (Recall@k, MRR)
+- structured logging and basic safety guardrails
+
+## Why This Project Matters
+
+Most RAG portfolios are generic document chatbots. This project is different: it focuses on operational memory for engineers and demonstrates the parts of RAG systems that matter in real production work, including retrieval quality, evaluation, observability, and safety.
 
 ## Demo Use Cases
 
-- "What was the root cause of the search latency incident?"
-- "What fixed the checkout timeout incident?"
-- "What runbook steps help with database latency?"
-- "Which document describes checkout failure modes?"
+- `What was the root cause of the search latency incident?`
+- `What fixed the checkout timeout incident?`
+- `What runbook steps help with database latency?`
+- `Which document describes checkout failure modes?`
 
 ## Current Results
 
-Retrieval baseline on the demo corpus:
-- `Recall@1`: `0.75`
-- `Recall@3`: `1.00`
-- `Recall@5`: `1.00`
-- `MRR`: `0.88`
+On the current benchmark set:
+- Average Recall@1: `0.75`
+- Average Recall@3: `1.00`
+- Average Recall@5: `1.00`
+- Average MRR: `0.88`
 
-Observed behavior after ranking fixes:
-- `search latency root cause` answers correctly
-- `database latency runbook steps` answers correctly
-- `checkout timeout root cause` answers correctly
-- `checkout timeout fixed` answers correctly with mitigation evidence
+These numbers reflect a retrieval stack that consistently finds the right document in the top results, with room for future improvement in citation ranking precision.
+
+## Screenshots
+
+### Root Cause Lookup
+![Root cause lookup](docs/screenshots/root-cause-search.png)
+
+### Mitigation Lookup
+![Mitigation lookup](docs/screenshots/checkout-fix.png)
+
+### Retrieved Evidence Panel
+![Retrieved chunks](docs/screenshots/retrieved-chunks.png)
+
+### Evaluation Output
+![Evaluation metrics](docs/screenshots/eval-metrics.png)
 
 ## Architecture
 
 ```mermaid
-flowchart LR
-    A["Markdown incident docs / runbooks / docs"] --> B["Ingestion + section-aware chunking"]
-    B --> C["Metadata enrichment"]
-    C --> D["FAISS vector index"]
-    C --> E["BM25 lexical index"]
-    F["User query"] --> G["Query rewriting"]
-    G --> D
-    G --> E
-    D --> H["Hybrid fusion"]
-    E --> H
-    H --> I["Cross-encoder reranker"]
-    I --> J["Section-aware post-processing"]
-    J --> K["LLM answer generation"]
-    K --> L["Streamlit UI + citations + retrieved chunks"]
+flowchart TD
+    A[Incident / Runbook / Docs Corpus] --> B[Ingestion Pipeline]
+    B --> C[Chunking + Metadata]
+    C --> D1[BM25 Index]
+    C --> D2[FAISS Vector Index]
+    Q[User Query] --> R[Query Rewriting]
+    R --> D1
+    R --> D2
+    D1 --> F[Hybrid Retrieval + Rank Fusion]
+    D2 --> F
+    F --> G[Cross-Encoder Reranker]
+    G --> H[Section-Aware Postprocessing]
+    H --> I[Grounded Prompt Builder]
+    I --> J[LLM Answer Generation]
+    J --> K[Answer + Citations + Retrieved Chunks]
 ```
 
 ## Repo Structure
 
 ```text
-app/          FastAPI app, schemas, prompts, OpenAI generation
-core/         config, logging, security helpers
-ingestion/    loaders, chunking, metadata enrichment
-retrieval/    embeddings, BM25, hybrid retrieval, reranking post-processing
-rerank/       cross-encoder reranker
-evals/        evaluation dataset and metrics
-ui/           Streamlit frontend
-scripts/      ingestion, indexing, eval, and local test entrypoints
-data/         demo corpus and processed retrieval artifacts
-docker/       backend container definition
+app/
+core/
+ingestion/
+retrieval/
+rerank/
+evals/
+ui/
+tests/
+scripts/
+docker/
+data/
+README.md
+LICENSE
+Makefile
+requirements.txt
+requirements-dev.txt
 ```
 
 ## Local Setup
 
-### 1. Create the environment
-
 ```bash
+git clone https://github.com/vamsi513/incident-memory-ai.git
+cd incident-memory-ai
 python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt -r requirements-dev.txt
+cp .env.example .env
 ```
 
-### 2. Configure environment variables
-
-Copy `.env.example` to `.env` and fill in:
-- `OPENAI_API_KEY`
-- `GITHUB_TOKEN` if you want GitHub ingestion later
-
-Important local value:
-
-```env
-API_BASE_URL=http://127.0.0.1:8001
-```
-
-### 3. Build demo artifacts
+Then run the pipeline:
 
 ```bash
 python -m scripts.run_ingestion
 python -m scripts.build_index
-python -m scripts.run_evals
-```
-
-### 4. Run the backend
-
-```bash
 uvicorn app.main:app --reload --port 8001
-```
-
-### 5. Run the UI
-
-In a separate terminal:
-
-```bash
 streamlit run ui/streamlit_app.py
 ```
 
 Open:
-
-```text
-http://localhost:8501
-```
+- UI: `http://localhost:8501`
+- API docs: `http://127.0.0.1:8001/docs`
 
 ## Example API Request
 
@@ -126,75 +126,70 @@ curl -X POST http://127.0.0.1:8001/query \
 
 ## Retrieval Design
 
-The retrieval stack is intentionally layered:
+The retrieval stack is intentionally more advanced than a basic vector-search demo:
 
-1. Documents are chunked by section so `Root Cause`, `Mitigation`, and `Immediate Checks` remain distinct retrieval units.
-2. Queries are rewritten to generate retrieval-friendly variants.
-3. Candidate generation uses both semantic search and lexical BM25 search.
-4. Results are fused with reciprocal rank fusion.
-5. A cross-encoder reranker re-scores candidate relevance.
-6. Section-aware post-processing boosts the exact section type implied by the query.
-
-This makes the system more robust than naive vector-only retrieval and easier to explain in interviews.
+1. Documents are chunked by section so that `Root Cause`, `Mitigation`, and runbook procedure blocks remain distinct retrieval units.
+2. Queries are rewritten into retrieval-friendly variants.
+3. Hybrid retrieval combines BM25 lexical search with FAISS semantic search.
+4. Reciprocal-rank fusion merges candidate sets.
+5. A cross-encoder reranker improves final ordering.
+6. Section-aware postprocessing boosts chunks that match the intent of the query, such as `Root Cause` or `Mitigation`.
 
 ## Evaluation
 
-Run:
+The project includes a benchmark-driven evaluation pipeline.
+
+Current metrics are produced from:
+- [`evals/dataset.json`](evals/dataset.json)
+- [`evals/metrics.py`](evals/metrics.py)
+- [`scripts/run_evals.py`](scripts/run_evals.py)
+
+Run it locally with:
 
 ```bash
 python -m scripts.run_evals
 ```
 
-The current evaluation dataset covers:
-- incident root-cause lookup
-- mitigation / fix lookup
-- runbook procedural lookup
-- architecture / failure-mode lookup
-
 ## Security and Safety
 
-- system prompt explicitly distrusts instructions found inside retrieved documents
-- basic prompt-injection pattern detector in `core/security.py`
-- basic PII masking helper for emails
-- grounded generation rule: answer only from retrieved evidence or return `I don't know`
+The system includes basic guardrails that are important for real-world RAG projects:
 
-## Deployment
+- grounded prompting with citation requirements
+- `I don't know` fallback when evidence is insufficient
+- basic prompt-injection detection patterns
+- basic PII masking helpers
+- structured query logging
 
-### Backend: Render
+## Optional Deployment Path
 
-- `render.yaml` is included
-- backend Dockerfile is in [`docker/Dockerfile.api`](/Users/vamsi/Documents/IncidentMemoryAI/docker/Dockerfile.api)
-- set production env vars in Render, especially `OPENAI_API_KEY`
+A hosted deployment is optional for this project. The local demo and repository are already strong enough for resume, GitHub, LinkedIn, and interview use.
 
-### UI: Streamlit Community Cloud
+If you still want to deploy later:
+- Backend: Render or Railway
+- UI: Streamlit Community Cloud
 
-Set:
+For the frontend, set:
 
 ```env
-API_BASE_URL=https://YOUR-RENDER-BACKEND.onrender.com
+API_BASE_URL=https://YOUR-BACKEND-URL
 ```
 
-Then deploy `ui/streamlit_app.py`.
+Then deploy [`ui/streamlit_app.py`](ui/streamlit_app.py).
 
-## What Makes This Project Interview-Worthy
+## Known Limitations
 
-- It solves a realistic operational-memory problem, not generic document chat.
-- It demonstrates retrieval, reranking, evals, observability, and safety.
-- It includes a measurable benchmark and a live, inspectable UI.
-- It shows pragmatic ranking improvements beyond default vector search.
-
-## Recommended Demo Script
-
-1. Ask for the root cause of the search latency incident.
-2. Show citations and retrieved chunks.
-3. Ask what fixed the checkout timeout incident.
-4. Show that the system now retrieves the `Mitigation` section.
-5. Show the evaluation results and explain how ranking was improved.
+- Retrieval quality is strong for the benchmark, but the top-ranked citation is not always the strongest evidence chunk.
+- Hosted deployment is optional and not yet polished because the ML/runtime footprint is heavier than a typical FastAPI app.
+- The polished demo corpus currently focuses on local markdown incidents, runbooks, and architecture docs.
 
 ## Next Improvements
 
 - add GitHub issue / PR ingestion into the main demo path
 - add parent-child retrieval
 - add feedback capture in the UI
-- add cost / latency tracking per request
-- deploy the backend and frontend with public demo links
+- add stronger retrieval-focused tests
+- split runtime and development dependencies more cleanly
+
+## License
+
+This project is licensed under the MIT License. See [`LICENSE`](LICENSE).
