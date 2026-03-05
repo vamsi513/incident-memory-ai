@@ -1,195 +1,135 @@
 # IncidentMemory AI
 
-IncidentMemory AI is a production-style RAG system for engineering incident knowledge.
+IncidentMemory AI is a production-style Retrieval-Augmented Generation (RAG) system for engineering incident knowledge. It is designed to act as an operational memory layer for postmortems, runbooks, and architecture documents, allowing engineers to query prior failure modes, root causes, mitigations, and recovery procedures with grounded citations.
 
-It ingests:
-- incident postmortems
-- runbooks
-- architecture docs
-- optional GitHub issues and PRs
+This project is intentionally positioned beyond a generic "PDF chatbot." The engineering focus is on retrieval quality, reranking, evaluation, observability, and system design decisions that are relevant to AI/ML systems roles.
 
-It provides:
-- grounded answers with citations
-- hybrid retrieval (BM25 + vector search)
-- query rewriting and reranking
-- section-aware ranking for root-cause and mitigation queries
-- evaluation metrics (Recall@k, MRR)
-- structured logging and basic safety guardrails
+## What This System Does
 
-## Why This Project Matters
-
-Most RAG portfolios are generic document chatbots. This project is different: it focuses on operational memory for engineers and demonstrates the parts of RAG systems that matter in real production work, including retrieval quality, evaluation, observability, and safety.
-
-## Demo Use Cases
-
-- `What was the root cause of the search latency incident?`
-- `What fixed the checkout timeout incident?`
-- `What runbook steps help with database latency?`
-- `Which document describes checkout failure modes?`
-
-## Current Results
-
-On the current benchmark set:
-- Average Recall@1: `0.75`
-- Average Recall@3: `1.00`
-- Average Recall@5: `1.00`
-- Average MRR: `0.88`
-
-These numbers reflect a retrieval stack that consistently finds the right document in the top results, with room for future improvement in citation ranking precision.
-
-## Screenshots
-
-### Root Cause Lookup
-![Root cause lookup](docs/screenshots/root-cause-search.png)
-
-### Mitigation Lookup
-![Mitigation lookup](docs/screenshots/checkout-fix.png)
-
-### Retrieved Evidence Panel
-![Retrieved chunks](docs/screenshots/retrieved-chunks.png)
-
-### Evaluation Output
-![Evaluation metrics](docs/screenshots/eval-metrics.png)
+- Ingests operational knowledge sources such as incident documents and runbooks
+- Retrieves relevant evidence using hybrid search (keyword + vector)
+- Reranks candidate chunks before answer generation
+- Returns grounded answers with supporting citations
+- Exposes an API layer and worker layer for production-style extension
+- Includes an evaluation module for measuring retrieval quality
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    A[Incident / Runbook / Docs Corpus] --> B[Ingestion Pipeline]
-    B --> C[Chunking + Metadata]
-    C --> D1[BM25 Index]
-    C --> D2[FAISS Vector Index]
-    Q[User Query] --> R[Query Rewriting]
-    R --> D1
-    R --> D2
-    D1 --> F[Hybrid Retrieval + Rank Fusion]
-    D2 --> F
-    F --> G[Cross-Encoder Reranker]
-    G --> H[Section-Aware Postprocessing]
-    H --> I[Grounded Prompt Builder]
-    I --> J[LLM Answer Generation]
-    J --> K[Answer + Citations + Retrieved Chunks]
-```
+The repository is organized around clear service boundaries:
 
-## Repo Structure
+- [api](/Users/vamsi/Documents/New%20project/api): FastAPI application, routes, dependency wiring
+- [core](/Users/vamsi/Documents/New%20project/core): config, DB/Qdrant connections, logging, tracing, provider factories, shared exceptions
+- [services](/Users/vamsi/Documents/New%20project/services): ingestion, BM25 retrieval, vector retrieval, hybrid retrieval, reranking, parent retrieval
+- [schemas](/Users/vamsi/Documents/New%20project/schemas): request/response contracts and typed data models
+- [workers](/Users/vamsi/Documents/New%20project/workers): background task and queue scaffolding
+- [eval](/Users/vamsi/Documents/New%20project/eval): retrieval evaluation entry point
+- [tests](/Users/vamsi/Documents/New%20project/tests): API, generator, and integration test coverage
 
-```text
-app/
-core/
-ingestion/
-retrieval/
-rerank/
-evals/
-ui/
-tests/
-scripts/
-docker/
-data/
-README.md
-LICENSE
-Makefile
-requirements.txt
-requirements-dev.txt
-```
+## Current Capabilities
 
-## Local Setup
-
-```bash
-git clone https://github.com/vamsi513/incident-memory-ai.git
-cd incident-memory-ai
-python3.11 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt -r requirements-dev.txt
-cp .env.example .env
-```
-
-Then run the pipeline:
-
-```bash
-python -m scripts.run_ingestion
-python -m scripts.build_index
-uvicorn app.main:app --reload --port 8001
-streamlit run ui/streamlit_app.py
-```
-
-Open:
-- UI: `http://localhost:8501`
-- API docs: `http://127.0.0.1:8001/docs`
-
-## Example API Request
-
-```bash
-curl -X POST http://127.0.0.1:8001/query \
-  -H "Content-Type: application/json" \
-  -d '{"query":"What fixed the checkout timeout incident?"}'
-```
-
-## Retrieval Design
-
-The retrieval stack is intentionally more advanced than a basic vector-search demo:
-
-1. Documents are chunked by section so that `Root Cause`, `Mitigation`, and runbook procedure blocks remain distinct retrieval units.
-2. Queries are rewritten into retrieval-friendly variants.
-3. Hybrid retrieval combines BM25 lexical search with FAISS semantic search.
-4. Reciprocal-rank fusion merges candidate sets.
-5. A cross-encoder reranker improves final ordering.
-6. Section-aware postprocessing boosts chunks that match the intent of the query, such as `Root Cause` or `Mitigation`.
+- Hybrid retrieval using BM25 and vector similarity
+- Cross-encoder reranking
+- Parent-document retrieval scaffolding for larger contexts
+- Typed request/response schemas with Pydantic
+- Async FastAPI service layer
+- Structured logging and tracing placeholders
+- Evaluation harness for retrieval hit-rate style benchmarking
+- Containerized local environment with Postgres, Redis, and Qdrant
 
 ## Evaluation
 
-The project includes a benchmark-driven evaluation pipeline.
+The repository includes a retrieval evaluation scaffold in [eval/ragas_runner.py](/Users/vamsi/Documents/New%20project/eval/ragas_runner.py). Despite the filename, the current implementation is a custom retrieval-quality runner rather than a full RAGAS integration.
 
-Current metrics are produced from:
-- [`evals/dataset.json`](evals/dataset.json)
-- [`evals/metrics.py`](evals/metrics.py)
-- [`scripts/run_evals.py`](scripts/run_evals.py)
+Today it is best interpreted as:
 
-Run it locally with:
+- a benchmark entry point
+- a place to grow retrieval metrics
+- a reproducible evaluation surface for ablations and regressions
+
+Representative metrics currently tracked in local runs include:
+
+- Recall@1
+- Recall@3
+- Recall@5
+- Mean Reciprocal Rank (MRR)
+
+## Screenshots
+
+Add the screenshots below into [docs/screenshots](/Users/vamsi/Documents/New%20project/docs/screenshots) and they will render automatically on GitHub.
+
+### Root Cause Lookup
+![Root Cause Lookup](docs/screenshots/root-cause-search.png)
+
+### Mitigation Lookup
+![Mitigation Lookup](docs/screenshots/checkout-fix.png)
+
+### Retrieved Evidence Panel
+![Retrieved Chunks](docs/screenshots/retrieved-chunks.png)
+
+### Evaluation Output
+![Evaluation Metrics](docs/screenshots/eval-metrics.png)
+
+## Local Run
+
+### 1. Install dependencies
 
 ```bash
-python -m scripts.run_evals
+pip install -r requirements.txt -r requirements-dev.txt
 ```
 
-## Security and Safety
+### 2. Start local infrastructure
 
-The system includes basic guardrails that are important for real-world RAG projects:
-
-- grounded prompting with citation requirements
-- `I don't know` fallback when evidence is insufficient
-- basic prompt-injection detection patterns
-- basic PII masking helpers
-- structured query logging
-
-## Optional Deployment Path
-
-A hosted deployment is optional for this project. The local demo and repository are already strong enough for resume, GitHub, LinkedIn, and interview use.
-
-If you still want to deploy later:
-- Backend: Render or Railway
-- UI: Streamlit Community Cloud
-
-For the frontend, set:
-
-```env
-API_BASE_URL=https://YOUR-BACKEND-URL
+```bash
+docker compose up --build
 ```
 
-Then deploy [`ui/streamlit_app.py`](ui/streamlit_app.py).
+### 3. Start the API
+
+```bash
+uvicorn api.main:app --reload --port 8000
+```
+
+### 4. Run tests
+
+```bash
+pytest -q
+```
+
+## API Surface
+
+The API entry point is [api/main.py](/Users/vamsi/Documents/New%20project/api/main.py). The current repository is structured so that retrieval and generation concerns remain testable and separable from routing logic.
 
 ## Known Limitations
 
-- Retrieval quality is strong for the benchmark, but the top-ranked citation is not always the strongest evidence chunk.
-- Hosted deployment is optional and not yet polished because the ML/runtime footprint is heavier than a typical FastAPI app.
-- The polished demo corpus currently focuses on local markdown incidents, runbooks, and architecture docs.
+- Retrieval quality is strong enough for a portfolio demo, but the highest-ranked citation is not always the strongest evidence chunk.
+- The evaluation module is a custom benchmark scaffold and not yet a full RAGAS-based evaluation suite.
+- Runtime dependencies are not yet cleanly split between backend-only, UI, and development environments.
+- Deployment packaging for hosted inference remains an optimization target due to the heavy ML/runtime stack.
+- Filter-aware retrieval behavior is not fully wired through the current hybrid search path.
 
-## Next Improvements
+## Why This Repo Has Portfolio Value
 
-- add GitHub issue / PR ingestion into the main demo path
-- add parent-child retrieval
-- add feedback capture in the UI
-- add stronger retrieval-focused tests
-- split runtime and development dependencies more cleanly
+This project demonstrates the parts of RAG engineering that matter in real systems work:
 
-## License
+- retrieval architecture instead of prompt-only demos
+- ranking improvements beyond default vector search
+- typed contracts and service boundaries
+- testability and integration thinking
+- evaluation as a first-class concern
+- observability and infrastructure awareness
 
-This project is licensed under the MIT License. See [`LICENSE`](LICENSE).
+## Repository Layout
+
+```text
+api/
+core/
+eval/
+schemas/
+services/
+tests/
+workers/
+Dockerfile
+docker-compose.yml
+Makefile
+README.md
+```

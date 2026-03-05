@@ -2,10 +2,10 @@ install:
 	pip install -r requirements.txt -r requirements-dev.txt
 
 run-api:
-	uvicorn app.main:app --reload --port 8000
+	uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
 
-run-ui:
-	streamlit run ui/streamlit_app.py
+run-worker:
+	arq workers.settings.WorkerSettings
 
 test:
 	pytest -q
@@ -15,10 +15,3 @@ lint:
 
 format:
 	ruff format .
-
-ingest:
-	python scripts/run_ingestion.py
-
-eval:
-	python scripts/run_evals.py
-
