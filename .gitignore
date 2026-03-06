@@ -13,3 +13,4 @@ htmlcov/
 *.pyd
 .idea/
 .vscode/
+.env.backup
