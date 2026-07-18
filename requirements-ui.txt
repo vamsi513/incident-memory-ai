@@ -1,0 +1,4 @@
+# Dependencies for ui/streamlit_app.py — a thin HTTP client, does not
+# need torch/transformers/faiss (those belong to the API container).
+streamlit==1.40.0
+requests==2.32.3
