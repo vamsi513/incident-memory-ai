@@ -4,10 +4,12 @@ from app.generator import build_citations, build_user_prompt
 from app.llm import generate_answer
 from app.prompts import SYSTEM_PROMPT
 from app.schemas import QueryRequest, QueryResponse
-from core.logging import setup_logging
+from core.config import settings
+from core.logging import configure_logging, get_logger
 from retrieval.pipeline import run_retrieval
 
-logger = setup_logging()
+configure_logging(settings.log_level)
+logger = get_logger(__name__)
 
 app = FastAPI(title="IncidentMemory AI")
 

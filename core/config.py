@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     top_k: int = 10
     rerank_top_n: int = 5
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 
 @lru_cache(maxsize=1)
