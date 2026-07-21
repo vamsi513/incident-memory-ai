@@ -1,0 +1,8 @@
+# Extra dependencies for running eval/ragas_runner.py locally.
+# Not part of requirements.txt: ragas==0.2.5 pins conflict with core
+# app dependencies (numpy, sqlalchemy, langchain-core) that the live
+# service actually needs, and ragas is never imported by app.main:app.
+# Install with: pip install -r requirements.txt -r requirements-eval.txt
+datasets==2.21.0
+pandas==2.2.3
+ragas==0.2.5
