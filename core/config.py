@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     llm_provider: str = "openai"
     openai_api_key: str = ""
     anthropic_api_key: str = ""
+    mistral_api_key: str = ""
     langsmith_api_key: str = ""
     top_k: int = 10
     rerank_top_n: int = 5
