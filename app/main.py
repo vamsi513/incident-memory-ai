@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from app.generator import build_citations, build_user_prompt
 from app.llm import generate_answer
@@ -6,6 +6,7 @@ from app.prompts import SYSTEM_PROMPT
 from app.schemas import QueryRequest, QueryResponse
 from core.config import settings
 from core.logging import configure_logging, get_logger
+from core.security import detect_prompt_injection, mask_pii
 from retrieval.pipeline import run_retrieval
 
 configure_logging(settings.log_level)
@@ -21,7 +22,14 @@ def health() -> dict:
 
 @app.post("/query", response_model=QueryResponse)
 def query_rag(request: QueryRequest) -> QueryResponse:
-    logger.info("query_received", query=request.query)
+    if detect_prompt_injection(request.query):
+        logger.warning("query_rejected_prompt_injection", query=mask_pii(request.query))
+        raise HTTPException(
+            status_code=400,
+            detail="Query rejected: contains a disallowed instruction pattern.",
+        )
+
+    logger.info("query_received", query=mask_pii(request.query))
 
     retrieved_chunks = run_retrieval(request.query, top_k=5)
     user_prompt = build_user_prompt(request.query, retrieved_chunks)
@@ -30,7 +38,7 @@ def query_rag(request: QueryRequest) -> QueryResponse:
 
     logger.info(
         "query_completed",
-        query=request.query,
+        query=mask_pii(request.query),
         retrieved_count=len(retrieved_chunks),
     )
 
