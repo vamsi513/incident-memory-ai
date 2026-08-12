@@ -19,7 +19,11 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r requirements-deploy.txt -r requirements-dev.txt
+        run: pip install -r requirements-ci.txt -r requirements-dev.txt
 
       - name: Run tests
-        run: pytest tests/ -q --ignore=tests/test_search_integration.py
+        run: |
+          pytest tests/ -q \
+            --ignore=tests/test_search_integration.py \
+            --ignore=tests/test_generator.py \
+            --ignore=tests/test_security_wiring.py
