@@ -1,5 +1,9 @@
 # IncidentMemory AI
 
+[![CI](https://github.com/vamsi513/incident-memory-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/vamsi513/incident-memory-ai/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
+
 A production-style Retrieval-Augmented Generation (RAG) system for engineering incident knowledge. Acts as an operational memory layer for postmortems, runbooks, and architecture documents — allowing engineers to query prior failure modes, root causes, mitigations, and recovery procedures with grounded citations.
 
 This project is intentionally positioned beyond a generic PDF chatbot. The engineering focus is on retrieval quality, hybrid search, reranking, evaluation, observability, and system design decisions relevant to AI/ML systems roles.
