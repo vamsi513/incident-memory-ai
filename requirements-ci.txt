@@ -1,0 +1,16 @@
+# Lightweight requirements for GitHub Actions CI.
+# Covers only the imports needed by test_api.py via api/main.py.
+# ML-heavy tests (test_generator, test_security_wiring) are excluded
+# because they require torch/sentence-transformers (2GB+).
+
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.9
+pydantic-settings>=2.6
+rank-bm25>=0.2.2
+structlog>=24.0
+httpx>=0.27
+openai>=1.50
+anthropic>=0.40
+mistralai>=1.0
+python-multipart>=0.0.17
