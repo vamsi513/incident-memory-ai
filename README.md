@@ -12,7 +12,7 @@ This project is intentionally positioned beyond a generic PDF chatbot. The engin
 
 ## Live Demo
 
-Deployed on Railway — [incident-memory-ai](https://github.com/vamsi513/incident-memory-ai)
+API live at **[http://23.21.42.197/incidentmemai-ui/](http://23.21.42.197/incidentmemai-ui/)**
 
 ---
 
