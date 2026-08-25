@@ -1,6 +1,90 @@
 [
   {
-    "chunk_id": "31314ab2-a97d-4b22-b468-e7c10eb49864",
+    "chunk_id": "4f429315-6639-4373-b1c0-c103685806cf",
+    "doc_id": "cache_failure_runbook",
+    "parent_id": "cache_failure_runbook",
+    "source": "local_markdown",
+    "title": "Cache Failure Runbook",
+    "text": "- Sudden spike in database CPU or query latency\n- Drop in cache hit ratio below 60 percent\n- Elevated error rate on read-heavy endpoints\n- Redis keyspace size drops sharply in metrics",
+    "section": "Symptoms",
+    "start_char": 0,
+    "end_char": 183,
+    "path": "data/raw/runbooks/cache_failure_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": [
+      "database",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "282f775c-301f-4020-8471-f986eeadc4a5",
+    "doc_id": "cache_failure_runbook",
+    "parent_id": "cache_failure_runbook",
+    "source": "local_markdown",
+    "title": "Cache Failure Runbook",
+    "text": "- Confirm Redis is reachable: redis-cli ping\n- Check cache hit ratio in metrics dashboard\n- Check if a Redis restart or flush occurred recently\n- Check application logs for repeated cache miss warnings",
+    "section": "Immediate Checks",
+    "start_char": 0,
+    "end_char": 201,
+    "path": "data/raw/runbooks/cache_failure_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": [
+      "database",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "722228ee-61a1-41fd-a630-df6638740534",
+    "doc_id": "cache_failure_runbook",
+    "parent_id": "cache_failure_runbook",
+    "source": "local_markdown",
+    "title": "Cache Failure Runbook",
+    "text": "- If database is overwhelmed: reduce upstream request rate via API gateway\n- If Redis is down: restart Redis and monitor keyspace recovery\n- Run cache warming script to pre-populate critical keys if available\n- Enable read replica offloading temporarily to reduce primary database load",
+    "section": "Mitigation Steps",
+    "start_char": 0,
+    "end_char": 285,
+    "path": "data/raw/runbooks/cache_failure_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": [
+      "database",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "14de3221-263c-461c-bdef-44835ec6c843",
+    "doc_id": "cache_failure_runbook",
+    "parent_id": "cache_failure_runbook",
+    "source": "local_markdown",
+    "title": "Cache Failure Runbook",
+    "text": "- Escalate to infrastructure team if Redis cannot be recovered within 10 minutes\n- Escalate to database owner if primary database CPU remains above 90 percent for more than 5 minutes",
+    "section": "Escalation",
+    "start_char": 0,
+    "end_char": 182,
+    "path": "data/raw/runbooks/cache_failure_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": [
+      "database",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "6c270a8e-d1d2-487c-a9ef-cf7d47187668",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -22,7 +106,7 @@
     ]
   },
   {
-    "chunk_id": "b70739c0-01f1-44ac-8c11-0ee048f906cb",
+    "chunk_id": "91c692a1-e0ad-418a-8cf1-8787fcf0937d",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -44,7 +128,7 @@
     ]
   },
   {
-    "chunk_id": "e3c828b3-4f85-4f76-b496-f10bc1be052a",
+    "chunk_id": "48d33bd1-f4a8-4dde-b34b-7e46552d7e94",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -66,7 +150,7 @@
     ]
   },
   {
-    "chunk_id": "e96af5d6-b46d-41e8-b279-1e138f6135ab",
+    "chunk_id": "80515469-f023-4c4d-9dbf-549103a39096",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -88,7 +172,117 @@
     ]
   },
   {
-    "chunk_id": "8dfcbc69-92da-4d97-b4ee-f647e90f7d83",
+    "chunk_id": "2780ff17-1e20-48c8-a767-94ddaf2f6814",
+    "doc_id": "api_gateway_architecture",
+    "parent_id": "api_gateway_architecture",
+    "source": "local_markdown",
+    "title": "Api Gateway Architecture",
+    "text": "All external traffic enters the system through the API gateway, which handles authentication, rate limiting, and routing to downstream services.",
+    "section": "Overview",
+    "start_char": 0,
+    "end_char": 144,
+    "path": "data/raw/docs/api_gateway_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "checkout",
+      "search",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "10d03f83-affc-49a2-8c50-ef01b219a821",
+    "doc_id": "api_gateway_architecture",
+    "parent_id": "api_gateway_architecture",
+    "source": "local_markdown",
+    "title": "Api Gateway Architecture",
+    "text": "The gateway routes to the checkout service, search service, user service, and payment service. Each downstream service is identified by its internal DNS name.",
+    "section": "Downstream Services",
+    "start_char": 0,
+    "end_char": 158,
+    "path": "data/raw/docs/api_gateway_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "checkout",
+      "search",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "fbb480cb-241f-4777-a046-954a4d5e98c8",
+    "doc_id": "api_gateway_architecture",
+    "parent_id": "api_gateway_architecture",
+    "source": "local_markdown",
+    "title": "Api Gateway Architecture",
+    "text": "The gateway enforces per-client rate limits. When a downstream service is degraded, the gateway can reduce the upstream request rate to prevent cascading failures.",
+    "section": "Rate Limiting",
+    "start_char": 0,
+    "end_char": 163,
+    "path": "data/raw/docs/api_gateway_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "checkout",
+      "search",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "5315d50a-e7d4-47e8-8315-f0fb435be118",
+    "doc_id": "api_gateway_architecture",
+    "parent_id": "api_gateway_architecture",
+    "source": "local_markdown",
+    "title": "Api Gateway Architecture",
+    "text": "Common failure modes include misconfigured routing rules, upstream service timeouts, and DNS resolution failures for internal service names. When DNS resolution fails, the gateway cannot forward requests and returns 502 to the client.",
+    "section": "Failure Modes",
+    "start_char": 0,
+    "end_char": 234,
+    "path": "data/raw/docs/api_gateway_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "checkout",
+      "search",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "3134999a-d946-46f8-86f9-5335f4d3ec17",
+    "doc_id": "api_gateway_architecture",
+    "parent_id": "api_gateway_architecture",
+    "source": "local_markdown",
+    "title": "Api Gateway Architecture",
+    "text": "The gateway includes a circuit breaker that opens when a downstream service error rate exceeds 50 percent over a 30-second window. Requests to that service are rejected immediately until the circuit resets.",
+    "section": "Circuit Breaker",
+    "start_char": 0,
+    "end_char": 206,
+    "path": "data/raw/docs/api_gateway_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "checkout",
+      "search",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "b9be1b78-a009-4aae-b80f-127898499837",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -110,7 +304,7 @@
     ]
   },
   {
-    "chunk_id": "552907f9-9c93-4819-8920-3462804d4be4",
+    "chunk_id": "d8408f11-5d4c-43aa-9cd7-062a72e910d2",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -132,7 +326,7 @@
     ]
   },
   {
-    "chunk_id": "8dc0762d-60c2-453b-ad4a-6c7e115784cd",
+    "chunk_id": "e8d9f938-3bc4-4c52-8548-d35b55820731",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -154,7 +348,117 @@
     ]
   },
   {
-    "chunk_id": "6b04f0de-9cd7-4d70-b9e2-b86251581207",
+    "chunk_id": "8b9d8cd7-58c9-4094-a9b2-41924b214617",
+    "doc_id": "incident_2025_06_cache_stampede",
+    "parent_id": "incident_2025_06_cache_stampede",
+    "source": "local_markdown",
+    "title": "Incident 2025 06 Cache Stampede",
+    "text": "A planned Redis maintenance restart triggered a cache stampede that overwhelmed the primary database for 11 minutes.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 116,
+    "path": "data/raw/incidents/incident_2025_06_cache_stampede.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "c2c24898-9687-4c94-8f5a-673298011e5e",
+    "doc_id": "incident_2025_06_cache_stampede",
+    "parent_id": "incident_2025_06_cache_stampede",
+    "source": "local_markdown",
+    "title": "Incident 2025 06 Cache Stampede",
+    "text": "Database CPU peaked at 98 percent and query latency rose from a baseline of 15 ms to over 3,000 ms. Error rates on product listing and search endpoints reached 22 percent.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 171,
+    "path": "data/raw/incidents/incident_2025_06_cache_stampede.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "ae039313-d9c2-48d1-a0e4-7b5fbd56e46a",
+    "doc_id": "incident_2025_06_cache_stampede",
+    "parent_id": "incident_2025_06_cache_stampede",
+    "source": "local_markdown",
+    "title": "Incident 2025 06 Cache Stampede",
+    "text": "When Redis was restarted for a planned memory configuration change, all cached keys were evicted simultaneously. The application had no cache-aside protection: every request that missed the empty cache immediately issued a database query. With 40,000 active users, this produced a thundering herd of concurrent reads against the primary database that exceeded its query throughput capacity.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 390,
+    "path": "data/raw/incidents/incident_2025_06_cache_stampede.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "f4b97bf5-3311-48ea-bc05-0dcb6e64471d",
+    "doc_id": "incident_2025_06_cache_stampede",
+    "parent_id": "incident_2025_06_cache_stampede",
+    "source": "local_markdown",
+    "title": "Incident 2025 06 Cache Stampede",
+    "text": "The on-call engineer temporarily reduced the upstream request rate via the API gateway rate limiter, giving the database time to recover. Redis was confirmed healthy and keys began repopulating from application traffic. The rate limit was lifted once database latency returned to baseline.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 289,
+    "path": "data/raw/incidents/incident_2025_06_cache_stampede.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "1079bd2f-373f-4212-955d-113daef8c71d",
+    "doc_id": "incident_2025_06_cache_stampede",
+    "parent_id": "incident_2025_06_cache_stampede",
+    "source": "local_markdown",
+    "title": "Incident 2025 06 Cache Stampede",
+    "text": "- Implement cache warming script to pre-populate critical keys before planned restarts\n- Add probabilistic early expiration to prevent synchronized key expiry\n- Add alert on Redis keyspace drop greater than 50 percent within 60 seconds",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 235,
+    "path": "data/raw/incidents/incident_2025_06_cache_stampede.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "36974872-70bf-46fe-8e20-59ec4a9dc28c",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -176,7 +480,7 @@
     ]
   },
   {
-    "chunk_id": "90714c88-867a-4105-b046-8309a7fc6e97",
+    "chunk_id": "425efee4-a596-40a5-b297-6a70a5df4877",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -198,7 +502,7 @@
     ]
   },
   {
-    "chunk_id": "9496e32c-7584-4587-ae4e-1e5e56b26e5a",
+    "chunk_id": "160ca42f-de5b-4f33-8247-f80d63702993",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -220,7 +524,7 @@
     ]
   },
   {
-    "chunk_id": "4b625810-578b-4c9b-92a8-4e4a83248a0a",
+    "chunk_id": "3efc46a3-b173-4b2c-a8fa-4cf13e8abd10",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -242,7 +546,7 @@
     ]
   },
   {
-    "chunk_id": "08bb5f0a-0413-4648-995e-ac3d3ea3e7fa",
+    "chunk_id": "0a8462e6-c7a9-4cc1-96f1-1cc62a0129ff",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -264,7 +568,297 @@
     ]
   },
   {
-    "chunk_id": "3c94b1f5-4eba-48c9-b09f-ddb6bc53fc4d",
+    "chunk_id": "562c2e77-9eb2-452a-8767-8aad4744b478",
+    "doc_id": "incident_2025_04_rate_limit",
+    "parent_id": "incident_2025_04_rate_limit",
+    "source": "local_markdown",
+    "title": "Incident 2025 04 Rate Limit",
+    "text": "The payment service began receiving HTTP 429 responses from the third-party payment provider during a promotional flash sale, causing checkout failures for a subset of users.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 174,
+    "path": "data/raw/incidents/incident_2025_04_rate_limit.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "eac14f3c-ba76-4d04-ac50-30e74fe0e277",
+    "doc_id": "incident_2025_04_rate_limit",
+    "parent_id": "incident_2025_04_rate_limit",
+    "source": "local_markdown",
+    "title": "Incident 2025 04 Rate Limit",
+    "text": "Roughly 8 percent of checkout attempts failed with payment errors for 31 minutes. Revenue impact was estimated at approximately $14,000 during the window.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 154,
+    "path": "data/raw/incidents/incident_2025_04_rate_limit.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "92944226-2cc6-4812-888b-475c7f1f5ebe",
+    "doc_id": "incident_2025_04_rate_limit",
+    "parent_id": "incident_2025_04_rate_limit",
+    "source": "local_markdown",
+    "title": "Incident 2025 04 Rate Limit",
+    "text": "The flash sale generated a 6x spike in payment authorization requests. The payment service had no per-second throttle and submitted requests to the provider at the raw rate they arrived. The provider enforced a rate limit of 200 requests per second; the service was peaking at approximately 1,100 per second. Requests above the limit were rejected with 429 responses that the service surfaced to users as checkout errors.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 421,
+    "path": "data/raw/incidents/incident_2025_04_rate_limit.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "caee972f-e57d-4322-9777-025096ae8f40",
+    "doc_id": "incident_2025_04_rate_limit",
+    "parent_id": "incident_2025_04_rate_limit",
+    "source": "local_markdown",
+    "title": "Incident 2025 04 Rate Limit",
+    "text": "The on-call team added a token bucket rate limiter in the payment service capped at 180 requests per second and introduced a retry queue for rejected requests. Within 10 minutes, the error rate dropped to zero.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 210,
+    "path": "data/raw/incidents/incident_2025_04_rate_limit.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "ac55eaca-f8d9-4fd4-a379-dfb667591dd6",
+    "doc_id": "incident_2025_04_rate_limit",
+    "parent_id": "incident_2025_04_rate_limit",
+    "source": "local_markdown",
+    "title": "Incident 2025 04 Rate Limit",
+    "text": "- Implement retry queue with exponential backoff for 429 responses\n- Add alerting on payment provider HTTP 4xx rate\n- Coordinate capacity increase with provider before future promotions",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 185,
+    "path": "data/raw/incidents/incident_2025_04_rate_limit.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "848a582b-7a97-4f0f-be8a-c4cf83399f86",
+    "doc_id": "incident_2025_05_dns_failure",
+    "parent_id": "incident_2025_05_dns_failure",
+    "source": "local_markdown",
+    "title": "Incident 2025 05 Dns Failure",
+    "text": "An internal DNS misconfiguration caused service-to-service calls to fail across the production cluster for 19 minutes.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 118,
+    "path": "data/raw/incidents/incident_2025_05_dns_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "46a34d28-d5fb-4fd4-979e-697ab72dfd03",
+    "doc_id": "incident_2025_05_dns_failure",
+    "parent_id": "incident_2025_05_dns_failure",
+    "source": "local_markdown",
+    "title": "Incident 2025 05 Dns Failure",
+    "text": "All inter-service HTTP calls relying on internal service names failed with connection refused or name resolution errors. Public traffic served by cached routes was unaffected, but any request requiring a live service call returned 502.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 235,
+    "path": "data/raw/incidents/incident_2025_05_dns_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "0b56e5e3-55aa-4289-987e-df6715e05730",
+    "doc_id": "incident_2025_05_dns_failure",
+    "parent_id": "incident_2025_05_dns_failure",
+    "source": "local_markdown",
+    "title": "Incident 2025 05 Dns Failure",
+    "text": "A routine infrastructure change updated the internal DNS search domain in the cluster config. The new value contained a trailing dot that caused the resolver to misformat fully-qualified names. Internal hostnames such as user-service.internal resolved to user-service.internal.. (with a double dot), which returned NXDOMAIN. Services using IP-based routing were unaffected.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 373,
+    "path": "data/raw/incidents/incident_2025_05_dns_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "e2aacbe9-c46a-482a-b77a-c5494b291c98",
+    "doc_id": "incident_2025_05_dns_failure",
+    "parent_id": "incident_2025_05_dns_failure",
+    "source": "local_markdown",
+    "title": "Incident 2025 05 Dns Failure",
+    "text": "The infrastructure team identified the malformed search domain by reproducing the resolution failure with nslookup inside a pod. The trailing dot was removed and the CoreDNS deployment was rolled. All services resumed normal name resolution within 90 seconds of the rollout.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 274,
+    "path": "data/raw/incidents/incident_2025_05_dns_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "9f1fb29c-1b40-4f3d-93fa-e87ee14afc84",
+    "doc_id": "incident_2025_05_dns_failure",
+    "parent_id": "incident_2025_05_dns_failure",
+    "source": "local_markdown",
+    "title": "Incident 2025 05 Dns Failure",
+    "text": "- Add DNS resolution smoke test to post-deploy validation suite\n- Lint cluster config changes for trailing dot in domain fields\n- Add alert on elevated NXDOMAIN rate in CoreDNS metrics",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 184,
+    "path": "data/raw/incidents/incident_2025_05_dns_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "a3d20f21-27af-4393-afef-006bb97aef0b",
+    "doc_id": "incident_2025_03_memory_leak",
+    "parent_id": "incident_2025_03_memory_leak",
+    "source": "local_markdown",
+    "title": "Incident 2025 03 Memory Leak",
+    "text": "The user service experienced repeated OOM restarts over a 45-minute window, causing intermittent 503 errors for authenticated endpoints.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 136,
+    "path": "data/raw/incidents/incident_2025_03_memory_leak.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "3b44afb7-37bb-499d-bc7c-3cc90a5134eb",
+    "doc_id": "incident_2025_03_memory_leak",
+    "parent_id": "incident_2025_03_memory_leak",
+    "source": "local_markdown",
+    "title": "Incident 2025 03 Memory Leak",
+    "text": "Approximately 12 percent of requests to authenticated endpoints returned 503 for 45 minutes. Session lookups and profile fetches were most affected.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 148,
+    "path": "data/raw/incidents/incident_2025_03_memory_leak.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "e012fc2e-9999-4e87-99a8-58958e52a11b",
+    "doc_id": "incident_2025_03_memory_leak",
+    "parent_id": "incident_2025_03_memory_leak",
+    "source": "local_markdown",
+    "title": "Incident 2025 03 Memory Leak",
+    "text": "A pull request introduced an unbounded in-memory cache for session tokens. The cache had no eviction policy, causing heap memory to grow until the container hit its 512 MB limit and was killed by the OOM killer. Each restart temporarily cleared the heap, producing a sawtooth pattern in memory metrics.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 302,
+    "path": "data/raw/incidents/incident_2025_03_memory_leak.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "f79d5e13-ab0f-460b-8dba-7243345bd844",
+    "doc_id": "incident_2025_03_memory_leak",
+    "parent_id": "incident_2025_03_memory_leak",
+    "source": "local_markdown",
+    "title": "Incident 2025 03 Memory Leak",
+    "text": "The on-call engineer identified the memory growth pattern in container metrics, traced it to the session cache via heap profiling, and deployed a hotfix that replaced the unbounded map with an LRU cache capped at 10,000 entries. Restarts stopped within two minutes of the hotfix deploy.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 286,
+    "path": "data/raw/incidents/incident_2025_03_memory_leak.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "8db08c99-9756-48fc-8c50-8017d8a4b051",
+    "doc_id": "incident_2025_03_memory_leak",
+    "parent_id": "incident_2025_03_memory_leak",
+    "source": "local_markdown",
+    "title": "Incident 2025 03 Memory Leak",
+    "text": "- Add memory usage alert at 80 percent of container limit\n- Enforce eviction policy review in code review checklist\n- Add heap profiling to staging load test suite",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 163,
+    "path": "data/raw/incidents/incident_2025_03_memory_leak.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "4e8ac721-7122-4963-9ac5-1755e9f41423",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -286,7 +880,7 @@
     ]
   },
   {
-    "chunk_id": "ee7b67e8-df99-47b2-887c-1c854ecffc29",
+    "chunk_id": "a8b350d6-e19e-4c80-838d-f859bde2be5b",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -308,7 +902,7 @@
     ]
   },
   {
-    "chunk_id": "85657abc-6af1-40b1-b292-ed29e366254f",
+    "chunk_id": "d3514b8d-716a-405f-955e-fc8434efef2d",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -330,7 +924,7 @@
     ]
   },
   {
-    "chunk_id": "b225404f-bcb7-42f7-985b-fcbaded56f56",
+    "chunk_id": "396cd748-9b2f-454c-ae02-bbea85347786",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -352,7 +946,7 @@
     ]
   },
   {
-    "chunk_id": "04c3c5c1-505c-4cb1-8b42-ce7deaddf36f",
+    "chunk_id": "61bdf09e-aa37-4aa3-9d08-de7b8f91138c",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",

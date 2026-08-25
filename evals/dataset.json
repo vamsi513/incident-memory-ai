@@ -1,18 +1,50 @@
 [
   {
-    "query": "What was the root cause of the checkout timeout incident?",
+    "query": "Why did shopping cart requests start failing after a deployment?",
     "expected_doc_ids": ["incident_2025_01_checkout_timeout"]
   },
   {
-    "query": "What was the root cause of the search latency incident?",
+    "query": "What caused search API response times to degrade after cache maintenance?",
     "expected_doc_ids": ["incident_2025_02_search_latency"]
   },
   {
-    "query": "What runbook steps help with database latency?",
+    "query": "What steps should an on-call engineer follow when database query times are slow?",
     "expected_doc_ids": ["database_latency_runbook"]
   },
   {
-    "query": "Which document describes checkout failure modes?",
+    "query": "Which document describes how the checkout flow depends on the payment service?",
     "expected_doc_ids": ["checkout_architecture"]
+  },
+  {
+    "query": "What caused the user service to restart repeatedly with out-of-memory errors?",
+    "expected_doc_ids": ["incident_2025_03_memory_leak"]
+  },
+  {
+    "query": "Which incident was caused by a third-party provider rejecting requests during a flash sale?",
+    "expected_doc_ids": ["incident_2025_04_rate_limit"]
+  },
+  {
+    "query": "Why did microservices fail to reach each other by hostname?",
+    "expected_doc_ids": ["incident_2025_05_dns_failure"]
+  },
+  {
+    "query": "What happened to the database when the caching layer was restarted?",
+    "expected_doc_ids": ["incident_2025_06_cache_stampede"]
+  },
+  {
+    "query": "What should I check when the cache hit rate drops and database CPU spikes?",
+    "expected_doc_ids": ["cache_failure_runbook"]
+  },
+  {
+    "query": "Which incidents involved connection pool saturation as part of the root cause?",
+    "expected_doc_ids": ["incident_2025_01_checkout_timeout", "database_latency_runbook"]
+  },
+  {
+    "query": "Which incidents identified missing alerting as a follow-up action?",
+    "expected_doc_ids": ["incident_2025_01_checkout_timeout", "incident_2025_03_memory_leak", "incident_2025_06_cache_stampede"]
+  },
+  {
+    "query": "What role does the API gateway play when a downstream service experiences DNS failures?",
+    "expected_doc_ids": ["api_gateway_architecture", "incident_2025_05_dns_failure"]
   }
 ]
