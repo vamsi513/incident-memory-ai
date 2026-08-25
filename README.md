@@ -6,7 +6,7 @@
 
 A production-style Retrieval-Augmented Generation (RAG) system for engineering incident knowledge. Acts as an operational memory layer for postmortems, runbooks, and architecture documents — letting engineers query prior failure modes, root causes, mitigations, and recovery procedures with grounded citations.
 
-The engineering focus is on retrieval quality over simplicity: hybrid BM25 + FAISS dense search, Reciprocal Rank Fusion, cross-encoder reranking, section-aware scoring, and a query-rewriting layer — all benchmarked with MLflow-tracked evaluation.
+The engineering focus is on retrieval quality: hybrid BM25 + FAISS dense search, Reciprocal Rank Fusion, cross-encoder reranking, section-aware post-processing, and query rewriting — all benchmarked with an MLflow-tracked evaluation harness.
 
 ---
 
@@ -18,64 +18,68 @@ API live at **[http://23.21.42.197/incidentmemai-ui/](http://23.21.42.197/incide
 
 ## Architecture
 
+The deployed app (`app/main.py`, hosted on Render) handles the full request path:
+
 ```
   User Query
       │
       ▼
   FastAPI App (app/main.py)
-  ├── Prompt injection detection
-  ├── PII masking
+  ├── Injection pattern check (4 keyword patterns)
+  ├── Email address redaction in logs
       │
       ▼
   Retrieval Pipeline (retrieval/pipeline.py)
   ┌─────────────────────────────────────────────────────┐
-  │  Query Rewriting (query_rewrite.py)                 │
-  │  ┌──────────────────┐  ┌────────────────────────┐   │
-  │  │ BM25 keyword     │  │ FAISS dense vector     │   │
-  │  │ (bm25_store.py)  │  │ (vector_store.py)      │   │
-  │  │ rank-bm25/Okapi  │  │ all-MiniLM-L6-v2       │   │
-  │  └──────────────────┘  └────────────────────────┘   │
-  │            └──────────────────┘                      │
-  │         Reciprocal Rank Fusion (hybrid.py)           │
-  │                    │                                 │
-  │         Section candidate injection                  │
-  │                    │                                 │
-  │       Cross-Encoder Reranking (cross_encoder.py)     │
-  │       ms-marco-MiniLM-L-6-v2                         │
-  │                    │                                 │
-  │         Section score boosting (postprocess.py)      │
-  └─────────────────────────────────────────────────────┘
-      │
-      ▼
+  │  Query Rewriting — synonym variants for BM25 recall  │
+  │                                                     │
+  │  ┌─────────────────┐   ┌──────────────────────────┐ │
+  │  │ BM25 keyword    │   │ FAISS dense vector       │ │
+  │  │ rank-bm25/Okapi │   │ all-MiniLM-L6-v2 (384d) │ │
+  │  │ bm25_store.py   │   │ vector_store.py          │ │
+  │  └────────┬────────┘   └────────────┬─────────────┘ │
+  │           └───────────┬─────────────┘               │
+  │              Reciprocal Rank Fusion (k=60)          │
+  │                       │                             │
+  │           Section candidate injection               │
+  │                       │                             │
+  │           Cross-Encoder Reranking                   │
+  │           ms-marco-MiniLM-L-6-v2                    │
+  │                       │                             │
+  │           Section score boosting                    │
+  └───────────────────────┼─────────────────────────────┘
+                          │
+                          ▼
   LLM Generation (app/llm.py)
-  OpenAI / Anthropic / Mistral
-      │
-      ▼
-  Grounded Answer + Citations
+  Configurable: OpenAI (gpt-4.1-mini) / Anthropic (claude-haiku-4-5) / Mistral (mistral-small-latest)
+                          │
+                          ▼
+  Grounded Answer + Numbered Citations
 ```
+
+The codebase also includes a full async service layer (`api/main.py` → `services/`) with `POST /v1/search`, BM25+FAISS+RRF fusion, cross-encoder reranking, and parent-document context grouping — designed for a microservice deployment with Docker Compose (Postgres, Redis, Qdrant).
 
 ---
 
 ## Features
 
-- **Hybrid retrieval** — BM25 keyword search fused with FAISS dense vector search via Reciprocal Rank Fusion (RRF)
-- **Cross-encoder reranking** — `ms-marco-MiniLM-L-6-v2` reranks fused candidates before generation
+- **Hybrid retrieval** — BM25 keyword search (rank-bm25/Okapi) fused with FAISS dense vector search (all-MiniLM-L6-v2) via Reciprocal Rank Fusion
+- **Cross-encoder reranking** — `ms-marco-MiniLM-L-6-v2` rescores fused candidates before generation
 - **Query rewriting** — expands queries with synonym variants to improve BM25 recall on paraphrased inputs
-- **Section-aware scoring** — post-rerank score boosts based on document section type matched to query intent
-- **FAISS vector store** — `IndexFlatIP` with normalized embeddings (cosine similarity) persisted to disk
-- **Parent-document retrieval** — chunk-level retrieval expanded to full parent document context for richer answers
-- **Multi-provider LLM** — OpenAI, Anthropic, and Mistral backends, configurable via `LLM_PROVIDER`
-- **Prompt injection detection** — query-level injection guards and PII masking on the API layer
+- **Section-aware scoring** — post-rerank boosts tied to section type (root cause, mitigation, immediate checks) matched to query intent
+- **FAISS vector store** — `IndexFlatIP` with normalized embeddings (inner product = cosine similarity on unit vectors), persisted to disk
+- **Multi-provider LLM generation** — OpenAI, Anthropic, and Mistral backends in `app/llm.py`, switched via `LLM_PROVIDER` env var
+- **Injection detection** — rejects queries matching 4 known injection patterns before retrieval
 - **MLflow evaluation tracking** — `scripts/run_evals.py` logs Recall@K, MRR, per-query latency, and run parameters per evaluation run
-- **Retrieval evaluation harness** — 12-query labeled eval dataset across 10 documents covering paraphrased, specific, and cross-document queries
-- **Async service layer** — FastAPI with structured logging via structlog and OpenTelemetry tracing stubs
-- **Containerised** — Docker Compose stack with Postgres, Redis, and Qdrant for local infrastructure
+- **Labeled retrieval eval harness** — 12-query ground-truth dataset across 10 documents covering specific, paraphrased, and cross-document queries
+- **Async service layer** — full async FastAPI + service layer for microservice deployment, with structlog structured logging throughout
+- **arq background workers** — wired in `workers/` for async ingestion and eval jobs (requires Redis; runs alongside Docker Compose stack)
 
 ---
 
 ## Evaluation Results
 
-Evaluated on 12 labeled queries against 10 documents (incident reports, runbooks, architecture docs) using the `scripts/run_evals.py` harness.
+Evaluated on 12 labeled queries against 10 documents (6 incident reports, 2 runbooks, 2 architecture docs).
 
 | Metric | Score |
 |---|---|
@@ -84,7 +88,9 @@ Evaluated on 12 labeled queries against 10 documents (incident reports, runbooks
 | Recall@5 | 1.00 |
 | MRR | 0.85 |
 
-Queries include paraphrased variants (vocabulary mismatch from document text) and cross-document queries that require retrieving from multiple relevant sources. All metrics computed against ground-truth `expected_doc_ids` using the `evals/metrics.py` implementation. Run tracked and logged to MLflow.
+Queries include paraphrased variants (vocabulary mismatch from document text) and cross-document queries requiring retrieval across multiple relevant sources. All metrics computed against ground-truth `expected_doc_ids` using `evals/metrics.py`. Results logged to MLflow.
+
+Run script: `python -m scripts.run_evals`
 
 ---
 
@@ -92,17 +98,17 @@ Queries include paraphrased variants (vocabulary mismatch from document text) an
 
 | Category | Technology |
 |---|---|
-| Vector Store | FAISS (faiss-cpu, IndexFlatIP) |
-| BM25 Search | rank-bm25 (BM25Okapi) |
-| Embeddings | sentence-transformers — all-MiniLM-L6-v2 |
-| Reranker | sentence-transformers — ms-marco-MiniLM-L-6-v2 |
-| LLM Backends | OpenAI, Anthropic, Mistral |
-| Backend API | FastAPI 0.115.0 + uvicorn |
-| Data Validation | Pydantic v2 |
-| Experiment Tracking | MLflow |
-| Observability | structlog, OpenTelemetry (wired) |
-| Async Queue | Redis + arq |
-| Storage | Postgres (asyncpg + SQLAlchemy) |
+| Vector Store | FAISS (faiss-cpu==1.12.0, IndexFlatIP) |
+| BM25 Search | rank-bm25==0.2.2 (BM25Okapi) |
+| Embeddings | sentence-transformers==3.2.1 — all-MiniLM-L6-v2 |
+| Reranker | sentence-transformers==3.2.1 — ms-marco-MiniLM-L-6-v2 |
+| LLM Backends | OpenAI, Anthropic, Mistral (app/llm.py) |
+| Backend API | FastAPI==0.115.0 + uvicorn |
+| Data Validation | Pydantic v2 (==2.12.0) |
+| Experiment Tracking | MLflow (>=2.15.0) |
+| Structured Logging | structlog==24.4.0 |
+| Async Queue | arq==0.26.3 + Redis (local dev / Docker Compose) |
+| Storage | Postgres + SQLAlchemy async (local dev / Docker Compose) |
 | Containerisation | Docker Compose |
 | Language | Python 3.11 |
 
@@ -132,43 +138,41 @@ Queries include paraphrased variants (vocabulary mismatch from document text) an
 pip install -r requirements.txt -r requirements-dev.txt
 ```
 
-### 2. Start infrastructure (Postgres + Redis + Qdrant)
-
-```bash
-docker compose up --build
-```
-
-### 3. Ingest documents and build the FAISS index
+### 2. Ingest documents and build the FAISS index
 
 ```bash
 python -m scripts.run_ingestion
 python -m scripts.build_index
 ```
 
-### 4. Start the app
+### 3. Start the app
 
 ```bash
 uvicorn app.main:app --reload --port 8000
 ```
 
-API docs at `http://localhost:8000/docs`.
+Endpoints: `GET /health`, `POST /query`. Docs at `http://localhost:8000/docs`.
 
-### 5. Run tests
+### 4. Run tests
 
 ```bash
-pytest -q
+pytest tests/ -q
 ```
 
-### 6. Run retrieval evaluation with MLflow tracking
+### 5. Run retrieval evaluation with MLflow tracking
 
 ```bash
 python -m scripts.run_evals
+mlflow ui
 ```
 
-Results logged to `./mlruns/`. Open the MLflow UI with:
+### 6. (Optional) Start full infrastructure stack
+
+Postgres + Redis + Qdrant for the async service layer (`api/main.py`):
 
 ```bash
-mlflow ui
+docker compose up --build
+uvicorn api.main:app --reload --port 8000
 ```
 
 ---
@@ -176,27 +180,29 @@ mlflow ui
 ## Environment Variables
 
 ```env
-# LLM provider (openai | anthropic | mistral)
+# LLM provider — which backend generates answers (openai | anthropic | mistral)
 LLM_PROVIDER=openai
 OPENAI_API_KEY=
 ANTHROPIC_API_KEY=
 MISTRAL_API_KEY=
 
-# Embeddings and reranking
+# Retrieval models
 EMBED_MODEL=sentence-transformers/all-MiniLM-L6-v2
 RERANK_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
+TOP_K=10
+RERANK_TOP_N=5
 
-# Database (used by full async API layer)
+# Postgres (used by async service layer and Docker Compose stack)
 POSTGRES_DSN=postgresql+asyncpg://postgres:postgres@localhost:5432/incidentmemory
 
-# Redis (used by background workers)
+# Redis (used by arq workers and Docker Compose stack)
 REDIS_URL=redis://localhost:6379/0
 
-# Qdrant (used by services/qdrant_service.py)
+# Qdrant (used by services/qdrant_service.py in async service layer)
 QDRANT_URL=http://localhost:6333
 QDRANT_COLLECTION=incident_chunks
 
-# MLflow (optional — defaults to local ./mlruns)
+# MLflow (defaults to local ./mlruns if not set)
 MLFLOW_TRACKING_URI=
 MLFLOW_EXPERIMENT=incident-memory-retrieval-eval
 ```
@@ -205,18 +211,18 @@ MLFLOW_EXPERIMENT=incident-memory-retrieval-eval
 
 ## API Endpoints
 
-The deployed app (`app/main.py`) exposes:
+**Deployed app** (`app/main.py` — started by Render):
 
 | Method | Path | Description |
 |---|---|---|
 | `GET` | `/health` | Liveness check |
 | `POST` | `/query` | Hybrid retrieval + LLM generation with citations |
 
-The full async enterprise API (`api/main.py`) exposes:
+**Async service layer** (`api/main.py` — Docker Compose / local):
 
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/v1/search` | Hybrid search via service layer (no generation) |
+| `POST` | `/v1/search` | Hybrid search returning ranked results (no generation) |
 
 ---
 
@@ -225,59 +231,62 @@ The full async enterprise API (`api/main.py`) exposes:
 ```
 incident-memory-ai/
 ├── app/                            # Deployed FastAPI app (Render)
-│   ├── main.py                     # /health and /query endpoints
-│   ├── generator.py                # Prompt and citation builder
-│   ├── llm.py                      # LLM call wrapper
+│   ├── main.py                     # /health + /query, injection check, email redaction
+│   ├── llm.py                      # Multi-provider generation (OpenAI / Anthropic / Mistral)
+│   ├── generator.py                # Context builder and citation formatter
 │   └── prompts.py                  # System prompt
-├── api/                            # Enterprise API layer (service-oriented)
-│   ├── main.py
-│   ├── dependencies.py
+├── api/                            # Async service layer (Docker Compose deployment)
+│   ├── main.py                     # FastAPI app with structured logging
+│   ├── dependencies.py             # DI wiring for HybridSearchService
 │   └── routes/search.py            # POST /v1/search
-├── retrieval/                      # Core retrieval pipeline
-│   ├── pipeline.py                 # Orchestrates full retrieval (BM25 + FAISS + rerank)
+├── retrieval/                      # Core retrieval pipeline (used by app/)
+│   ├── pipeline.py                 # Orchestrates full retrieval
 │   ├── bm25_store.py               # BM25Okapi keyword search
 │   ├── vector_store.py             # FAISS IndexFlatIP dense search
 │   ├── embedder.py                 # sentence-transformers encoder
 │   ├── hybrid.py                   # Reciprocal Rank Fusion
-│   ├── query_rewrite.py            # Query expansion with synonym variants
-│   └── postprocess.py              # Section-aware score boosting
+│   ├── query_rewrite.py            # Synonym-based query expansion
+│   └── postprocess.py              # Section-aware score boosts
 ├── rerank/
-│   └── cross_encoder.py            # ms-marco-MiniLM-L-6-v2 reranker
+│   └── cross_encoder.py            # CrossEncoder reranker
 ├── services/                       # Async service layer (used by api/)
-│   ├── hybrid_search_service.py
+│   ├── hybrid_search_service.py    # Orchestrates BM25 + FAISS + RRF + rerank
 │   ├── bm25_service.py
-│   ├── vector_service.py           # FAISS-backed vector search service
-│   ├── qdrant_service.py           # Qdrant-backed vector search (production option)
+│   ├── vector_service.py           # FAISS-backed async vector search
+│   ├── qdrant_service.py           # Qdrant-backed async vector search (alternative)
 │   ├── rerank_service.py
-│   └── parent_retrieval_service.py
-├── core/                           # Config, logging, security, tracing
-│   ├── config.py
-│   ├── llm_factory.py
-│   ├── security.py                 # Injection detection, PII masking
-│   └── tracing.py
-├── ingestion/                      # Document loading and chunking pipeline
-│   ├── pipeline.py
+│   └── parent_retrieval_service.py # Groups chunks by parent document
+├── core/
+│   ├── config.py                   # Pydantic settings from env
+│   ├── security.py                 # Injection pattern matching, email redaction
+│   ├── logging.py                  # structlog configuration
+│   ├── tracing.py                  # traced_span stub (OpenTelemetry placeholder)
+│   └── llm_factory.py              # LLM judge provider scaffold (async service layer)
+├── ingestion/                      # Document loading and chunking
+│   ├── pipeline.py                 # Ingest raw docs → chunks with metadata inference
 │   ├── chunker.py
-│   └── connectors/local_files.py
-├── schemas/                        # Pydantic contracts
-├── eval/
-│   ├── ragas_runner.py             # Service-layer retrieval benchmark (hit-rate)
-│   └── mlflow_tracker.py          # MLflow wrapper for ragas_runner
+│   └── connectors/local_files.py   # Loads .md files, doc_id = filename stem
+├── schemas/                        # Pydantic request/response models
 ├── evals/
-│   ├── dataset.json                # 12-query labeled eval dataset
-│   └── metrics.py                  # recall_at_k, reciprocal_rank
+│   ├── dataset.json                # 12 labeled queries with expected_doc_ids
+│   └── metrics.py                  # recall_at_k, reciprocal_rank implementations
+├── eval/
+│   ├── ragas_runner.py             # 3-sample hit-rate benchmark (service layer)
+│   └── mlflow_tracker.py           # MLflow wrapper for ragas_runner
 ├── scripts/
-│   ├── run_ingestion.py            # Ingest raw docs → chunks.json
-│   ├── build_index.py              # chunks.json → FAISS index
-│   └── run_evals.py                # Full eval with MLflow tracking
+│   ├── run_ingestion.py            # Loads data/raw/ → data/processed/chunks.json
+│   ├── build_index.py              # chunks.json → FAISS index + index_records.json
+│   └── run_evals.py                # Full eval: Recall@K, MRR, latency → MLflow
+├── workers/
+│   ├── tasks.py                    # arq task definitions (ingestion, eval)
+│   └── settings.py                 # arq WorkerSettings with Redis connection
 ├── data/
-│   ├── raw/                        # Source documents (incidents, runbooks, docs)
-│   └── processed/                  # FAISS index, chunks, index_records
+│   ├── raw/                        # 10 source documents (incidents, runbooks, docs)
+│   └── processed/                  # FAISS index, chunks.json, index_records.json
 ├── tests/
-├── workers/                        # Background task workers (arq + Redis)
 ├── docker/
-├── docker-compose.yml
-├── render.yaml
+├── docker-compose.yml              # Postgres + Redis + Qdrant for local dev
+├── render.yaml                     # Render deployment config
 ├── Makefile
 └── README.md
 ```
@@ -286,13 +295,10 @@ incident-memory-ai/
 
 ## Why This Project
 
-This demonstrates the parts of RAG engineering that matter in production systems:
-
-- **Retrieval architecture** beyond simple vector search — BM25 fusion, cross-encoder reranking, query rewriting, section-aware post-processing
-- **Evaluation as a first-class concern** — labeled ground-truth dataset, Recall@K and MRR computed against real retrieval, experiment tracking with MLflow
-- **Multiple LLM providers** with a factory pattern — swappable without code changes
-- **Typed contracts** and clear service boundaries throughout
-- **Production infrastructure** — async workers, Redis queues, Postgres persistence, Docker Compose
+- **Retrieval architecture** beyond simple vector search — BM25 fusion, cross-encoder reranking, query rewriting, section-aware post-processing, all in a single coherent pipeline
+- **Evaluation as a first-class concern** — labeled ground-truth dataset, Recall@K and MRR computed against real retrieval, every run tracked with MLflow
+- **Typed contracts and clear boundaries** — Pydantic schemas at every layer, clean service boundaries between retrieval, reranking, and generation
+- **Two deployment patterns** — a lightweight single-process app (Render) and a full async microservice stack (Docker Compose)
 
 ---
 
