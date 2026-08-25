@@ -69,7 +69,7 @@ The codebase also includes a full async service layer (`api/main.py` → `servic
 - **Section-aware scoring** — post-rerank boosts tied to section type (root cause, mitigation, immediate checks) matched to query intent
 - **FAISS vector store** — `IndexFlatIP` with normalized embeddings (inner product = cosine similarity on unit vectors), persisted to disk
 - **Multi-provider LLM generation** — OpenAI, Anthropic, and Mistral backends in `app/llm.py`, switched via `LLM_PROVIDER` env var
-- **Injection detection** — rejects queries matching 4 known injection patterns before retrieval
+- **Injection detection** — rejects queries matching 8 known injection patterns before retrieval
 - **MLflow evaluation tracking** — `scripts/run_evals.py` logs Recall@K, MRR, per-query latency, and run parameters per evaluation run
 - **Labeled retrieval eval harness** — 12-query ground-truth dataset across 10 documents covering specific, paraphrased, and cross-document queries
 - **Async service layer** — full async FastAPI + service layer for microservice deployment, with structlog structured logging throughout
@@ -231,7 +231,7 @@ MLFLOW_EXPERIMENT=incident-memory-retrieval-eval
 ```
 incident-memory-ai/
 ├── app/                            # Deployed FastAPI app (Render)
-│   ├── main.py                     # /health + /query, injection check, email redaction
+│   ├── main.py                     # /health + /query, injection check, PII redaction
 │   ├── llm.py                      # Multi-provider generation (OpenAI / Anthropic / Mistral)
 │   ├── generator.py                # Context builder and citation formatter
 │   └── prompts.py                  # System prompt
@@ -255,13 +255,13 @@ incident-memory-ai/
 │   ├── vector_service.py           # FAISS-backed async vector search
 │   ├── qdrant_service.py           # Qdrant-backed async vector search (alternative)
 │   ├── rerank_service.py
-│   └── parent_retrieval_service.py # Groups chunks by parent document
+│   └── parent_retrieval_service.py # Builds parent summaries dynamically from index_records.json
 ├── core/
 │   ├── config.py                   # Pydantic settings from env
-│   ├── security.py                 # Injection pattern matching, email redaction
+│   ├── security.py                 # Injection detection (8 patterns), PII redaction (email/phone/SSN/card)
 │   ├── logging.py                  # structlog configuration
 │   ├── tracing.py                  # traced_span stub (OpenTelemetry placeholder)
-│   └── llm_factory.py              # LLM judge provider scaffold (async service layer)
+│   └── llm_factory.py              # LLM-as-judge: scores answer grounding via OpenAI or Anthropic
 ├── ingestion/                      # Document loading and chunking
 │   ├── pipeline.py                 # Ingest raw docs → chunks with metadata inference
 │   ├── chunker.py
