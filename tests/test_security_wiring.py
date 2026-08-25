@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -16,10 +18,11 @@ def test_prompt_injection_query_is_rejected():
 
 
 def test_normal_query_is_not_rejected():
-    response = client.post(
-        "/query",
-        json={"query": "What was the root cause of the checkout timeout incident?"},
-    )
+    with patch("app.main.generate_answer", return_value="Mocked answer for testing."):
+        response = client.post(
+            "/query",
+            json={"query": "What was the root cause of the checkout timeout incident?"},
+        )
 
     assert response.status_code == 200
     payload = response.json()
