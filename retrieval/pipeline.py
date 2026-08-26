@@ -9,6 +9,32 @@ from retrieval.postprocess import apply_section_boosts
 from retrieval.query_rewrite import rewrite_query
 from retrieval.vector_store import FaissStore
 
+# ── Module-level singletons (loaded once, reused across all requests) ─────────
+_embedder: Embedder | None = None
+_vector_store: FaissStore | None = None
+_bm25_store: BM25Store | None = None
+_reranker: Reranker | None = None
+_records: list[dict] | None = None
+
+
+def _get_pipeline() -> tuple[Embedder, FaissStore, BM25Store, Reranker, list[dict]]:
+    global _embedder, _vector_store, _bm25_store, _reranker, _records
+    if _records is None:
+        records_path = Path("data/processed/index_records.json")
+        _records = json.loads(records_path.read_text(encoding="utf-8"))
+    if _embedder is None:
+        _embedder = Embedder()
+    if _vector_store is None:
+        _vector_store = FaissStore.load("data/processed")
+    if _bm25_store is None:
+        _bm25_store = BM25Store(
+            texts=[r["text"] for r in _records],
+            records=_records,
+        )
+    if _reranker is None:
+        _reranker = Reranker()
+    return _embedder, _vector_store, _bm25_store, _reranker, _records
+
 
 def _dedupe_records(records: list[dict]) -> list[dict]:
     deduped: list[dict] = []
@@ -68,15 +94,7 @@ def _inject_section_candidates(records: list[dict], query: str) -> list[dict]:
 
 
 def run_retrieval(query: str, top_k: int = 5) -> list[dict]:
-    records_path = Path("data/processed/index_records.json")
-    records = json.loads(records_path.read_text(encoding="utf-8"))
-
-    embedder = Embedder()
-    vector_store = FaissStore.load("data/processed")
-    bm25_store = BM25Store(
-        texts=[record["text"] for record in records],
-        records=records,
-    )
+    embedder, vector_store, bm25_store, reranker, records = _get_pipeline()
 
     all_result_sets = []
     rewritten_queries = rewrite_query(query)
@@ -92,7 +110,6 @@ def run_retrieval(query: str, top_k: int = 5) -> list[dict]:
     hybrid_results.extend(_inject_section_candidates(records, query))
     hybrid_results = _dedupe_records(hybrid_results)
 
-    reranker = Reranker()
     reranked_results = reranker.rerank(
         query=query,
         records=hybrid_results,
