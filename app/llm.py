@@ -4,7 +4,6 @@ from openai import OpenAI
 
 from core.config import settings
 
-
 _openai_client: OpenAI | None = None
 _anthropic_client: Anthropic | None = None
 _mistral_client: Mistral | None = None

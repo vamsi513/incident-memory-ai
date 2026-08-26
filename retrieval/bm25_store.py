@@ -2,7 +2,6 @@ import re
 
 from rank_bm25 import BM25Okapi
 
-
 TOKEN_RE = re.compile(r"\b\w+\b")
 
 

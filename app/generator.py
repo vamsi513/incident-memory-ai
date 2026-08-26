@@ -1,4 +1,3 @@
-from app.prompts import SYSTEM_PROMPT
 
 
 def build_context(records: list[dict]) -> str:

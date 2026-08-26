@@ -21,6 +21,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-ci.txt -r requirements-dev.txt
 
+      - name: Lint
+        run: ruff check app core retrieval rerank
+
+      - name: Security scan
+        run: pip install pip-audit && pip-audit 2>&1 || true
+
       - name: Run tests
         run: |
           pytest tests/ -v --tb=short --junitxml=test-results.xml \

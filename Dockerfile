@@ -5,10 +5,13 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-COPY requirements.txt requirements-dev.txt ./
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup --uid 1000 appuser
+
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY api ./api
+COPY app ./app
 COPY core ./core
 COPY retrieval ./retrieval
 COPY rerank ./rerank
@@ -16,8 +19,9 @@ COPY ingestion ./ingestion
 COPY services ./services
 COPY schemas ./schemas
 COPY workers ./workers
-COPY eval ./eval
-COPY tests ./tests
-COPY README.md Makefile .env.example ./
+COPY data ./data
 
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN chown -R appuser:appgroup /app
+USER appuser
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
