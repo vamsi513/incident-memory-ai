@@ -23,7 +23,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r requirements-ci.txt -r requirements-dev.txt "ruff==0.9.10"
+        run: pip install -r requirements-ci.txt -r requirements-dev.txt
 
       - name: Lint
         run: ruff check app core retrieval rerank
