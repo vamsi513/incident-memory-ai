@@ -18,7 +18,9 @@ def test_prompt_injection_query_is_rejected():
 
 
 def test_normal_query_is_not_rejected():
-    with patch("app.main.generate_answer", return_value="Mocked answer for testing."):
+    mock_chunks = [{"text": "Database failover caused the outage.", "source": "incident-42", "score": 0.9}]
+    with patch("app.main.run_retrieval", return_value=mock_chunks), \
+         patch("app.main.generate_answer", return_value="Mocked answer for testing."):
         response = client.post(
             "/query",
             json={"query": "What was the root cause of the checkout timeout incident?"},
