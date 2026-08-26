@@ -10,6 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY api ./api
 COPY core ./core
+COPY retrieval ./retrieval
+COPY rerank ./rerank
+COPY ingestion ./ingestion
 COPY services ./services
 COPY schemas ./schemas
 COPY workers ./workers
