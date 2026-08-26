@@ -293,6 +293,18 @@ incident-memory-ai/
 
 ---
 
+## CI/CD — GitHub Actions auto-deploy
+
+Every push to `main` triggers a GitHub Actions pipeline:
+
+1. Installs dependencies, runs ruff lint and security scan
+2. Builds the Docker image
+3. Runs the test suite (unit and security tests; integration tests require live services)
+4. Deploys to AWS EC2 via SSH — checks out the exact tested commit, rebuilds, and restarts the container
+5. Runs a health check loop (`GET /health`) — if the new container fails to start, the previous image is automatically restored
+
+Required GitHub Secrets: `EC2_HOST`, `EC2_SSH_KEY`
+
 ## Why This Project
 
 - **Retrieval architecture** beyond simple vector search — BM25 fusion, cross-encoder reranking, query rewriting, section-aware post-processing, all in a single coherent pipeline
