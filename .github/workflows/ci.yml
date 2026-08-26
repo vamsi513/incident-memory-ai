@@ -23,7 +23,14 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest tests/ -q \
+          pytest tests/ -v --tb=short --junitxml=test-results.xml \
             --ignore=tests/test_search_integration.py \
             --ignore=tests/test_generator.py \
             --ignore=tests/test_security_wiring.py
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results.xml
