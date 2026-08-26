@@ -25,8 +25,7 @@ jobs:
         run: |
           pytest tests/ -v --tb=short --junitxml=test-results.xml \
             --ignore=tests/test_search_integration.py \
-            --ignore=tests/test_generator.py \
-            --ignore=tests/test_security_wiring.py
+            --ignore=tests/test_generator.py
 
       - name: Upload test results
         if: always()

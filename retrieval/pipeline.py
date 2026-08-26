@@ -1,37 +1,38 @@
 import json
 from pathlib import Path
 
-from rerank.cross_encoder import Reranker
-from retrieval.bm25_store import BM25Store
-from retrieval.embedder import Embedder
-from retrieval.hybrid import reciprocal_rank_fusion
-from retrieval.postprocess import apply_section_boosts
-from retrieval.query_rewrite import rewrite_query
-from retrieval.vector_store import FaissStore
+# ── Lightweight imports only at module level ───────────────────────────────────
+# ML-heavy imports (sentence-transformers, faiss, torch) are deferred inside
+# _get_pipeline() so that importing this module in tests or lightweight
+# environments does not trigger model downloads or GPU initialisation.
 
 # ── Module-level singletons (loaded once, reused across all requests) ─────────
-_embedder: Embedder | None = None
-_vector_store: FaissStore | None = None
-_bm25_store: BM25Store | None = None
-_reranker: Reranker | None = None
+_embedder = None
+_vector_store = None
+_bm25_store = None
+_reranker = None
 _records: list[dict] | None = None
 
 
-def _get_pipeline() -> tuple[Embedder, FaissStore, BM25Store, Reranker, list[dict]]:
+def _get_pipeline():
     global _embedder, _vector_store, _bm25_store, _reranker, _records
     if _records is None:
         records_path = Path("data/processed/index_records.json")
         _records = json.loads(records_path.read_text(encoding="utf-8"))
     if _embedder is None:
+        from retrieval.embedder import Embedder
         _embedder = Embedder()
     if _vector_store is None:
+        from retrieval.vector_store import FaissStore
         _vector_store = FaissStore.load("data/processed")
     if _bm25_store is None:
+        from retrieval.bm25_store import BM25Store
         _bm25_store = BM25Store(
             texts=[r["text"] for r in _records],
             records=_records,
         )
     if _reranker is None:
+        from rerank.cross_encoder import Reranker
         _reranker = Reranker()
     return _embedder, _vector_store, _bm25_store, _reranker, _records
 
@@ -94,6 +95,10 @@ def _inject_section_candidates(records: list[dict], query: str) -> list[dict]:
 
 
 def run_retrieval(query: str, top_k: int = 5) -> list[dict]:
+    from retrieval.hybrid import reciprocal_rank_fusion
+    from retrieval.postprocess import apply_section_boosts
+    from retrieval.query_rewrite import rewrite_query
+
     embedder, vector_store, bm25_store, reranker, records = _get_pipeline()
 
     all_result_sets = []

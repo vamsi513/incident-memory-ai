@@ -1,7 +1,8 @@
 import time
+import uuid
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 
 from app.generator import build_citations, build_user_prompt
 from app.llm import generate_answer
@@ -16,6 +17,16 @@ configure_logging(settings.log_level)
 logger = get_logger(__name__)
 
 app = FastAPI(title="IncidentMemory AI")
+
+
+@app.middleware("http")
+async def _request_id_middleware(request: Request, call_next):
+    import structlog
+    request_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
+    with structlog.contextvars.bound_contextvars(request_id=request_id):
+        response = await call_next(request)
+    response.headers["X-Request-ID"] = request_id
+    return response
 
 _INDEX_FILES = [
     Path("data/processed/index.faiss"),
