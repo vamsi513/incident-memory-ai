@@ -167,7 +167,7 @@ mlflow ui
 
 ### 6. (Optional) Start full infrastructure stack
 
-Postgres + Redis + Qdrant for the async service layer (`api/main.py`):
+Postgres + Redis for the async service layer (`api/main.py`):
 
 ```bash
 docker compose up --build
@@ -196,10 +196,6 @@ POSTGRES_DSN=postgresql+asyncpg://postgres:postgres@localhost:5432/incidentmemor
 
 # Redis (used by arq workers and Docker Compose stack)
 REDIS_URL=redis://localhost:6379/0
-
-# Qdrant (used by services/qdrant_service.py in async service layer)
-QDRANT_URL=http://localhost:6333
-QDRANT_COLLECTION=incident_chunks
 
 # MLflow (defaults to local ./mlruns if not set)
 MLFLOW_TRACKING_URI=
@@ -253,7 +249,7 @@ incident-memory-ai/
 │   ├── hybrid_search_service.py    # Orchestrates BM25 + FAISS + RRF + rerank
 │   ├── bm25_service.py
 │   ├── vector_service.py           # FAISS-backed async vector search
-│   ├── qdrant_service.py           # Qdrant-backed async vector search (alternative)
+│   ├── corpus.py                   # Loads the real ingested corpus from data/processed/chunks.json
 │   ├── rerank_service.py
 │   └── parent_retrieval_service.py # Builds parent summaries dynamically from index_records.json
 ├── core/
@@ -285,7 +281,7 @@ incident-memory-ai/
 │   └── processed/                  # FAISS index, chunks.json, index_records.json
 ├── tests/
 ├── docker/
-├── docker-compose.yml              # Postgres + Redis + Qdrant for local dev
+├── docker-compose.yml              # Postgres + Redis for local dev
 ├── render.yaml                     # Legacy Render config (superseded by EC2 + Vercel)
 ├── Makefile
 └── README.md

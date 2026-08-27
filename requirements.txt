@@ -5,8 +5,6 @@ pydantic-settings==2.6.0
 sqlalchemy[asyncio]==2.0.36
 asyncpg==0.31.0
 alembic==1.14.0
-# qdrant-client is available as an optional alternative vector backend (see services/qdrant_service.py)
-# Install separately if needed: pip install qdrant-client==1.12.1
 rank-bm25==0.2.2
 sentence-transformers==3.2.1
 transformers==4.46.2
