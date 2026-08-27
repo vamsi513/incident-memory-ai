@@ -17,20 +17,25 @@ const SERVICE_OPTIONS = ["api-gateway", "auth-service", "payment-service", "data
 const SEVERITY_OPTIONS = ["critical", "high", "medium", "low"];
 const SOURCE_OPTIONS = ["pagerduty", "jira", "confluence", "runbook", "postmortem"];
 
-function scoreColor(score: number): string {
-  if (score > 0.8) return "var(--score-high)";
-  if (score > 0.6) return "var(--score-mid)";
+function normalizeScore(score: number): number {
+  return 1 / (1 + Math.exp(-score));
+}
+
+function scoreColor(normalized: number): string {
+  if (normalized > 0.8) return "var(--score-high)";
+  if (normalized > 0.6) return "var(--score-mid)";
   return "var(--score-low)";
 }
 
-function scoreBg(score: number): string {
-  if (score > 0.8) return "var(--score-high-bg)";
-  if (score > 0.6) return "var(--score-mid-bg)";
+function scoreBg(normalized: number): string {
+  if (normalized > 0.8) return "var(--score-high-bg)";
+  if (normalized > 0.6) return "var(--score-mid-bg)";
   return "var(--score-low-bg)";
 }
 
 function ScoreBar({ score }: { score: number }) {
-  const pct = Math.round(score * 100);
+  const normalized = normalizeScore(score);
+  const pct = Math.round(normalized * 100);
   return (
     <div style={styles.scoreRow}>
       <span style={{ fontSize: "11px", color: "var(--text-muted)", minWidth: 60, flexShrink: 0 }}>
@@ -48,7 +53,7 @@ function ScoreBar({ score }: { score: number }) {
           style={{
             ...styles.scoreBarFill,
             width: `${pct}%`,
-            background: scoreColor(score),
+            background: scoreColor(normalized),
           }}
         />
       </div>
@@ -57,8 +62,8 @@ function ScoreBar({ score }: { score: number }) {
           fontFamily: "var(--font-mono)",
           fontSize: "12px",
           fontWeight: 600,
-          color: scoreColor(score),
-          background: scoreBg(score),
+          color: scoreColor(normalized),
+          background: scoreBg(normalized),
           padding: "2px 6px",
           borderRadius: "4px",
           minWidth: "44px",
