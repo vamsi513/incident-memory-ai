@@ -88,12 +88,12 @@ Evaluated on 12 labeled queries against 10 documents (6 incident reports, 2 runb
 
 | Metric | Score |
 |---|---|
-| Hit Rate@1 | 0.75 |
-| Hit Rate@3 | 1.00 |
-| Hit Rate@5 | 1.00 |
-| MRR | 0.85 |
+| Hit Rate@1 | 0.83 |
+| Hit Rate@3 | 0.92 |
+| Hit Rate@5 | 0.92 |
+| MRR | 0.86 |
 
-Queries include paraphrased variants (vocabulary mismatch from document text) and cross-document queries requiring retrieval across multiple relevant sources. All metrics computed against ground-truth `expected_doc_ids` using `evals/metrics.py`. Results logged to MLflow.
+Queries include paraphrased variants (vocabulary mismatch from document text) and cross-document queries requiring retrieval across multiple relevant sources. All metrics computed against ground-truth `expected_doc_ids` using `evals/metrics.py`, run via `python -m scripts.run_evals` against the same `HybridSearchService` that serves the live API. One query (a cross-document "which incidents identified missing alerting" question) returns no results — the cross-encoder score for its correct documents is indistinguishable from a genuine non-match, so it fails open rather than surfacing a low-confidence guess. Results logged to MLflow.
 
 Run script: `python -m scripts.run_evals`
 
@@ -156,6 +156,13 @@ uvicorn app.main:app --reload --port 8001
 ```
 
 Endpoints: `GET /health`, `POST /query`.
+
+Or drive it from a browser instead of curl:
+
+```bash
+pip install -r requirements-ui.txt
+streamlit run ui/streamlit_app.py
+```
 
 ### 4. Run tests
 
@@ -251,10 +258,11 @@ incident-memory-ai/
 ├── rerank/
 │   └── cross_encoder.py            # CrossEncoder reranker
 ├── services/                       # Async service layer (used by api/)
-│   ├── hybrid_search_service.py    # Orchestrates BM25 + FAISS + RRF + rerank
+│   ├── hybrid_search_service.py    # BM25 + FAISS + RRF + query rewriting + section-boost rerank
 │   ├── bm25_service.py
 │   ├── vector_service.py           # FAISS-backed async vector search
 │   ├── corpus.py                   # Loads the real ingested corpus from data/processed/chunks.json
+│   ├── query_rewrite.py            # Synonym-based query expansion
 │   ├── rerank_service.py
 │   └── parent_retrieval_service.py # Builds parent summaries dynamically from index_records.json
 ├── core/
@@ -284,6 +292,8 @@ incident-memory-ai/
 ├── data/
 │   ├── raw/                        # 10 source documents (incidents, runbooks, docs)
 │   └── processed/                  # FAISS index, chunks.json, index_records.json
+├── ui/
+│   └── streamlit_app.py            # Thin Streamlit client for app/main.py's /query endpoint
 ├── tests/
 ├── docker/
 ├── docker-compose.yml              # Postgres + Redis for local dev
