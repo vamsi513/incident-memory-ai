@@ -7,8 +7,8 @@ ENV PYTHONUNBUFFERED=1
 
 RUN addgroup --system appgroup && adduser --system --ingroup appgroup --uid 1000 appuser
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements-deploy.txt ./
+RUN pip install --no-cache-dir -r requirements-deploy.txt
 
 COPY api ./api
 COPY app ./app
