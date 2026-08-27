@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { API_BASE } from "@/lib/upstream";
 
-const API_BASE = (
-  process.env.INCIDENT_MEMORY_API_URL ?? "http://23.21.42.197:8002"
-).replace(/\/+$/, "");
 const UPSTREAM = `${API_BASE}/v1/search`;
 
 export async function POST(req: NextRequest): Promise<NextResponse> {

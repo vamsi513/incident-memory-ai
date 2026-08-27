@@ -1,4 +1,4 @@
-import type { SearchRequest, SearchResponse } from "./types";
+import type { Facets, SearchRequest, SearchResponse } from "./types";
 
 export async function searchIncidents(
   request: SearchRequest
@@ -17,4 +17,12 @@ export async function searchIncidents(
   }
 
   return response.json() as Promise<SearchResponse>;
+}
+
+export async function getFacets(): Promise<Facets> {
+  const response = await fetch("/api/facets");
+  if (!response.ok) {
+    throw new Error(`Failed to load filter options (${response.status})`);
+  }
+  return response.json() as Promise<Facets>;
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Search, ChevronDown, ChevronUp, AlertCircle, Loader2 } from "lucide-react";
-import { searchIncidents } from "@/lib/api";
-import type { SearchResult, SearchFilters } from "@/lib/types";
+import { searchIncidents, getFacets } from "@/lib/api";
+import type { SearchResult, SearchFilters, Facets } from "@/lib/types";
 
 const SAMPLE_QUERIES = [
   "database connection pool exhaustion",
@@ -13,12 +13,16 @@ const SAMPLE_QUERIES = [
   "deployment rollback procedure",
 ];
 
-const SERVICE_OPTIONS = ["api-gateway", "auth-service", "payment-service", "data-pipeline", "notification-service"];
-const SEVERITY_OPTIONS = ["critical", "high", "medium", "low"];
-const SOURCE_OPTIONS = ["pagerduty", "jira", "confluence", "runbook", "postmortem"];
+const EMPTY_FACETS: Facets = { services: [], severities: [], sources: [] };
 
 function normalizeScore(score: number): number {
   return 1 / (1 + Math.exp(-score));
+}
+
+function formatPct(normalized: number): string {
+  const pct = normalized * 100;
+  if (pct > 0 && pct < 1) return pct.toFixed(1) + "%";
+  return Math.round(pct) + "%";
 }
 
 function scoreColor(normalized: number): string {
@@ -70,7 +74,7 @@ function ScoreBar({ score }: { score: number }) {
           textAlign: "center",
         }}
       >
-        {pct}%
+        {formatPct(normalized)}
       </span>
     </div>
   );
@@ -106,28 +110,31 @@ function ResultCard({ result }: { result: SearchResult }) {
 
           {expanded && (
             <div style={styles.chunksList}>
-              {result.supporting_chunks.map((chunk) => (
-                <div key={chunk.chunk_id} style={styles.chunk}>
-                  <div style={styles.chunkMeta}>
-                    <span style={styles.chunkMetaItem}>
-                      {chunk.metadata.section ?? "—"}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "11px",
-                        color: scoreColor(chunk.score),
-                        background: scoreBg(chunk.score),
-                        padding: "1px 5px",
-                        borderRadius: "3px",
-                      }}
-                    >
-                      {Math.round(chunk.score * 100)}%
-                    </span>
+              {result.supporting_chunks.map((chunk) => {
+                const chunkNormalized = normalizeScore(chunk.score);
+                return (
+                  <div key={chunk.chunk_id} style={styles.chunk}>
+                    <div style={styles.chunkMeta}>
+                      <span style={styles.chunkMetaItem}>
+                        {chunk.metadata.section ?? "—"}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "11px",
+                          color: scoreColor(chunkNormalized),
+                          background: scoreBg(chunkNormalized),
+                          padding: "1px 5px",
+                          borderRadius: "3px",
+                        }}
+                      >
+                        {formatPct(chunkNormalized)}
+                      </span>
+                    </div>
+                    <p style={styles.chunkText}>{chunk.text}</p>
                   </div>
-                  <p style={styles.chunkText}>{chunk.text}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -167,7 +174,14 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastQuery, setLastQuery] = useState("");
+  const [facets, setFacets] = useState<Facets>(EMPTY_FACETS);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    getFacets()
+      .then(setFacets)
+      .catch(() => setFacets(EMPTY_FACETS));
+  }, []);
 
   const runSearch = useCallback(
     async (q: string) => {
@@ -263,9 +277,9 @@ export default function SearchPage() {
           <div style={styles.filterRow}>
             {(
               [
-                { key: "service" as const, label: "Service", plural: "Services", opts: SERVICE_OPTIONS },
-                { key: "severity" as const, label: "Severity", plural: "Severities", opts: SEVERITY_OPTIONS },
-                { key: "source" as const, label: "Source", plural: "Sources", opts: SOURCE_OPTIONS },
+                { key: "service" as const, label: "Service", plural: "Services", opts: facets.services },
+                { key: "severity" as const, label: "Severity", plural: "Severities", opts: facets.severities },
+                { key: "source" as const, label: "Source", plural: "Sources", opts: facets.sources },
               ] as const
             ).map(({ key, label, plural, opts }) => (
               <select

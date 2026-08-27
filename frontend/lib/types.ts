@@ -15,8 +15,15 @@ export interface ChunkMetadata {
   parent_id: string;
   section: string | null;
   service: string | null;
+  severity: string | null;
   created_at: string | null;
   extra: Record<string, unknown>;
+}
+
+export interface Facets {
+  services: string[];
+  severities: string[];
+  sources: string[];
 }
 
 export interface SupportingChunk {
