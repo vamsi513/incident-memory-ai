@@ -10,11 +10,25 @@ The engineering focus is on retrieval quality: hybrid BM25 + FAISS dense search,
 
 ---
 
+## Recent Improvements
+
+The live API previously served BM25 and vector search from 4 hardcoded records instead of the fully ingested corpus, which also hid a Reciprocal Rank Fusion bug (a single-source hit could keep its raw retrieval score instead of a proper RRF score, letting it outrank chunks both retrievers actually agreed on). Both are fixed:
+
+- **Real corpus wired into search** — `services/bm25_service.py` and `services/vector_service.py` now index the full 46-chunk ingested corpus (`data/processed/chunks.json`) instead of a 4-record in-code stub
+- **RRF fusion bug fixed** — fusion now accumulates pure rank-based scores; it no longer lets a vector-only hit's raw cosine similarity leak into its fused rank
+- **Metadata filters actually apply** — `service` / `severity` / `source` filters were accepted by the API and rendered in the UI but silently ignored; they now filter results, with dropdown options pulled live from `GET /v1/facets`
+- **Relevance scores normalized correctly** — parent and per-chunk relevance now run through the same sigmoid, and results below a relevance floor are dropped instead of shown as low-confidence noise
+- **Mobile layout fixed**, dead Qdrant scaffolding removed, and the CSP tightened to same-origin only
+
+---
+
 ## Live Demo
 
 **Dashboard:** [https://incidentmemory-platformvercelapp.vercel.app](https://incidentmemory-platformvercelapp.vercel.app)
 
 **API:** `http://23.21.42.197:8002` — `GET /health`, `POST /v1/search`
+
+![Hybrid search results with relevance scores and source badges](docs/screenshot.png)
 
 ---
 
@@ -107,17 +121,8 @@ Run script: `python -m scripts.run_evals`
 
 ## Screenshots
 
-### Root Cause Lookup
-![Root Cause Lookup](docs/screenshots/root-cause-search.png)
-
-### Mitigation Lookup
-![Mitigation Lookup](docs/screenshots/checkout-fix.png)
-
-### Retrieved Evidence Panel
-![Retrieved Chunks](docs/screenshots/retrieved-chunks.png)
-
-### Evaluation Output
-![Evaluation Metrics](docs/screenshots/eval-metrics.png)
+### Hybrid Search Results
+![Hybrid search results with relevance scores and source badges](docs/screenshot.png)
 
 ---
 
