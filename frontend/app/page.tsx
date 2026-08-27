@@ -9,7 +9,7 @@ const SAMPLE_QUERIES = [
   "database connection pool exhaustion",
   "redis OOM restart",
   "k8s pod eviction memory limit",
-  "ssl certificate expired",
+  "DNS resolution failure between microservices",
   "deployment rollback procedure",
 ];
 
@@ -325,9 +325,9 @@ export default function SearchPage() {
 
         {!loading && results !== null && results.length === 0 && (
           <div style={styles.noResults}>
-            <p>No results found for <strong>"{lastQuery}"</strong>.</p>
+            <p>No sufficiently relevant incident found for <strong>"{lastQuery}"</strong>.</p>
             <p style={{ color: "var(--text-muted)", marginTop: "4px", fontSize: "14px" }}>
-              Try a different query or adjust your filters.
+              This demo corpus may not cover that topic. Try a different query or adjust your filters.
             </p>
           </div>
         )}
