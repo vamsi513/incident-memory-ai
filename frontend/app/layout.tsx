@@ -15,10 +15,30 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const BASE_URL = "https://incidentmemory-platformvercelapp.vercel.app";
+const DESCRIPTION =
+  "Hybrid RAG search over engineering incident history — BM25 + FAISS dense retrieval, Reciprocal Rank Fusion, cross-encoder reranking, and parent-document evidence.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "IncidentMemory AI",
-  description: "Hybrid RAG search over incident history — BM25 + dense retrieval, reranked by cross-encoder",
+  description: DESCRIPTION,
   icons: { icon: "/favicon.svg" },
+  openGraph: {
+    title: "IncidentMemory AI",
+    description: DESCRIPTION,
+    url: BASE_URL,
+    siteName: "IncidentMemory AI",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IncidentMemory AI",
+    description: DESCRIPTION,
+  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: BASE_URL },
 };
 
 export default function RootLayout({

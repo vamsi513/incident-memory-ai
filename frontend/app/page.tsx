@@ -33,7 +33,14 @@ function ScoreBar({ score }: { score: number }) {
   const pct = Math.round(score * 100);
   return (
     <div style={styles.scoreRow}>
-      <div style={styles.scoreBarTrack}>
+      <div
+        style={styles.scoreBarTrack}
+        role="progressbar"
+        aria-valuenow={pct}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`Relevance score ${pct}%`}
+      >
         <div
           style={{
             ...styles.scoreBarFill,
@@ -197,6 +204,9 @@ export default function SearchPage() {
 
   return (
     <div style={styles.page}>
+      <h1 style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap" }}>
+        IncidentMemory AI — Hybrid RAG Incident Search
+      </h1>
       {/* Search bar area */}
       <div style={styles.searchArea}>
         <form onSubmit={handleSubmit} style={styles.form}>

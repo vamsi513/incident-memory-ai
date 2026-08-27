@@ -85,7 +85,7 @@ jobs:
 
             # Health check — 12 attempts × 5 s = 60 s window
             for attempt in $(seq 1 12); do
-              if curl --fail --silent http://localhost:8000/health; then
+              if curl --fail --silent http://localhost:8002/health; then
                 echo "Health check passed on attempt $attempt"
                 sudo docker image prune -f
                 exit 0

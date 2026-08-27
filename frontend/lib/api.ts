@@ -10,8 +10,10 @@ export async function searchIncidents(
   });
 
   if (!response.ok) {
-    const text = await response.text().catch(() => "Unknown error");
-    throw new Error(`Search failed (${response.status}): ${text}`);
+    if (response.status >= 500) throw new Error("The search service is temporarily unavailable. Please try again shortly.");
+    if (response.status === 404) throw new Error("Search endpoint not found. The backend may be restarting.");
+    const text = await response.text().catch(() => "");
+    throw new Error(text || `Search failed (${response.status})`);
   }
 
   return response.json() as Promise<SearchResponse>;

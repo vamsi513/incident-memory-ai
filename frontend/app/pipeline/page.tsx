@@ -14,7 +14,7 @@ const PIPELINE_STEPS = [
     color: "#8b5cf6",
     parallel: [
       { label: "BM25 Keyword Search", detail: "Sparse retrieval over inverted index" },
-      { label: "Dense Vector Search", detail: "Qdrant HNSW with sentence-transformers embeddings" },
+      { label: "Dense Vector Search", detail: "FAISS IndexFlatIP with sentence-transformers embeddings" },
     ],
   },
   {
@@ -45,13 +45,11 @@ const PIPELINE_STEPS = [
 
 const TECH_STACK = [
   { component: "API Server", technology: "FastAPI", note: "Python async REST" },
-  { component: "Vector Store", technology: "Qdrant", note: "HNSW indexing, filters" },
+  { component: "Vector Store", technology: "FAISS", note: "In-memory IndexFlatIP, CPU-optimised" },
   { component: "Sparse Retrieval", technology: "BM25 (rank_bm25)", note: "Inverted index over corpus" },
   { component: "Embeddings", technology: "sentence-transformers", note: "all-MiniLM-L6-v2" },
   { component: "Reranker", technology: "cross-encoder", note: "ms-marco-MiniLM-L-6-v2" },
-  { component: "Cache", technology: "Redis", note: "Query result caching" },
-  { component: "Metadata DB", technology: "PostgreSQL", note: "Document and chunk metadata" },
-  { component: "Frontend", technology: "Next.js 15", note: "App Router, React 19" },
+  { component: "Frontend", technology: "Next.js 16", note: "App Router, React 19, Vercel" },
 ];
 
 export default function PipelinePage() {
