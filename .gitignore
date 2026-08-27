@@ -16,4 +16,5 @@ htmlcov/
 .env.backup
 eval "*"
 mlruns/
+mlflow.db
 .vercel

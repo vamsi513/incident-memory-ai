@@ -1,3 +1,4 @@
+import asyncio
 import json
 import subprocess
 import time
@@ -8,7 +9,12 @@ import mlflow
 
 from core.config import settings
 from evals.metrics import hit_rate_at_k, reciprocal_rank
-from retrieval.pipeline import run_retrieval
+from schemas.search import SearchRequest
+from services.bm25_service import BM25Service
+from services.hybrid_search_service import HybridSearchService
+from services.parent_retrieval_service import ParentRetrievalService
+from services.rerank_service import RerankService
+from services.vector_service import VectorSearchService
 
 
 def _git_sha() -> str:
@@ -22,18 +28,19 @@ def _git_sha() -> str:
         return "unknown"
 
 
-def main() -> None:
-    dataset_path = Path("evals/dataset.json")
-    examples = json.loads(dataset_path.read_text(encoding="utf-8"))
+async def _run_all(examples: list[dict]) -> tuple[list[dict], list[float], list[float], list[float], list[float], list[float]]:
+    service = HybridSearchService(
+        bm25_service=BM25Service(),
+        vector_service=VectorSearchService(),
+        rerank_service=RerankService(),
+        parent_retrieval_service=ParentRetrievalService(),
+    )
 
     hit_rate_1_scores: list[float] = []
     hit_rate_3_scores: list[float] = []
     hit_rate_5_scores: list[float] = []
     mrr_scores: list[float] = []
     latencies_ms: list[float] = []
-
-    print("\n=== Retrieval Evaluation ===\n")
-
     per_query_data: list[dict] = []
 
     for example in examples:
@@ -41,10 +48,10 @@ def main() -> None:
         expected_doc_ids = example["expected_doc_ids"]
 
         t0 = time.perf_counter()
-        results = run_retrieval(query, top_k=5)
+        response = await service.search(SearchRequest(query=query, top_k=5))
         latency_ms = (time.perf_counter() - t0) * 1000
 
-        retrieved_doc_ids = [result["doc_id"] for result in results]
+        retrieved_doc_ids = [result.parent_id for result in response.results]
 
         r1 = hit_rate_at_k(retrieved_doc_ids, expected_doc_ids, k=1)
         r3 = hit_rate_at_k(retrieved_doc_ids, expected_doc_ids, k=3)
@@ -74,6 +81,24 @@ def main() -> None:
         print(f"HitRate@1: {r1:.2f}  HitRate@3: {r3:.2f}  HitRate@5: {r5:.2f}  MRR: {rr:.2f}  Latency: {latency_ms:.1f}ms")
         print("-" * 60)
 
+    return per_query_data, hit_rate_1_scores, hit_rate_3_scores, hit_rate_5_scores, mrr_scores, latencies_ms
+
+
+def main() -> None:
+    dataset_path = Path("evals/dataset.json")
+    examples = json.loads(dataset_path.read_text(encoding="utf-8"))
+
+    print("\n=== Retrieval Evaluation ===\n")
+
+    (
+        per_query_data,
+        hit_rate_1_scores,
+        hit_rate_3_scores,
+        hit_rate_5_scores,
+        mrr_scores,
+        latencies_ms,
+    ) = asyncio.run(_run_all(examples))
+
     n = len(examples)
     avg_r1 = sum(hit_rate_1_scores) / n
     avg_r3 = sum(hit_rate_3_scores) / n
@@ -94,7 +119,7 @@ def main() -> None:
         mlflow.log_params({
             "embed_model": settings.embed_model,
             "rerank_model": settings.rerank_model,
-            "retrieval_strategy": "hybrid_bm25_dense_rrf_rerank",
+            "retrieval_strategy": "hybrid_bm25_dense_rrf_rewrite_inject_boost_rerank",
             "top_k": 5,
             "num_queries": n,
             "eval_date": str(date.today()),
