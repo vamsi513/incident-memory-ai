@@ -101,15 +101,29 @@ export function Sidebar() {
 
       {/* Mobile overlay */}
       {mobileOpen && (
-        <div style={styles.overlay} onClick={() => setMobileOpen(false)}>
+        <div style={styles.overlay} onClick={closeMobile} role="dialog" aria-modal="true" aria-label="Navigation menu">
           <aside
             style={{ ...styles.sidebar, ...styles.mobileSidebar }}
             onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === "Tab") {
+                const focusable = e.currentTarget.querySelectorAll<HTMLElement>(
+                  'a[href], button, [tabindex]:not([tabindex="-1"])'
+                );
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+                  e.preventDefault();
+                  (e.shiftKey ? last : first).focus();
+                }
+              }
+            }}
           >
             <button
               style={styles.closeBtn}
               aria-label="Close navigation"
-              onClick={() => setMobileOpen(false)}
+              onClick={closeMobile}
+              autoFocus
             >
               <X size={20} />
             </button>

@@ -33,6 +33,9 @@ function ScoreBar({ score }: { score: number }) {
   const pct = Math.round(score * 100);
   return (
     <div style={styles.scoreRow}>
+      <span style={{ fontSize: "11px", color: "var(--text-muted)", minWidth: 60, flexShrink: 0 }}>
+        Relevance
+      </span>
       <div
         style={styles.scoreBarTrack}
         role="progressbar"

@@ -12,7 +12,9 @@ The engineering focus is on retrieval quality: hybrid BM25 + FAISS dense search,
 
 ## Live Demo
 
-API live at **[http://23.21.42.197/incidentmemai-ui/](http://23.21.42.197/incidentmemai-ui/)**
+**Dashboard:** [https://incidentmemory-platformvercelapp.vercel.app](https://incidentmemory-platformvercelapp.vercel.app)
+
+**API:** `http://23.21.42.197:8002` — `GET /health`, `POST /v1/search`
 
 ---
 
@@ -228,7 +230,7 @@ MLFLOW_EXPERIMENT=incident-memory-retrieval-eval
 
 ```
 incident-memory-ai/
-├── app/                            # Deployed FastAPI app (Render)
+├── app/                            # Alternate single-process FastAPI app (LLM generation path)
 │   ├── main.py                     # /health + /query, injection check, PII redaction
 │   ├── llm.py                      # Multi-provider generation (OpenAI / Anthropic / Mistral)
 │   ├── generator.py                # Context builder and citation formatter
@@ -284,7 +286,7 @@ incident-memory-ai/
 ├── tests/
 ├── docker/
 ├── docker-compose.yml              # Postgres + Redis + Qdrant for local dev
-├── render.yaml                     # Render deployment config
+├── render.yaml                     # Legacy Render config (superseded by EC2 + Vercel)
 ├── Makefile
 └── README.md
 ```
@@ -308,7 +310,7 @@ Required GitHub Secrets: `EC2_HOST`, `EC2_SSH_KEY`
 - **Retrieval architecture** beyond simple vector search — BM25 fusion, cross-encoder reranking, query rewriting, section-aware post-processing, all in a single coherent pipeline
 - **Evaluation as a first-class concern** — labeled ground-truth dataset, Hit Rate@K and MRR computed against real retrieval, every run tracked with MLflow
 - **Typed contracts and clear boundaries** — Pydantic schemas at every layer, clean service boundaries between retrieval, reranking, and generation
-- **Two deployment patterns** — a lightweight single-process app (Render) and a full async microservice stack (Docker Compose)
+- **Two deployment patterns** — a lightweight single-process app (`app/`) and a full async microservice stack (`api/`) deployed via Docker on EC2 with a Next.js frontend on Vercel
 
 ---
 
