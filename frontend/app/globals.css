@@ -114,7 +114,7 @@ body {
    ============================================================ */
 @media (max-width: 768px) {
   .app-shell > aside {
-    display: none;
+    display: none !important;
   }
   .app-shell > button[aria-label="Open navigation"] {
     display: flex !important;
