@@ -59,7 +59,7 @@ The `app/` directory contains a standalone RAG app (`app/main.py`) with LLM gene
 - **FAISS vector store** — `IndexFlatIP` with normalized embeddings (inner product = cosine similarity on unit vectors), persisted to disk
 - **Multi-provider LLM generation** — OpenAI, Anthropic, and Mistral backends in `app/llm.py`, switched via `LLM_PROVIDER` env var
 - **Injection detection** — rejects queries matching 8 known injection patterns before retrieval
-- **MLflow evaluation tracking** — `scripts/run_evals.py` logs Recall@K, MRR, per-query latency, and run parameters per evaluation run
+- **MLflow evaluation tracking** — `scripts/run_evals.py` logs Hit Rate@K, MRR, per-query latency, and run parameters per evaluation run
 - **Labeled retrieval eval harness** — 12-query ground-truth dataset across 10 documents covering specific, paraphrased, and cross-document queries
 - **Async service layer** — full async FastAPI + service layer for microservice deployment, with structlog structured logging throughout
 - **arq background workers** — wired in `workers/` for async ingestion and eval jobs (requires Redis; runs alongside Docker Compose stack)
@@ -72,9 +72,9 @@ Evaluated on 12 labeled queries against 10 documents (6 incident reports, 2 runb
 
 | Metric | Score |
 |---|---|
-| Recall@1 | 0.75 |
-| Recall@3 | 1.00 |
-| Recall@5 | 1.00 |
+| Hit Rate@1 | 0.75 |
+| Hit Rate@3 | 1.00 |
+| Hit Rate@5 | 1.00 |
 | MRR | 0.85 |
 
 Queries include paraphrased variants (vocabulary mismatch from document text) and cross-document queries requiring retrieval across multiple relevant sources. All metrics computed against ground-truth `expected_doc_ids` using `evals/metrics.py`. Results logged to MLflow.
@@ -267,14 +267,14 @@ incident-memory-ai/
 ├── schemas/                        # Pydantic request/response models
 ├── evals/
 │   ├── dataset.json                # 12 labeled queries with expected_doc_ids
-│   └── metrics.py                  # recall_at_k, reciprocal_rank implementations
+│   └── metrics.py                  # hit_rate_at_k, reciprocal_rank implementations
 ├── eval/
 │   ├── ragas_runner.py             # 3-sample hit-rate benchmark (service layer)
 │   └── mlflow_tracker.py           # MLflow wrapper for ragas_runner
 ├── scripts/
 │   ├── run_ingestion.py            # Loads data/raw/ → data/processed/chunks.json
 │   ├── build_index.py              # chunks.json → FAISS index + index_records.json
-│   └── run_evals.py                # Full eval: Recall@K, MRR, latency → MLflow
+│   └── run_evals.py                # Full eval: Hit Rate@K, MRR, latency → MLflow
 ├── workers/
 │   ├── tasks.py                    # arq task definitions (ingestion, eval)
 │   └── settings.py                 # arq WorkerSettings with Redis connection
@@ -306,7 +306,7 @@ Required GitHub Secrets: `EC2_HOST`, `EC2_SSH_KEY`
 ## Why This Project
 
 - **Retrieval architecture** beyond simple vector search — BM25 fusion, cross-encoder reranking, query rewriting, section-aware post-processing, all in a single coherent pipeline
-- **Evaluation as a first-class concern** — labeled ground-truth dataset, Recall@K and MRR computed against real retrieval, every run tracked with MLflow
+- **Evaluation as a first-class concern** — labeled ground-truth dataset, Hit Rate@K and MRR computed against real retrieval, every run tracked with MLflow
 - **Typed contracts and clear boundaries** — Pydantic schemas at every layer, clean service boundaries between retrieval, reranking, and generation
 - **Two deployment patterns** — a lightweight single-process app (Render) and a full async microservice stack (Docker Compose)
 

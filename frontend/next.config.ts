@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_GIT_SHA: process.env.VERCEL_GIT_COMMIT_SHA ?? "",
+  },
   headers: async () => [
     {
       source: "/(.*)",
@@ -16,7 +19,7 @@ const nextConfig: NextConfig = {
             "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
             "font-src 'self' https://fonts.gstatic.com",
-            "connect-src 'self' http://23.21.42.197:8000",
+            "connect-src 'self' http://23.21.42.197:8002",
             "img-src 'self' data: blob:",
             "frame-ancestors 'none'",
           ].join("; "),

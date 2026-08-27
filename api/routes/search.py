@@ -1,3 +1,5 @@
+import re
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from api.dependencies import get_hybrid_search_service
@@ -9,6 +11,13 @@ from services.hybrid_search_service import HybridSearchService
 router = APIRouter(tags=["search"])
 logger = get_logger(__name__)
 
+_PII_RE = re.compile(r"\b[\w.+-]+@[\w-]+\.[a-z]{2,}\b|\b\d{3}[-.\s]?\d{2}[-.\s]?\d{4}\b", re.I)
+
+
+def _safe_query(query: str) -> str:
+    masked = _PII_RE.sub("[redacted]", query)
+    return masked[:120] + "…" if len(masked) > 120 else masked
+
 
 @router.post("/search", response_model=SearchResponse)
 async def search_documents(
@@ -16,7 +25,7 @@ async def search_documents(
     search_service: HybridSearchService = Depends(get_hybrid_search_service),
 ) -> SearchResponse:
     try:
-        logger.info("search_request_received", query=payload.query, top_k=payload.top_k)
+        logger.info("search_request_received", query=_safe_query(payload.query), top_k=payload.top_k)
         result = await search_service.search(payload)
         logger.info(
             "search_request_completed",

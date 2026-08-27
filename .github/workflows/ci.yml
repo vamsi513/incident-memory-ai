@@ -39,7 +39,7 @@ jobs:
         run: ruff check app core retrieval rerank
 
       - name: Security scan
-        run: pip install pip-audit && pip-audit || true  # transitive CVEs tracked separately
+        run: pip install pip-audit && pip-audit
 
       - name: Build Docker image
         run: docker build -t incidentmemai-api:${{ github.sha }} .

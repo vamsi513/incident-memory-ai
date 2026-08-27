@@ -7,7 +7,7 @@ from pathlib import Path
 import mlflow
 
 from core.config import settings
-from evals.metrics import recall_at_k, reciprocal_rank
+from evals.metrics import hit_rate_at_k, reciprocal_rank
 from retrieval.pipeline import run_retrieval
 
 
@@ -26,9 +26,9 @@ def main() -> None:
     dataset_path = Path("evals/dataset.json")
     examples = json.loads(dataset_path.read_text(encoding="utf-8"))
 
-    recall_1_scores: list[float] = []
-    recall_3_scores: list[float] = []
-    recall_5_scores: list[float] = []
+    hit_rate_1_scores: list[float] = []
+    hit_rate_3_scores: list[float] = []
+    hit_rate_5_scores: list[float] = []
     mrr_scores: list[float] = []
     latencies_ms: list[float] = []
 
@@ -46,14 +46,14 @@ def main() -> None:
 
         retrieved_doc_ids = [result["doc_id"] for result in results]
 
-        r1 = recall_at_k(retrieved_doc_ids, expected_doc_ids, k=1)
-        r3 = recall_at_k(retrieved_doc_ids, expected_doc_ids, k=3)
-        r5 = recall_at_k(retrieved_doc_ids, expected_doc_ids, k=5)
+        r1 = hit_rate_at_k(retrieved_doc_ids, expected_doc_ids, k=1)
+        r3 = hit_rate_at_k(retrieved_doc_ids, expected_doc_ids, k=3)
+        r5 = hit_rate_at_k(retrieved_doc_ids, expected_doc_ids, k=5)
         rr = reciprocal_rank(retrieved_doc_ids, expected_doc_ids)
 
-        recall_1_scores.append(r1)
-        recall_3_scores.append(r3)
-        recall_5_scores.append(r5)
+        hit_rate_1_scores.append(r1)
+        hit_rate_3_scores.append(r3)
+        hit_rate_5_scores.append(r5)
         mrr_scores.append(rr)
         latencies_ms.append(latency_ms)
 
@@ -61,9 +61,9 @@ def main() -> None:
             "query": query,
             "expected": expected_doc_ids,
             "retrieved": retrieved_doc_ids,
-            "recall_at_1": r1,
-            "recall_at_3": r3,
-            "recall_at_5": r5,
+            "hit_rate_at_1": r1,
+            "hit_rate_at_3": r3,
+            "hit_rate_at_5": r5,
             "reciprocal_rank": rr,
             "latency_ms": round(latency_ms, 2),
         })
@@ -71,20 +71,20 @@ def main() -> None:
         print(f"Query: {query}")
         print(f"Expected: {expected_doc_ids}")
         print(f"Retrieved: {retrieved_doc_ids}")
-        print(f"Recall@1: {r1:.2f}  Recall@3: {r3:.2f}  Recall@5: {r5:.2f}  MRR: {rr:.2f}  Latency: {latency_ms:.1f}ms")
+        print(f"HitRate@1: {r1:.2f}  HitRate@3: {r3:.2f}  HitRate@5: {r5:.2f}  MRR: {rr:.2f}  Latency: {latency_ms:.1f}ms")
         print("-" * 60)
 
     n = len(examples)
-    avg_r1 = sum(recall_1_scores) / n
-    avg_r3 = sum(recall_3_scores) / n
-    avg_r5 = sum(recall_5_scores) / n
+    avg_r1 = sum(hit_rate_1_scores) / n
+    avg_r3 = sum(hit_rate_3_scores) / n
+    avg_r5 = sum(hit_rate_5_scores) / n
     avg_mrr = sum(mrr_scores) / n
     avg_latency = sum(latencies_ms) / n
 
     print("\n=== Aggregate Metrics ===")
-    print(f"Average Recall@1: {avg_r1:.2f}")
-    print(f"Average Recall@3: {avg_r3:.2f}")
-    print(f"Average Recall@5: {avg_r5:.2f}")
+    print(f"Average HitRate@1: {avg_r1:.2f}")
+    print(f"Average HitRate@3: {avg_r3:.2f}")
+    print(f"Average HitRate@5: {avg_r5:.2f}")
     print(f"Average MRR:      {avg_mrr:.2f}")
     print(f"Avg Latency/query:{avg_latency:.1f}ms")
 
@@ -102,18 +102,18 @@ def main() -> None:
         })
 
         mlflow.log_metrics({
-            "avg_recall_at_1": avg_r1,
-            "avg_recall_at_3": avg_r3,
-            "avg_recall_at_5": avg_r5,
+            "avg_hit_rate_at_1": avg_r1,
+            "avg_hit_rate_at_3": avg_r3,
+            "avg_hit_rate_at_5": avg_r5,
             "avg_mrr": avg_mrr,
             "avg_latency_ms": avg_latency,
         })
 
         for i, row in enumerate(per_query_data):
             mlflow.log_metrics({
-                f"q{i}_recall_at_1": row["recall_at_1"],
-                f"q{i}_recall_at_3": row["recall_at_3"],
-                f"q{i}_recall_at_5": row["recall_at_5"],
+                f"q{i}_hit_rate_at_1": row["hit_rate_at_1"],
+                f"q{i}_hit_rate_at_3": row["hit_rate_at_3"],
+                f"q{i}_hit_rate_at_5": row["hit_rate_at_5"],
                 f"q{i}_reciprocal_rank": row["reciprocal_rank"],
                 f"q{i}_latency_ms": row["latency_ms"],
             })
