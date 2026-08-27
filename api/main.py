@@ -23,3 +23,8 @@ app = FastAPI(
 )
 
 app.include_router(search_router, prefix="/v1")
+
+
+@app.get("/health")
+def health() -> dict:
+    return {"status": "ok", "app": settings.app_name}

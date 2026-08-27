@@ -37,7 +37,6 @@ jobs:
       - name: Run tests
         run: |
           pytest tests/ -v --tb=short --junitxml=test-results.xml \
-            --ignore=tests/test_search_integration.py \
             --ignore=tests/test_generator.py
 
       - name: Upload test results

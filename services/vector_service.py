@@ -1,42 +1,38 @@
 from collections.abc import Iterable
 
+import faiss
+import numpy as np
+from sentence_transformers import SentenceTransformer
+
+from core.config import settings
 from schemas.documents import ChunkMetadata, ChunkRecord
 
 
 class VectorSearchService:
     def __init__(self) -> None:
+        self._model = SentenceTransformer(settings.embed_model)
         self._records = self._bootstrap_records()
+        self._index = self._build_index()
+
+    def _build_index(self) -> faiss.IndexFlatIP:
+        texts = [r.text for r in self._records]
+        embeddings = self._model.encode(texts, normalize_embeddings=True).astype(np.float32)
+        index = faiss.IndexFlatIP(embeddings.shape[1])
+        index.add(embeddings)
+        return index
 
     async def search(self, query: str, top_k: int = 10) -> list[ChunkRecord]:
-        query_lower = query.lower()
-        ranked: list[tuple[float, ChunkRecord]] = []
-        for record in self._records:
-            score = self._semantic_overlap(query_lower, record.text.lower(), record.metadata.section)
-            ranked.append((score, record))
-        ranked.sort(key=lambda row: row[0], reverse=True)
+        query_vec = self._model.encode([query], normalize_embeddings=True).astype(np.float32)
+        k = min(top_k, len(self._records))
+        scores, indices = self._index.search(query_vec, k)
         results: list[ChunkRecord] = []
-        for score, record in ranked[:top_k]:
-            item = record.model_copy(deep=True)
-            item.score = score
-            results.append(item)
+        for score, idx in zip(scores[0], indices[0]):
+            if idx < 0:
+                continue
+            record = self._records[idx].model_copy(deep=True)
+            record.score = float(score)
+            results.append(record)
         return results
-
-    @staticmethod
-    def _semantic_overlap(query: str, text: str, section: str | None) -> float:
-        score = 0.1
-        if "root cause" in query and "causing" in text:
-            score += 0.8
-        if "fixed" in query and "mitigated" in text:
-            score += 0.8
-        if "runbook" in query and "check" in text:
-            score += 0.8
-        if section:
-            normalized_section = section.lower()
-            if normalized_section in query:
-                score += 0.5
-        shared_terms = sum(1 for token in query.split() if token in text)
-        score += shared_terms * 0.05
-        return score
 
     @staticmethod
     def _bootstrap_records() -> list[ChunkRecord]:

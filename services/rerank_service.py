@@ -1,21 +1,22 @@
+from sentence_transformers import CrossEncoder
+
+from core.config import settings
 from schemas.documents import ChunkRecord
 
 
 class RerankService:
+    def __init__(self) -> None:
+        self._model = CrossEncoder(settings.rerank_model)
+
     async def rerank(self, query: str, candidates: list[ChunkRecord], top_n: int) -> list[ChunkRecord]:
-        query_lower = query.lower()
+        if not candidates:
+            return []
+        pairs = [[query, c.text] for c in candidates]
+        scores = self._model.predict(pairs)
         rescored: list[ChunkRecord] = []
-        for candidate in candidates:
+        for candidate, score in zip(candidates, scores):
             item = candidate.model_copy(deep=True)
-            score = item.score
-            section = (item.metadata.section or "").lower()
-            if "root cause" in query_lower and section == "root cause":
-                score += 2.0
-            if "fixed" in query_lower and section in {"mitigation", "mitigation steps"}:
-                score += 2.0
-            if "runbook" in query_lower and section in {"immediate checks", "mitigation steps", "escalation"}:
-                score += 1.5
-            item.score = score
+            item.score = float(score)
             rescored.append(item)
         rescored.sort(key=lambda row: row.score, reverse=True)
         return rescored[:top_n]
