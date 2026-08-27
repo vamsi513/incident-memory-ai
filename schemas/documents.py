@@ -9,6 +9,7 @@ class ChunkMetadata(BaseModel):
     parent_id: str
     section: str | None = None
     service: str | None = None
+    severity: str | None = None
     created_at: datetime | None = None
     extra: dict[str, Any] = Field(default_factory=dict)
 

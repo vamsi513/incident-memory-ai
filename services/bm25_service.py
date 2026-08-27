@@ -3,12 +3,13 @@ from collections.abc import Iterable
 
 from rank_bm25 import BM25Okapi
 
-from schemas.documents import ChunkMetadata, ChunkRecord
+from schemas.documents import ChunkRecord
+from services.corpus import load_chunk_records
 
 
 class BM25Service:
     def __init__(self) -> None:
-        self._records = self._bootstrap_records()
+        self._records = list(load_chunk_records())
         self._tokenized_corpus = [self._tokenize(record.text) for record in self._records]
         self._bm25 = BM25Okapi(self._tokenized_corpus)
 
@@ -25,55 +26,6 @@ class BM25Service:
     @staticmethod
     def _tokenize(text: str) -> list[str]:
         return re.findall(r"[A-Za-z0-9_]+", text.lower())
-
-    @staticmethod
-    def _bootstrap_records() -> list[ChunkRecord]:
-        return [
-            ChunkRecord(
-                chunk_id="chunk-checkout-root-cause",
-                document_id="incident_2025_01_checkout_timeout",
-                text="A deployment changed database connection pool behavior, causing saturation.",
-                metadata=ChunkMetadata(
-                    source="incident_postmortem",
-                    parent_id="incident_2025_01_checkout_timeout",
-                    section="Root Cause",
-                    service="checkout",
-                ),
-            ),
-            ChunkRecord(
-                chunk_id="chunk-checkout-mitigation",
-                document_id="incident_2025_01_checkout_timeout",
-                text="The incident was mitigated by rolling back the deployment and increasing the connection pool size.",
-                metadata=ChunkMetadata(
-                    source="incident_postmortem",
-                    parent_id="incident_2025_01_checkout_timeout",
-                    section="Mitigation",
-                    service="checkout",
-                ),
-            ),
-            ChunkRecord(
-                chunk_id="chunk-search-root-cause",
-                document_id="incident_2025_02_search_latency",
-                text="A cache invalidation bug cleared hot keys too aggressively and spiked search latency.",
-                metadata=ChunkMetadata(
-                    source="incident_postmortem",
-                    parent_id="incident_2025_02_search_latency",
-                    section="Root Cause",
-                    service="search",
-                ),
-            ),
-            ChunkRecord(
-                chunk_id="chunk-runbook-checks",
-                document_id="database_latency_runbook",
-                text="Check database CPU, inspect active connections, and review recent deploys.",
-                metadata=ChunkMetadata(
-                    source="runbook",
-                    parent_id="database_latency_runbook",
-                    section="Immediate Checks",
-                    service="database",
-                ),
-            ),
-        ]
 
     def records(self) -> Iterable[ChunkRecord]:
         return self._records
