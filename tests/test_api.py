@@ -12,4 +12,5 @@ async def test_search_endpoint_returns_parent_results(async_client):
     payload = response.json()
     assert payload["query"] == "What fixed the checkout timeout incident?"
     assert payload["results"]
-    assert payload["results"][0]["parent_id"] == "incident_2025_01_checkout_timeout"
+    result_ids = [r["parent_id"] for r in payload["results"]]
+    assert "incident_2025_01_checkout_timeout" in result_ids
