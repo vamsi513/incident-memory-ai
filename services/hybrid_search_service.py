@@ -1,12 +1,20 @@
+import math
+
 from core.config import settings
 from core.exceptions import ProviderError, RetrievalError
 from core.tracing import traced_span
 from schemas.documents import ChunkRecord
-from schemas.search import SearchFilters, SearchRequest, SearchResponse
+from schemas.search import SearchFilters, SearchRequest, SearchResponse, SearchResult
 from services.bm25_service import BM25Service
 from services.parent_retrieval_service import ParentRetrievalService
 from services.rerank_service import RerankService
 from services.vector_service import VectorSearchService
+
+# final_score is a raw, unbounded cross-encoder logit. Below this
+# sigmoid-normalized relevance, a result is noise rather than a genuine
+# match (e.g. querying for an incident type the corpus doesn't contain)
+# and showing it would mislead the user more than an empty result would.
+_MIN_RELEVANCE = 0.01
 
 
 class HybridSearchService:
@@ -33,11 +41,19 @@ class HybridSearchService:
                     payload.query, fused_hits, top_n=payload.top_k
                 )
                 parent_results = await self.parent_retrieval_service.assemble(reranked_hits)
+                parent_results = self._drop_irrelevant(parent_results)
                 return SearchResponse(query=payload.query, results=parent_results[: payload.top_k])
         except ProviderError:
             raise
         except Exception as exc:  # pragma: no cover - safety boundary
             raise RetrievalError(str(exc)) from exc
+
+    @staticmethod
+    def _drop_irrelevant(results: list[SearchResult]) -> list[SearchResult]:
+        def normalized(result: SearchResult) -> float:
+            return 1.0 / (1.0 + math.exp(-result.final_score))
+
+        return [r for r in results if normalized(r) >= _MIN_RELEVANCE]
 
     @staticmethod
     def _apply_filters(hits: list[ChunkRecord], filters: SearchFilters | None) -> list[ChunkRecord]:
