@@ -245,11 +245,11 @@ export default function SearchPage() {
           <div style={styles.filterRow}>
             {(
               [
-                { key: "service" as const, label: "Service", opts: SERVICE_OPTIONS },
-                { key: "severity" as const, label: "Severity", opts: SEVERITY_OPTIONS },
-                { key: "source" as const, label: "Source", opts: SOURCE_OPTIONS },
+                { key: "service" as const, label: "Service", plural: "Services", opts: SERVICE_OPTIONS },
+                { key: "severity" as const, label: "Severity", plural: "Severities", opts: SEVERITY_OPTIONS },
+                { key: "source" as const, label: "Source", plural: "Sources", opts: SOURCE_OPTIONS },
               ] as const
-            ).map(({ key, label, opts }) => (
+            ).map(({ key, label, plural, opts }) => (
               <select
                 key={key}
                 value={filters[key] ?? ""}
@@ -257,7 +257,7 @@ export default function SearchPage() {
                 style={styles.filterSelect}
                 aria-label={label}
               >
-                <option value="">All {label}s</option>
+                <option value="">All {plural}</option>
                 {opts.map((o) => (
                   <option key={o} value={o}>
                     {o}
