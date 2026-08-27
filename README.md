@@ -18,46 +18,35 @@ API live at **[http://23.21.42.197/incidentmemai-ui/](http://23.21.42.197/incide
 
 ## Architecture
 
-The deployed app (`app/main.py`, hosted on Render) handles the full request path:
+The canonical entry point is `api/main.py`, which wires the full retrieval stack:
 
 ```
-  User Query
-      │
-      ▼
-  FastAPI App (app/main.py)
-  ├── Injection pattern check (4 keyword patterns)
-  ├── Email address redaction in logs
-      │
-      ▼
-  Retrieval Pipeline (retrieval/pipeline.py)
+  User Query  →  POST /v1/search  (api/main.py)
+                       │
+                       ▼
+  HybridSearchService  (services/hybrid_search_service.py)
   ┌─────────────────────────────────────────────────────┐
-  │  Query Rewriting — synonym variants for BM25 recall  │
-  │                                                     │
   │  ┌─────────────────┐   ┌──────────────────────────┐ │
   │  │ BM25 keyword    │   │ FAISS dense vector       │ │
   │  │ rank-bm25/Okapi │   │ all-MiniLM-L6-v2 (384d) │ │
-  │  │ bm25_store.py   │   │ vector_store.py          │ │
+  │  │ bm25_service.py │   │ vector_service.py        │ │
   │  └────────┬────────┘   └────────────┬─────────────┘ │
   │           └───────────┬─────────────┘               │
   │              Reciprocal Rank Fusion (k=60)          │
   │                       │                             │
-  │           Section candidate injection               │
-  │                       │                             │
   │           Cross-Encoder Reranking                   │
   │           ms-marco-MiniLM-L-6-v2                    │
+  │           (rerank_service.py)                       │
   │                       │                             │
-  │           Section score boosting                    │
+  │           Parent-document grouping                  │
+  │           (parent_retrieval_service.py)             │
   └───────────────────────┼─────────────────────────────┘
                           │
                           ▼
-  LLM Generation (app/llm.py)
-  Configurable: OpenAI (gpt-4.1-mini) / Anthropic (claude-haiku-4-5) / Mistral (mistral-small-latest)
-                          │
-                          ▼
-  Grounded Answer + Numbered Citations
+  Ranked results with supporting chunks + section summaries
 ```
 
-The codebase also includes a full async service layer (`api/main.py` → `services/`) with `POST /v1/search`, BM25+FAISS+RRF fusion, cross-encoder reranking, and parent-document context grouping — designed for a microservice deployment with Docker Compose (Postgres, Redis, Qdrant).
+The `app/` directory contains a standalone RAG app (`app/main.py`) with LLM generation (`/query` endpoint) that uses the `retrieval/` pipeline directly — useful for quick local testing with `POST /query`.
 
 ---
 
@@ -148,10 +137,18 @@ python -m scripts.build_index
 ### 3. Start the app
 
 ```bash
-uvicorn app.main:app --reload --port 8000
+uvicorn api.main:app --reload --port 8000
 ```
 
-Endpoints: `GET /health`, `POST /query`. Docs at `http://localhost:8000/docs`.
+Endpoints: `GET /health`, `POST /v1/search`. Docs at `http://localhost:8000/docs`.
+
+To also run the standalone RAG app with LLM generation:
+
+```bash
+uvicorn app.main:app --reload --port 8001
+```
+
+Endpoints: `GET /health`, `POST /query`.
 
 ### 4. Run tests
 
@@ -211,18 +208,19 @@ MLFLOW_EXPERIMENT=incident-memory-retrieval-eval
 
 ## API Endpoints
 
-**Deployed app** (`app/main.py` — started by Render):
+**Enterprise search API** (`api/main.py` — Dockerfile / Docker Compose / EC2):
 
 | Method | Path | Description |
 |---|---|---|
 | `GET` | `/health` | Liveness check |
-| `POST` | `/query` | Hybrid retrieval + LLM generation with citations |
+| `POST` | `/v1/search` | BM25 + FAISS + CrossEncoder hybrid search, ranked parent-doc results |
 
-**Async service layer** (`api/main.py` — Docker Compose / local):
+**Standalone RAG app** (`app/main.py` — local dev):
 
 | Method | Path | Description |
 |---|---|---|
-| `POST` | `/v1/search` | Hybrid search returning ranked results (no generation) |
+| `GET` | `/health` | Liveness check |
+| `POST` | `/query` | Retrieval + LLM generation with numbered citations |
 
 ---
 
