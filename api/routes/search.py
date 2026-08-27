@@ -5,7 +5,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from api.dependencies import get_hybrid_search_service
 from core.exceptions import RetrievalError
 from core.logging import get_logger
-from schemas.search import SearchRequest, SearchResponse
+from schemas.search import FacetsResponse, SearchRequest, SearchResponse
+from services.corpus import load_chunk_records
 from services.hybrid_search_service import HybridSearchService
 
 router = APIRouter(tags=["search"])
@@ -17,6 +18,19 @@ _PII_RE = re.compile(r"\b[\w.+-]+@[\w-]+\.[a-z]{2,}\b|\b\d{3}[-.\s]?\d{2}[-.\s]?
 def _safe_query(query: str) -> str:
     masked = _PII_RE.sub("[redacted]", query)
     return masked[:120] + "…" if len(masked) > 120 else masked
+
+
+@router.get("/facets", response_model=FacetsResponse)
+async def get_facets() -> FacetsResponse:
+    records = load_chunk_records()
+    services = {r.metadata.service for r in records if r.metadata.service}
+    severities = {r.metadata.severity for r in records if r.metadata.severity}
+    sources = {r.metadata.source for r in records if r.metadata.source}
+    return FacetsResponse(
+        services=sorted(services),
+        severities=sorted(severities),
+        sources=sorted(sources),
+    )
 
 
 @router.post("/search", response_model=SearchResponse)

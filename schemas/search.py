@@ -29,3 +29,9 @@ class SearchResult(BaseModel):
 class SearchResponse(BaseModel):
     query: str
     results: list[SearchResult]
+
+
+class FacetsResponse(BaseModel):
+    services: list[str]
+    severities: list[str]
+    sources: list[str]
