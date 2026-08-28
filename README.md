@@ -4,7 +4,7 @@
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A production-style Retrieval-Augmented Generation (RAG) system for engineering incident knowledge. Acts as an operational memory layer for postmortems, runbooks, and architecture documents — letting engineers query prior failure modes, root causes, mitigations, and recovery procedures with grounded citations.
+A production-inspired Retrieval-Augmented Generation (RAG) system for engineering incident knowledge. Acts as an operational memory layer for postmortems, runbooks, and architecture documents — letting engineers query prior failure modes, root causes, mitigations, and recovery procedures with grounded citations.
 
 The engineering focus is on retrieval quality: hybrid BM25 + FAISS dense search, Reciprocal Rank Fusion, cross-encoder reranking, section-aware post-processing, and query rewriting — all benchmarked with an MLflow-tracked evaluation harness.
 
@@ -73,13 +73,13 @@ The `app/` directory contains a standalone RAG app (`app/main.py`) with LLM gene
 - **Query rewriting** — expands queries with synonym variants to improve BM25 recall on paraphrased inputs
 - **Section-aware scoring** — post-rerank boosts tied to section type (root cause, mitigation, immediate checks) matched to query intent
 - **FAISS vector store** — `IndexFlatIP` with normalized embeddings (inner product = cosine similarity on unit vectors), persisted to disk
-- **Multi-provider LLM generation** — OpenAI, Anthropic, and Mistral backends in `app/llm.py`, switched via `LLM_PROVIDER` env var
+- **Multi-provider LLM generation** — OpenAI, Anthropic, and Mistral backends in `app/llm.py`, switched via `LLM_PROVIDER` env var. Lives in the separate `app/main.py` FastAPI app (a `/query` endpoint that retrieves *and* generates a grounded answer); the publicly deployed API (`api.main:app`, what the live demo hits) runs retrieval-only `/v1/search` and does not call an LLM
 - **Injection detection** — rejects queries matching 8 known injection patterns before retrieval
 - **API rate limiting** — 20 requests/minute per IP on `/v1/search`, in-process (correct for the current single-instance deployment)
 - **MLflow evaluation tracking** — `scripts/run_evals.py` logs Hit Rate@K, MRR, per-query latency, and run parameters per evaluation run
 - **Labeled retrieval eval harness** — 12-query ground-truth dataset across 10 documents covering specific, paraphrased, and cross-document queries
 - **Async service layer** — full async FastAPI + service layer for microservice deployment, with structlog structured logging throughout
-- **arq background workers** — wired in `workers/` for async ingestion and eval jobs (requires Redis; runs alongside Docker Compose stack)
+- **arq background workers** — wired in `workers/` for async ingestion and eval jobs (requires Redis; runs alongside the Docker Compose stack). Not part of the public EC2 deployment, which runs the API container alone with no Redis or worker process
 
 ---
 
@@ -270,7 +270,7 @@ incident-memory-ai/
 │   ├── config.py                   # Pydantic settings from env
 │   ├── security.py                 # Injection detection (8 patterns), PII redaction (email/phone/SSN/card)
 │   ├── logging.py                  # structlog configuration
-│   ├── tracing.py                  # traced_span stub (OpenTelemetry placeholder)
+│   ├── tracing.py                  # traced_span: timed stage-logging (stage_timing log lines, not a real OTel tracer)
 │   └── llm_factory.py              # LLM-as-judge: scores answer grounding via OpenAI or Anthropic
 ├── ingestion/                      # Document loading and chunking
 │   ├── pipeline.py                 # Ingest raw docs → chunks with metadata inference
