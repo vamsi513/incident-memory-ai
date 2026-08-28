@@ -102,11 +102,14 @@ export default function PipelinePage() {
       {/* Scoring explanation */}
       <section style={styles.section} aria-label="Scoring">
         <h2 style={styles.sectionTitle}>Score Interpretation</h2>
+        <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 12 }}>
+          Match score is a normalized retrieval/reranking score, not a calibrated probability that a result is correct.
+        </p>
         <div style={styles.scoreGrid}>
           {[
-            { label: "High relevance", range: "> 80%", color: "var(--score-high)", bg: "var(--score-high-bg)" },
-            { label: "Moderate relevance", range: "60 – 80%", color: "var(--score-mid)", bg: "var(--score-mid-bg)" },
-            { label: "Low relevance", range: "< 60%", color: "var(--score-low)", bg: "var(--score-low-bg)" },
+            { label: "High match", range: "> 80%", color: "var(--score-high)", bg: "var(--score-high-bg)" },
+            { label: "Moderate match", range: "60 – 80%", color: "var(--score-mid)", bg: "var(--score-mid-bg)" },
+            { label: "Low match", range: "< 60%", color: "var(--score-low)", bg: "var(--score-low-bg)" },
           ].map((s) => (
             <div
               key={s.label}

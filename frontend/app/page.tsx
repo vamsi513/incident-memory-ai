@@ -42,8 +42,8 @@ function ScoreBar({ score }: { score: number }) {
   const pct = Math.round(normalized * 100);
   return (
     <div style={styles.scoreRow}>
-      <span style={{ fontSize: "11px", color: "var(--text-muted)", minWidth: 60, flexShrink: 0 }}>
-        Relevance
+      <span style={{ fontSize: "11px", color: "var(--text-muted)", minWidth: 78, flexShrink: 0 }}>
+        Match score
       </span>
       <div
         style={styles.scoreBarTrack}
@@ -51,7 +51,7 @@ function ScoreBar({ score }: { score: number }) {
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-label={`Relevance score ${pct}%`}
+        aria-label={`Normalized retrieval match score ${pct}%`}
       >
         <div
           style={{
