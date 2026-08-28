@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from api.dependencies import get_hybrid_search_service
 from core.exceptions import RetrievalError
 from core.logging import get_logger
+from core.rate_limit import check_rate_limit
 from schemas.search import FacetsResponse, SearchRequest, SearchResponse
 from services.corpus import load_chunk_records
 from services.hybrid_search_service import HybridSearchService
@@ -33,7 +34,7 @@ async def get_facets() -> FacetsResponse:
     )
 
 
-@router.post("/search", response_model=SearchResponse)
+@router.post("/search", response_model=SearchResponse, dependencies=[Depends(check_rate_limit)])
 async def search_documents(
     payload: SearchRequest,
     search_service: HybridSearchService = Depends(get_hybrid_search_service),

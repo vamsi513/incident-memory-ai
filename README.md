@@ -75,6 +75,7 @@ The `app/` directory contains a standalone RAG app (`app/main.py`) with LLM gene
 - **FAISS vector store** — `IndexFlatIP` with normalized embeddings (inner product = cosine similarity on unit vectors), persisted to disk
 - **Multi-provider LLM generation** — OpenAI, Anthropic, and Mistral backends in `app/llm.py`, switched via `LLM_PROVIDER` env var
 - **Injection detection** — rejects queries matching 8 known injection patterns before retrieval
+- **API rate limiting** — 20 requests/minute per IP on `/v1/search`, in-process (correct for the current single-instance deployment)
 - **MLflow evaluation tracking** — `scripts/run_evals.py` logs Hit Rate@K, MRR, per-query latency, and run parameters per evaluation run
 - **Labeled retrieval eval harness** — 12-query ground-truth dataset across 10 documents covering specific, paraphrased, and cross-document queries
 - **Async service layer** — full async FastAPI + service layer for microservice deployment, with structlog structured logging throughout
