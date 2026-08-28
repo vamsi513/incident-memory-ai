@@ -48,14 +48,15 @@ class HybridSearchService:
     async def search(self, payload: SearchRequest) -> SearchResponse:
         try:
             with traced_span("hybrid_search"):
-                result_sets: list[list[ChunkRecord]] = []
-                for rewritten_query in rewrite_query(payload.query):
-                    result_sets.append(
-                        await self.bm25_service.search(rewritten_query, top_k=settings.top_k)
-                    )
-                    result_sets.append(
-                        await self.vector_service.search(rewritten_query, top_k=settings.top_k)
-                    )
+                with traced_span("hybrid_search.retrieve"):
+                    result_sets: list[list[ChunkRecord]] = []
+                    for rewritten_query in rewrite_query(payload.query):
+                        result_sets.append(
+                            await self.bm25_service.search(rewritten_query, top_k=settings.top_k)
+                        )
+                        result_sets.append(
+                            await self.vector_service.search(rewritten_query, top_k=settings.top_k)
+                        )
 
                 fused_hits = self._fuse_hits(result_sets)
                 candidates = self._dedupe(fused_hits + self._inject_section_candidates(payload.query))
@@ -65,12 +66,14 @@ class HybridSearchService:
                 # Score every candidate before truncating: boosting needs the
                 # full scored pool to have a chance at promoting an injected
                 # chunk the cross-encoder alone ranked below the window.
-                reranked_hits = await self.rerank_service.rerank(
-                    payload.query, candidates, top_n=len(candidates)
-                )
+                with traced_span("hybrid_search.rerank"):
+                    reranked_hits = await self.rerank_service.rerank(
+                        payload.query, candidates, top_n=len(candidates)
+                    )
                 reranked_hits = self._apply_section_boosts(reranked_hits, payload.query)[:rerank_window]
 
-                parent_results = await self.parent_retrieval_service.assemble(reranked_hits)
+                with traced_span("hybrid_search.parent_assembly"):
+                    parent_results = await self.parent_retrieval_service.assemble(reranked_hits)
                 parent_results = self._drop_irrelevant(parent_results)
                 return SearchResponse(query=payload.query, results=parent_results[: payload.top_k])
         except ProviderError:
