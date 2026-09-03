@@ -291,7 +291,7 @@ incident-memory-ai/
 │   ├── tasks.py                    # arq task definitions (ingestion, eval)
 │   └── settings.py                 # arq WorkerSettings with Redis connection
 ├── data/
-│   ├── raw/                        # 10 source documents (incidents, runbooks, docs)
+│   ├── raw/                        # 20 source documents (incidents, runbooks, docs)
 │   └── processed/                  # FAISS index, chunks.json, index_records.json
 ├── ui/
 │   └── streamlit_app.py            # Thin Streamlit client for app/main.py's /query endpoint
