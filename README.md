@@ -77,7 +77,7 @@ The `app/` directory contains a standalone RAG app (`app/main.py`) with LLM gene
 - **Injection detection** — rejects queries matching 8 known injection patterns before retrieval
 - **API rate limiting** — 20 requests/minute per IP on `/v1/search`, in-process (correct for the current single-instance deployment)
 - **MLflow evaluation tracking** — `scripts/run_evals.py` logs Hit Rate@K, MRR, per-query latency, and run parameters per evaluation run
-- **Labeled retrieval eval harness** — 12-query ground-truth dataset across 10 documents covering specific, paraphrased, and cross-document queries
+- **Labeled retrieval eval harness** — 30-query ground-truth dataset across 20 documents covering specific, paraphrased, cross-document, and deliberately ambiguous queries
 - **Async service layer** — full async FastAPI + service layer for microservice deployment, with structlog structured logging throughout
 - **arq background workers** — wired in `workers/` for async ingestion and eval jobs (requires Redis; runs alongside the Docker Compose stack). Not part of the public EC2 deployment, which runs the API container alone with no Redis or worker process
 
@@ -85,16 +85,16 @@ The `app/` directory contains a standalone RAG app (`app/main.py`) with LLM gene
 
 ## Evaluation Results
 
-Evaluated on 12 labeled queries against 10 documents (6 incident reports, 2 runbooks, 2 architecture docs).
+Evaluated on 30 labeled queries against 20 documents (12 incident reports, 4 runbooks, 4 architecture docs).
 
 | Metric | Score |
 |---|---|
-| Hit Rate@1 | 0.83 |
-| Hit Rate@3 | 0.92 |
-| Hit Rate@5 | 0.92 |
-| MRR | 0.86 |
+| Hit Rate@1 | 0.80 |
+| Hit Rate@3 | 0.97 |
+| Hit Rate@5 | 0.97 |
+| MRR | 0.88 |
 
-Queries include paraphrased variants (vocabulary mismatch from document text) and cross-document queries requiring retrieval across multiple relevant sources. All metrics computed against ground-truth `expected_doc_ids` using `evals/metrics.py`, run via `python -m scripts.run_evals` against the same `HybridSearchService` that serves the live API. One query (a cross-document "which incidents identified missing alerting" question) returns no results — the cross-encoder score for its correct documents is indistinguishable from a genuine non-match, so it fails open rather than surfacing a low-confidence guess. Results logged to MLflow.
+Queries include paraphrased variants (vocabulary mismatch from document text), cross-document queries requiring retrieval across multiple relevant sources, and a handful of deliberately ambiguous queries with more than one valid answer — the set is built to be genuinely hard to get a perfect score on, not tuned to look good. All metrics computed against ground-truth `expected_doc_ids` using `evals/metrics.py`, run via `python -m scripts.run_evals` against the same `HybridSearchService` that serves the live API. One query (a cross-document "which incidents identified missing alerting" question) is a genuine miss rather than a fail-open case — it retrieves two documents, neither of which is in the labeled set, because the shared "add alerting" follow-up theme across the three correct documents isn't a strong lexical or semantic signal the current retrieval pipeline picks up on. Results logged to MLflow.
 
 Run script: `python -m scripts.run_evals`
 
@@ -278,7 +278,7 @@ incident-memory-ai/
 │   └── connectors/local_files.py   # Loads .md files, doc_id = filename stem
 ├── schemas/                        # Pydantic request/response models
 ├── evals/
-│   ├── dataset.json                # 12 labeled queries with expected_doc_ids
+│   ├── dataset.json                # 30 labeled queries with expected_doc_ids
 │   └── metrics.py                  # hit_rate_at_k, reciprocal_rank implementations
 ├── eval/
 │   ├── ragas_runner.py             # 3-sample hit-rate benchmark (service layer)

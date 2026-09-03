@@ -46,5 +46,77 @@
   {
     "query": "What role does the API gateway play when a downstream service experiences DNS failures?",
     "expected_doc_ids": ["api_gateway_architecture", "incident_2025_05_dns_failure"]
+  },
+  {
+    "query": "Why did outbound calls to the payment processor start failing with TLS handshake errors?",
+    "expected_doc_ids": ["incident_2025_07_tls_cert_expiry"]
+  },
+  {
+    "query": "What caused order confirmation emails to be delayed for hours?",
+    "expected_doc_ids": ["incident_2025_08_queue_consumer_lag"]
+  },
+  {
+    "query": "Why did one backend instance return 503 errors while other instances sat idle during a deployment?",
+    "expected_doc_ids": ["incident_2025_09_load_balancer_misconfig"]
+  },
+  {
+    "query": "What caused the search service to crash-loop because its disk filled up?",
+    "expected_doc_ids": ["incident_2025_10_disk_space_exhaustion"]
+  },
+  {
+    "query": "Why were new user logins blocked while existing sessions kept working normally?",
+    "expected_doc_ids": ["incident_2025_11_auth_provider_outage"]
+  },
+  {
+    "query": "What caused orders to be billed with the wrong tax amount after a database migration?",
+    "expected_doc_ids": ["incident_2025_12_billing_data_corruption"]
+  },
+  {
+    "query": "What steps should I follow when a host's disk usage alert fires above 85 percent?",
+    "expected_doc_ids": ["disk_space_runbook"]
+  },
+  {
+    "query": "What should an on-call engineer check when login failures spike but internal auth service metrics look normal?",
+    "expected_doc_ids": ["auth_outage_runbook"]
+  },
+  {
+    "query": "Which document describes how the checkout service and order-processing consumers communicate through a queue?",
+    "expected_doc_ids": ["message_queue_architecture"]
+  },
+  {
+    "query": "Which document explains why existing sessions still work when the external identity provider goes down?",
+    "expected_doc_ids": ["auth_service_architecture"]
+  },
+  {
+    "query": "Why couldn't services find each other by internal hostname after a configuration change?",
+    "expected_doc_ids": ["incident_2025_05_dns_failure"]
+  },
+  {
+    "query": "Which incident involved a service being killed repeatedly due to excessive memory usage?",
+    "expected_doc_ids": ["incident_2025_03_memory_leak"]
+  },
+  {
+    "query": "What caused a certificate rotation job to stop working without anyone noticing for months?",
+    "expected_doc_ids": ["incident_2025_07_tls_cert_expiry"]
+  },
+  {
+    "query": "What caused a backlog in message processing that delayed downstream fulfillment triggers?",
+    "expected_doc_ids": ["incident_2025_08_queue_consumer_lag"]
+  },
+  {
+    "query": "Which incidents were caused by an automated background job silently failing without an alert?",
+    "expected_doc_ids": ["incident_2025_07_tls_cert_expiry", "incident_2025_12_billing_data_corruption"]
+  },
+  {
+    "query": "Which documents describe how a stuck consumer or event backlog can affect order processing?",
+    "expected_doc_ids": ["message_queue_architecture", "incident_2025_08_queue_consumer_lag"]
+  },
+  {
+    "query": "Which documents together explain what happens to logins when the external identity provider has an outage?",
+    "expected_doc_ids": ["auth_service_architecture", "incident_2025_11_auth_provider_outage"]
+  },
+  {
+    "query": "Which documents relate to checkout or payment failures?",
+    "expected_doc_ids": ["incident_2025_01_checkout_timeout", "checkout_architecture", "incident_2025_07_tls_cert_expiry"]
   }
 ]

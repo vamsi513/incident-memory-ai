@@ -1,6 +1,86 @@
 [
   {
-    "chunk_id": "4f429315-6639-4373-b1c0-c103685806cf",
+    "chunk_id": "95ec497d-df58-4bf4-b083-70926b54f59e",
+    "doc_id": "auth_outage_runbook",
+    "parent_id": "auth_outage_runbook",
+    "source": "local_markdown",
+    "title": "Auth Outage Runbook",
+    "text": "- Spike in login failures with no corresponding change to internal auth service error rate\n- Password reset requests failing\n- New user sign-ups failing while existing sessions remain valid\n- Elevated error rate specifically on OAuth token-issuance calls",
+    "section": "Symptoms",
+    "start_char": 0,
+    "end_char": 254,
+    "path": "data/raw/runbooks/auth_outage_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": [
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "6b7f1aa1-2449-4c51-b383-1fce0a0cf0cd",
+    "doc_id": "auth_outage_runbook",
+    "parent_id": "auth_outage_runbook",
+    "source": "local_markdown",
+    "title": "Auth Outage Runbook",
+    "text": "- Check the external identity provider's public status page for a known outage\n- Check auth service logs for timeouts or errors specifically on calls to the external provider\n- Confirm whether existing authenticated sessions are still functioning normally\n- Check auth service error rate broken down by internal errors versus upstream provider errors",
+    "section": "Immediate Checks",
+    "start_char": 0,
+    "end_char": 350,
+    "path": "data/raw/runbooks/auth_outage_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": [
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "674bdb05-79e2-43fa-9a5a-e35e38d8391a",
+    "doc_id": "auth_outage_runbook",
+    "parent_id": "auth_outage_runbook",
+    "source": "local_markdown",
+    "title": "Auth Outage Runbook",
+    "text": "- If the external identity provider is down: post a status banner informing users of the outage and estimated impact\n- Confirm there is no viable internal fallback for new logins during a provider outage\n- Monitor the provider's status page for recovery and confirm login success rate returns to baseline once resolved\n- Do not restart the auth service if the root cause is confirmed external \u2014 a restart will not resolve provider-side outages",
+    "section": "Mitigation Steps",
+    "start_char": 0,
+    "end_char": 443,
+    "path": "data/raw/runbooks/auth_outage_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": [
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "74da41f6-465d-4e17-9f7c-3ff8dd869502",
+    "doc_id": "auth_outage_runbook",
+    "parent_id": "auth_outage_runbook",
+    "source": "local_markdown",
+    "title": "Auth Outage Runbook",
+    "text": "- Escalate to the identity provider's support channel if the outage exceeds 30 minutes with no public acknowledgement\n- Escalate internally to product/support teams to coordinate customer communication for outages longer than 15 minutes",
+    "section": "Escalation",
+    "start_char": 0,
+    "end_char": 236,
+    "path": "data/raw/runbooks/auth_outage_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": [
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "258d3d0d-f716-4fcd-8578-3ac160f297a1",
     "doc_id": "cache_failure_runbook",
     "parent_id": "cache_failure_runbook",
     "source": "local_markdown",
@@ -21,7 +101,7 @@
     ]
   },
   {
-    "chunk_id": "282f775c-301f-4020-8471-f986eeadc4a5",
+    "chunk_id": "12e703b2-22c9-4214-8f8a-1ab105ab94f4",
     "doc_id": "cache_failure_runbook",
     "parent_id": "cache_failure_runbook",
     "source": "local_markdown",
@@ -42,7 +122,7 @@
     ]
   },
   {
-    "chunk_id": "722228ee-61a1-41fd-a630-df6638740534",
+    "chunk_id": "a42f86ff-42c2-44c4-bd1d-c0b5d4383829",
     "doc_id": "cache_failure_runbook",
     "parent_id": "cache_failure_runbook",
     "source": "local_markdown",
@@ -63,7 +143,7 @@
     ]
   },
   {
-    "chunk_id": "14de3221-263c-461c-bdef-44835ec6c843",
+    "chunk_id": "7422289b-e585-4fa7-acd5-35db414b5a06",
     "doc_id": "cache_failure_runbook",
     "parent_id": "cache_failure_runbook",
     "source": "local_markdown",
@@ -84,7 +164,79 @@
     ]
   },
   {
-    "chunk_id": "6c270a8e-d1d2-487c-a9ef-cf7d47187668",
+    "chunk_id": "ae24efe6-dbf8-429a-b91d-3ecc251c33d5",
+    "doc_id": "disk_space_runbook",
+    "parent_id": "disk_space_runbook",
+    "source": "local_markdown",
+    "title": "Disk Space Runbook",
+    "text": "- Service crash-looping with write-failure errors in logs\n- Disk usage alert above 85 percent on a host\n- Log rotation appears stalled or absent\n- Sudden inability to write temp files or upload buffers",
+    "section": "Symptoms",
+    "start_char": 0,
+    "end_char": 201,
+    "path": "data/raw/runbooks/disk_space_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "3faf93ac-7435-460a-8aa8-5d67de228e96",
+    "doc_id": "disk_space_runbook",
+    "parent_id": "disk_space_runbook",
+    "source": "local_markdown",
+    "title": "Disk Space Runbook",
+    "text": "- Check disk usage on the affected host: df -h\n- Identify the largest directories consuming space: du -sh /var/log/* or equivalent\n- Check whether log rotation is running and whether any log file exceeds its expected rotation threshold\n- Check for any debug or verbose logging flags left enabled",
+    "section": "Immediate Checks",
+    "start_char": 0,
+    "end_char": 295,
+    "path": "data/raw/runbooks/disk_space_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "dad6afca-4e83-4d59-8a5f-d14113d59433",
+    "doc_id": "disk_space_runbook",
+    "parent_id": "disk_space_runbook",
+    "source": "local_markdown",
+    "title": "Disk Space Runbook",
+    "text": "- If a single oversized log file is the cause, truncate or compress it to free immediate space\n- Disable any debug logging flags contributing to excessive log volume\n- Manually trigger log rotation if the scheduled job appears stuck\n- Restart the affected service once sufficient disk space is confirmed available",
+    "section": "Mitigation Steps",
+    "start_char": 0,
+    "end_char": 313,
+    "path": "data/raw/runbooks/disk_space_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "b6790910-4533-410b-89db-5dfa746440c5",
+    "doc_id": "disk_space_runbook",
+    "parent_id": "disk_space_runbook",
+    "source": "local_markdown",
+    "title": "Disk Space Runbook",
+    "text": "- Escalate to infrastructure team if disk usage cannot be reduced below 85 percent within 15 minutes\n- Escalate to the owning service team if the root cause is unclear after initial checks",
+    "section": "Escalation",
+    "start_char": 0,
+    "end_char": 188,
+    "path": "data/raw/runbooks/disk_space_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "09c7c9ff-2a8b-4c83-a9dd-c9fce2e8bf46",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -106,7 +258,7 @@
     ]
   },
   {
-    "chunk_id": "91c692a1-e0ad-418a-8cf1-8787fcf0937d",
+    "chunk_id": "e60d86e1-fbe9-4921-aea8-e8cf458dcda0",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -128,7 +280,7 @@
     ]
   },
   {
-    "chunk_id": "48d33bd1-f4a8-4dde-b34b-7e46552d7e94",
+    "chunk_id": "c1935dd1-81ac-4682-b313-1264c9b50288",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -150,7 +302,7 @@
     ]
   },
   {
-    "chunk_id": "80515469-f023-4c4d-9dbf-549103a39096",
+    "chunk_id": "202c0d27-ba7c-42c2-90ad-c4786490a5fc",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -172,7 +324,61 @@
     ]
   },
   {
-    "chunk_id": "2780ff17-1e20-48c8-a767-94ddaf2f6814",
+    "chunk_id": "f6c916b3-14f8-4dad-8f67-7b3b11201322",
+    "doc_id": "auth_service_architecture",
+    "parent_id": "auth_service_architecture",
+    "source": "local_markdown",
+    "title": "Auth Service Architecture",
+    "text": "The auth service handles session validation for existing users internally, but delegates new login, sign-up, and password-reset flows to an external third-party identity provider via OAuth.",
+    "section": "Services",
+    "start_char": 0,
+    "end_char": 189,
+    "path": "data/raw/docs/auth_service_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "cd234f58-8ead-49fd-aa63-a7d7b017ed53",
+    "doc_id": "auth_service_architecture",
+    "parent_id": "auth_service_architecture",
+    "source": "local_markdown",
+    "title": "Auth Service Architecture",
+    "text": "Common failure modes include the external identity provider's token-issuance endpoint becoming unavailable, which blocks new logins while leaving existing sessions unaffected since session validation does not depend on the external provider.",
+    "section": "Failure Modes",
+    "start_char": 0,
+    "end_char": 241,
+    "path": "data/raw/docs/auth_service_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "669c8faf-5e10-4033-a506-71dc02dc2ae8",
+    "doc_id": "auth_service_architecture",
+    "parent_id": "auth_service_architecture",
+    "source": "local_markdown",
+    "title": "Auth Service Architecture",
+    "text": "Mitigations include user-facing status communication during a provider outage; there is currently no secondary identity provider or fallback path for new logins, which is a known single point of failure.",
+    "section": "Mitigations",
+    "start_char": 0,
+    "end_char": 203,
+    "path": "data/raw/docs/auth_service_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "fdce2b4f-a890-4375-8e95-d633ce035e64",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -194,7 +400,7 @@
     ]
   },
   {
-    "chunk_id": "10d03f83-affc-49a2-8c50-ef01b219a821",
+    "chunk_id": "4e1df44c-3d3e-413d-9aa7-b7baf13949f7",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -216,7 +422,7 @@
     ]
   },
   {
-    "chunk_id": "fbb480cb-241f-4777-a046-954a4d5e98c8",
+    "chunk_id": "7c39ceaa-2acb-42d0-9651-f4cd2b68e500",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -238,7 +444,7 @@
     ]
   },
   {
-    "chunk_id": "5315d50a-e7d4-47e8-8315-f0fb435be118",
+    "chunk_id": "4bee91bb-c4fe-4242-a5f7-60d4d5b47db6",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -260,7 +466,7 @@
     ]
   },
   {
-    "chunk_id": "3134999a-d946-46f8-86f9-5335f4d3ec17",
+    "chunk_id": "2618a12d-5c7a-4db4-a443-94be336a8446",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -282,7 +488,7 @@
     ]
   },
   {
-    "chunk_id": "b9be1b78-a009-4aae-b80f-127898499837",
+    "chunk_id": "713e90f2-a9b3-427e-9be5-11c460a51cba",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -304,7 +510,7 @@
     ]
   },
   {
-    "chunk_id": "d8408f11-5d4c-43aa-9cd7-062a72e910d2",
+    "chunk_id": "9dd64edd-d764-4611-a803-33322468f672",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -326,7 +532,7 @@
     ]
   },
   {
-    "chunk_id": "e8d9f938-3bc4-4c52-8548-d35b55820731",
+    "chunk_id": "01682983-a13f-42c1-aa79-b5d12c839e75",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -348,7 +554,67 @@
     ]
   },
   {
-    "chunk_id": "8b9d8cd7-58c9-4094-a9b2-41924b214617",
+    "chunk_id": "129034d0-8237-4ab6-96a3-ca2462b2b566",
+    "doc_id": "message_queue_architecture",
+    "parent_id": "message_queue_architecture",
+    "source": "local_markdown",
+    "title": "Message Queue Architecture",
+    "text": "Order processing depends on a message queue between the checkout service, which publishes order-created events, and a pool of consumers in the order-processing service that handle fulfillment, confirmation emails, and inventory updates.",
+    "section": "Services",
+    "start_char": 0,
+    "end_char": 236,
+    "path": "data/raw/docs/message_queue_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": null,
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "e857fc10-4dc4-4719-8e2f-18d8b28a8c2f",
+    "doc_id": "message_queue_architecture",
+    "parent_id": "message_queue_architecture",
+    "source": "local_markdown",
+    "title": "Message Queue Architecture",
+    "text": "Common failure modes include a stuck consumer blocking its partition on a malformed or unprocessable message, consumer group lag building up under high order volume, and producer-side schema drift sending payloads consumers cannot handle.",
+    "section": "Failure Modes",
+    "start_char": 0,
+    "end_char": 238,
+    "path": "data/raw/docs/message_queue_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": null,
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "ba761fc5-e2c2-4777-aabd-8db7f1802430",
+    "doc_id": "message_queue_architecture",
+    "parent_id": "message_queue_architecture",
+    "source": "local_markdown",
+    "title": "Message Queue Architecture",
+    "text": "Mitigations include dead-lettering messages that exceed a retry limit instead of retrying indefinitely, per-partition lag alerting, and schema validation at the producer to reject malformed payloads before they reach the queue.",
+    "section": "Mitigations",
+    "start_char": 0,
+    "end_char": 227,
+    "path": "data/raw/docs/message_queue_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": null,
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "c22dd396-cf53-4f98-9a17-c105af1652c8",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -370,7 +636,7 @@
     ]
   },
   {
-    "chunk_id": "c2c24898-9687-4c94-8f5a-673298011e5e",
+    "chunk_id": "b9a7d31f-c08f-46be-a54b-c2146a92d341",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -392,7 +658,7 @@
     ]
   },
   {
-    "chunk_id": "ae039313-d9c2-48d1-a0e4-7b5fbd56e46a",
+    "chunk_id": "22d5f018-52ca-4d49-9549-18f7a69f61db",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -414,7 +680,7 @@
     ]
   },
   {
-    "chunk_id": "f4b97bf5-3311-48ea-bc05-0dcb6e64471d",
+    "chunk_id": "23a72fb9-9d3f-4c5b-8235-d05e1b99fac7",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -436,7 +702,7 @@
     ]
   },
   {
-    "chunk_id": "1079bd2f-373f-4212-955d-113daef8c71d",
+    "chunk_id": "8be9b83f-684d-4396-aa39-45c0a759b580",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -458,7 +724,197 @@
     ]
   },
   {
-    "chunk_id": "36974872-70bf-46fe-8e20-59ec4a9dc28c",
+    "chunk_id": "68ff02e6-b44d-4ca4-a1da-a112c60b36ca",
+    "doc_id": "incident_2025_09_load_balancer_misconfig",
+    "parent_id": "incident_2025_09_load_balancer_misconfig",
+    "source": "local_markdown",
+    "title": "Incident 2025 09 Load Balancer Misconfig",
+    "text": "A configuration change sent 90 percent of production traffic to a single backend instance, causing widespread 503 errors during a routine deployment.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 149,
+    "path": "data/raw/incidents/incident_2025_09_load_balancer_misconfig.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "135d8df7-eb72-4075-a199-8e3c468a31df",
+    "doc_id": "incident_2025_09_load_balancer_misconfig",
+    "parent_id": "incident_2025_09_load_balancer_misconfig",
+    "source": "local_markdown",
+    "title": "Incident 2025 09 Load Balancer Misconfig",
+    "text": "For 11 minutes, the overloaded instance returned 503 Service Unavailable for roughly 60 percent of requests it received, while the remaining healthy instances sat mostly idle. Overall error rate across the fleet peaked at 22 percent.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 233,
+    "path": "data/raw/incidents/incident_2025_09_load_balancer_misconfig.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "a9c98e67-f16c-438e-bd7d-250f898a31ab",
+    "doc_id": "incident_2025_09_load_balancer_misconfig",
+    "parent_id": "incident_2025_09_load_balancer_misconfig",
+    "source": "local_markdown",
+    "title": "Incident 2025 09 Load Balancer Misconfig",
+    "text": "A deployment script intended to update health-check paths on all backend instances instead applied a weight override meant for a canary test to the full instance pool, setting one instance's traffic weight to 90 and leaving the rest at their canary-test values of 2 to 3. The load balancer honored the weights exactly as configured and routed traffic accordingly, overwhelming the single instance.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 397,
+    "path": "data/raw/incidents/incident_2025_09_load_balancer_misconfig.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "8bae14ea-cbec-4c32-84a2-27b8323fe553",
+    "doc_id": "incident_2025_09_load_balancer_misconfig",
+    "parent_id": "incident_2025_09_load_balancer_misconfig",
+    "source": "local_markdown",
+    "title": "Incident 2025 09 Load Balancer Misconfig",
+    "text": "The on-call engineer noticed the traffic skew in the load balancer dashboard, identified the erroneous weight configuration, and reverted it to equal weighting across all instances. Error rate returned to baseline within 90 seconds of the revert.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 246,
+    "path": "data/raw/incidents/incident_2025_09_load_balancer_misconfig.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "3dbded2d-85d5-463b-ad56-11166b15164e",
+    "doc_id": "incident_2025_09_load_balancer_misconfig",
+    "parent_id": "incident_2025_09_load_balancer_misconfig",
+    "source": "local_markdown",
+    "title": "Incident 2025 09 Load Balancer Misconfig",
+    "text": "- Separate canary-weight configuration from the general deployment script so they cannot be applied together by mistake\n- Add an alert on traffic-weight imbalance across a backend pool\n- Require a manual approval step for any load balancer weight change outside of the standard canary rollout tool",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 297,
+    "path": "data/raw/incidents/incident_2025_09_load_balancer_misconfig.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "8c8e3b22-6c10-4223-96b2-938f212cfa3e",
+    "doc_id": "incident_2025_08_queue_consumer_lag",
+    "parent_id": "incident_2025_08_queue_consumer_lag",
+    "source": "local_markdown",
+    "title": "Incident 2025 08 Queue Consumer Lag",
+    "text": "A stuck consumer group caused the order-processing message queue to back up for over two hours, delaying order confirmation emails and warehouse fulfillment triggers.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 166,
+    "path": "data/raw/incidents/incident_2025_08_queue_consumer_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "b5d92615-ceaf-442f-9578-8e08fd192cf6",
+    "doc_id": "incident_2025_08_queue_consumer_lag",
+    "parent_id": "incident_2025_08_queue_consumer_lag",
+    "source": "local_markdown",
+    "title": "Incident 2025 08 Queue Consumer Lag",
+    "text": "Customers placed orders successfully, but confirmation emails and the downstream fulfillment trigger were delayed by up to 2 hours and 15 minutes. No orders were lost \u2014 messages remained in the queue \u2014 but customer support received a spike in \"where is my order confirmation\" tickets.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 284,
+    "path": "data/raw/incidents/incident_2025_08_queue_consumer_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "ee2e36b1-771b-4d2f-91a0-defda2aa0c34",
+    "doc_id": "incident_2025_08_queue_consumer_lag",
+    "parent_id": "incident_2025_08_queue_consumer_lag",
+    "source": "local_markdown",
+    "title": "Incident 2025 08 Queue Consumer Lag",
+    "text": "One consumer in the order-processing consumer group entered an infinite retry loop on a single malformed message (a payload with a null customer_id from an edge case in the checkout service). Because the consumer never acknowledged the message, it kept redelivering to the same partition, and the consumer's retry backoff blocked it from picking up any subsequent messages on that partition. Other partitions were unaffected, but the affected partition handled roughly 40 percent of order volume.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 496,
+    "path": "data/raw/incidents/incident_2025_08_queue_consumer_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "f228f87f-d1c7-46e3-9246-65f2d75b1921",
+    "doc_id": "incident_2025_08_queue_consumer_lag",
+    "parent_id": "incident_2025_08_queue_consumer_lag",
+    "source": "local_markdown",
+    "title": "Incident 2025 08 Queue Consumer Lag",
+    "text": "The on-call engineer identified the stuck partition via consumer lag metrics, manually moved the malformed message to a dead-letter queue, and restarted the consumer. Lag drained within 20 minutes once the blocking message was removed.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 235,
+    "path": "data/raw/incidents/incident_2025_08_queue_consumer_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "dac04d4d-7da5-4d42-b648-7d64a4d4e8a8",
+    "doc_id": "incident_2025_08_queue_consumer_lag",
+    "parent_id": "incident_2025_08_queue_consumer_lag",
+    "source": "local_markdown",
+    "title": "Incident 2025 08 Queue Consumer Lag",
+    "text": "- Add schema validation at the producer side to reject null customer_id before it reaches the queue\n- Add a per-partition lag alert, not just aggregate consumer-group lag\n- Add a max-retry limit with automatic dead-lettering instead of infinite retry",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 250,
+    "path": "data/raw/incidents/incident_2025_08_queue_consumer_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "4933510e-aa8d-4fc5-a0de-d0b80dba5420",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -480,7 +936,7 @@
     ]
   },
   {
-    "chunk_id": "425efee4-a596-40a5-b297-6a70a5df4877",
+    "chunk_id": "46d40a5e-49b7-469f-9a99-914766c0c432",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -502,7 +958,7 @@
     ]
   },
   {
-    "chunk_id": "160ca42f-de5b-4f33-8247-f80d63702993",
+    "chunk_id": "c1b35b2a-f0b8-4a61-a6ea-be5cf89f9955",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -524,7 +980,7 @@
     ]
   },
   {
-    "chunk_id": "3efc46a3-b173-4b2c-a8fa-4cf13e8abd10",
+    "chunk_id": "940afb63-8051-49f9-a098-d0f05c1cb0fb",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -546,7 +1002,7 @@
     ]
   },
   {
-    "chunk_id": "0a8462e6-c7a9-4cc1-96f1-1cc62a0129ff",
+    "chunk_id": "06b8c4db-4ac5-4c94-9bfd-c3344b852d40",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -568,7 +1024,107 @@
     ]
   },
   {
-    "chunk_id": "562c2e77-9eb2-452a-8767-8aad4744b478",
+    "chunk_id": "a00e673e-40a9-4cb3-a691-c508fc25fea0",
+    "doc_id": "incident_2025_12_billing_data_corruption",
+    "parent_id": "incident_2025_12_billing_data_corruption",
+    "source": "local_markdown",
+    "title": "Incident 2025 12 Billing Data Corruption",
+    "text": "A database migration with an incorrect default value silently corrupted tax calculations for orders placed over a 6-hour window before being caught.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 148,
+    "path": "data/raw/incidents/incident_2025_12_billing_data_corruption.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "7e595c61-d161-4280-91af-b1e0706e1350",
+    "doc_id": "incident_2025_12_billing_data_corruption",
+    "parent_id": "incident_2025_12_billing_data_corruption",
+    "source": "local_markdown",
+    "title": "Incident 2025 12 Billing Data Corruption",
+    "text": "Approximately 1,400 orders were billed with an incorrect tax amount, most undercharging customers by a small percentage rather than overcharging. No orders were charged more than the correct amount by more than a rounding difference. The issue was caught by a routine reconciliation job rather than a customer report.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 317,
+    "path": "data/raw/incidents/incident_2025_12_billing_data_corruption.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "0a321028-87ae-4f51-badc-6f7cdb547395",
+    "doc_id": "incident_2025_12_billing_data_corruption",
+    "parent_id": "incident_2025_12_billing_data_corruption",
+    "source": "local_markdown",
+    "title": "Incident 2025 12 Billing Data Corruption",
+    "text": "A migration added a new tax_region_code column to the orders table with a default value of the wrong region code (an existing region rather than \"unknown\"), intended as a temporary placeholder to be backfilled by a separate job. The backfill job was scheduled to run after the migration but was accidentally left disabled from a prior test run. Orders placed before the backfill ran inherited the wrong default region code and were billed using that region's tax rate instead of their actual region's rate.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 506,
+    "path": "data/raw/incidents/incident_2025_12_billing_data_corruption.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "33b3173f-e4c4-4822-96ce-fd0ecc2ffd4b",
+    "doc_id": "incident_2025_12_billing_data_corruption",
+    "parent_id": "incident_2025_12_billing_data_corruption",
+    "source": "local_markdown",
+    "title": "Incident 2025 12 Billing Data Corruption",
+    "text": "The nightly billing reconciliation job flagged a tax-amount anomaly for the affected time window. The team ran the backfill job manually to correct the region codes, recalculated tax for the affected orders, and issued corrected invoices and refunds where customers had been undercharged.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 288,
+    "path": "data/raw/incidents/incident_2025_12_billing_data_corruption.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "0d557f6d-cccd-4c3b-8792-1e2c038ede66",
+    "doc_id": "incident_2025_12_billing_data_corruption",
+    "parent_id": "incident_2025_12_billing_data_corruption",
+    "source": "local_markdown",
+    "title": "Incident 2025 12 Billing Data Corruption",
+    "text": "- Require backfill jobs tied to a migration to run automatically as part of the same deployment, not as a manual follow-up step\n- Add a data-quality check that flags any row still holding a migration's placeholder default value after 24 hours\n- Add tax-amount anomaly detection with a tighter alert threshold than the current reconciliation job",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 344,
+    "path": "data/raw/incidents/incident_2025_12_billing_data_corruption.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "e639cba8-df4e-415c-8ba0-398c72fc80ad",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -588,7 +1144,7 @@
     ]
   },
   {
-    "chunk_id": "eac14f3c-ba76-4d04-ac50-30e74fe0e277",
+    "chunk_id": "be62261a-c1d6-4446-a262-fc16848fc5c6",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -608,7 +1164,7 @@
     ]
   },
   {
-    "chunk_id": "92944226-2cc6-4812-888b-475c7f1f5ebe",
+    "chunk_id": "09904494-1ceb-4ba2-8182-d9374f59ed2d",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -628,7 +1184,7 @@
     ]
   },
   {
-    "chunk_id": "caee972f-e57d-4322-9777-025096ae8f40",
+    "chunk_id": "2413375e-90ca-4711-8ae0-339db649b3e9",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -648,7 +1204,7 @@
     ]
   },
   {
-    "chunk_id": "ac55eaca-f8d9-4fd4-a379-dfb667591dd6",
+    "chunk_id": "238a3037-77b6-4aeb-81f2-37adc7719c97",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -668,7 +1224,292 @@
     ]
   },
   {
-    "chunk_id": "848a582b-7a97-4f0f-be8a-c4cf83399f86",
+    "chunk_id": "b417cfca-b757-4ec0-af1c-aca9a59873f7",
+    "doc_id": "incident_2025_07_tls_cert_expiry",
+    "parent_id": "incident_2025_07_tls_cert_expiry",
+    "source": "local_markdown",
+    "title": "Incident 2025 07 Tls Cert Expiry",
+    "text": "An expired client TLS certificate caused all outbound calls to the payment processor to fail with handshake errors for 34 minutes.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 130,
+    "path": "data/raw/incidents/incident_2025_07_tls_cert_expiry.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "d11f5695-4559-4e86-a895-f1e76aa9f4f4",
+    "doc_id": "incident_2025_07_tls_cert_expiry",
+    "parent_id": "incident_2025_07_tls_cert_expiry",
+    "source": "local_markdown",
+    "title": "Incident 2025 07 Tls Cert Expiry",
+    "text": "Every outbound request from the payment service to the external payment processor failed with a TLS handshake error. Inbound traffic and all other services were unaffected. Approximately 2,800 payment attempts failed during the window and were queued for retry.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 261,
+    "path": "data/raw/incidents/incident_2025_07_tls_cert_expiry.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "61ce5eb0-710a-423a-b514-adb7d3f90cf3",
+    "doc_id": "incident_2025_07_tls_cert_expiry",
+    "parent_id": "incident_2025_07_tls_cert_expiry",
+    "source": "local_markdown",
+    "title": "Incident 2025 07 Tls Cert Expiry",
+    "text": "The client certificate used to authenticate the payment service to the processor's mutual-TLS endpoint expired at 03:00 UTC. The certificate rotation job that normally renews this certificate 30 days before expiry had been silently failing for two months due to an unrelated permissions change on the secrets store, and no alert existed for rotation-job failures.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 363,
+    "path": "data/raw/incidents/incident_2025_07_tls_cert_expiry.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "ea8a9b63-4bdb-4385-809f-f489d3c27d5f",
+    "doc_id": "incident_2025_07_tls_cert_expiry",
+    "parent_id": "incident_2025_07_tls_cert_expiry",
+    "source": "local_markdown",
+    "title": "Incident 2025 07 Tls Cert Expiry",
+    "text": "On-call was paged by the processor's own downtime alert rather than an internal one. The team manually generated a new client certificate, uploaded it to the secrets store, and restarted the payment service to pick up the new cert. Handshakes succeeded immediately after restart.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 279,
+    "path": "data/raw/incidents/incident_2025_07_tls_cert_expiry.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "d2fc68ab-affa-4133-a060-c0ecf661afd5",
+    "doc_id": "incident_2025_07_tls_cert_expiry",
+    "parent_id": "incident_2025_07_tls_cert_expiry",
+    "source": "local_markdown",
+    "title": "Incident 2025 07 Tls Cert Expiry",
+    "text": "- Add an alert on certificate rotation job failures, not just certificate expiry\n- Add a dashboard panel showing days-until-expiry for all mTLS client certificates\n- Fix the secrets store permissions that broke the rotation job",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 227,
+    "path": "data/raw/incidents/incident_2025_07_tls_cert_expiry.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "b1568cef-080e-4a99-9ed6-eaa2edca4eaa",
+    "doc_id": "incident_2025_10_disk_space_exhaustion",
+    "parent_id": "incident_2025_10_disk_space_exhaustion",
+    "source": "local_markdown",
+    "title": "Incident 2025 10 Disk Space Exhaustion",
+    "text": "Unrotated debug logging filled the search service's local disk, causing the service to crash-loop for 40 minutes.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 113,
+    "path": "data/raw/incidents/incident_2025_10_disk_space_exhaustion.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "1db8e12c-a92d-44dc-87be-6295c0b4e5f9",
+    "doc_id": "incident_2025_10_disk_space_exhaustion",
+    "parent_id": "incident_2025_10_disk_space_exhaustion",
+    "source": "local_markdown",
+    "title": "Incident 2025 10 Disk Space Exhaustion",
+    "text": "The search service became unavailable, returning connection errors for all search queries. Other services that depend on search results (product listing pages, the checkout recommendation widget) degraded to showing cached or empty results rather than failing outright.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 269,
+    "path": "data/raw/incidents/incident_2025_10_disk_space_exhaustion.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "8dd57790-14a1-4dc0-b3ca-322649e44c68",
+    "doc_id": "incident_2025_10_disk_space_exhaustion",
+    "parent_id": "incident_2025_10_disk_space_exhaustion",
+    "source": "local_markdown",
+    "title": "Incident 2025 10 Disk Space Exhaustion",
+    "text": "A debug logging flag had been left enabled after a prior investigation and was never reverted. Debug-level logs, including full request and response bodies, accumulated at roughly 4 GB per hour. Log rotation was configured but had a bug that skipped rotation when the log file exceeded a certain size threshold, so the file grew unbounded until the disk filled completely and the process crashed on write failure, then crash-looped on restart since the disk stayed full.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 470,
+    "path": "data/raw/incidents/incident_2025_10_disk_space_exhaustion.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "cda74e6c-c44d-4868-88d8-d2aea0e5af15",
+    "doc_id": "incident_2025_10_disk_space_exhaustion",
+    "parent_id": "incident_2025_10_disk_space_exhaustion",
+    "source": "local_markdown",
+    "title": "Incident 2025 10 Disk Space Exhaustion",
+    "text": "On-call identified the full disk via host metrics, manually truncated the oversized log file, disabled the debug logging flag, and restarted the service. Search availability recovered immediately after restart.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 210,
+    "path": "data/raw/incidents/incident_2025_10_disk_space_exhaustion.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "e9965a3f-76d8-4b98-8f2b-ea2c4f0e2bbd",
+    "doc_id": "incident_2025_10_disk_space_exhaustion",
+    "parent_id": "incident_2025_10_disk_space_exhaustion",
+    "source": "local_markdown",
+    "title": "Incident 2025 10 Disk Space Exhaustion",
+    "text": "- Fix the log rotation bug that skips rotation above a certain file size\n- Add an alert on disk usage above 85 percent, not just service-level error rate\n- Add an automatic expiry on debug logging flags so they cannot be left on indefinitely",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 241,
+    "path": "data/raw/incidents/incident_2025_10_disk_space_exhaustion.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "c6680a0a-3af0-42c5-a081-f453c2893a63",
+    "doc_id": "incident_2025_11_auth_provider_outage",
+    "parent_id": "incident_2025_11_auth_provider_outage",
+    "source": "local_markdown",
+    "title": "Incident 2025 11 Auth Provider Outage",
+    "text": "An outage at the external identity provider blocked all new user logins for 52 minutes, though already-authenticated sessions were unaffected.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 142,
+    "path": "data/raw/incidents/incident_2025_11_auth_provider_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "1e34b868-afda-404e-9edc-d7527461d9b4",
+    "doc_id": "incident_2025_11_auth_provider_outage",
+    "parent_id": "incident_2025_11_auth_provider_outage",
+    "source": "local_markdown",
+    "title": "Incident 2025 11 Auth Provider Outage",
+    "text": "Users who were not already logged in could not sign in, sign up, or reset passwords. Existing sessions with a valid, unexpired token continued to work normally since session validation does not call the identity provider on every request. Roughly 15 percent of daily active users attempted to log in during the outage window and were blocked.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 342,
+    "path": "data/raw/incidents/incident_2025_11_auth_provider_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "3efeb114-1707-48ad-9f03-08d5c37b62a3",
+    "doc_id": "incident_2025_11_auth_provider_outage",
+    "parent_id": "incident_2025_11_auth_provider_outage",
+    "source": "local_markdown",
+    "title": "Incident 2025 11 Auth Provider Outage",
+    "text": "The external identity provider had a regional outage affecting its OAuth token-issuance endpoint. The auth service has no fallback identity provider and no cached credential path for new logins, so every login attempt synchronously depended on that single external endpoint being available.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 290,
+    "path": "data/raw/incidents/incident_2025_11_auth_provider_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "ac6fea7e-b193-408e-9ff3-420e7d1c6326",
+    "doc_id": "incident_2025_11_auth_provider_outage",
+    "parent_id": "incident_2025_11_auth_provider_outage",
+    "source": "local_markdown",
+    "title": "Incident 2025 11 Auth Provider Outage",
+    "text": "The team confirmed the outage via the provider's public status page, communicated the outage to users via a banner, and waited for the provider to recover \u2014 there was no internal mitigation available. Logins resumed automatically once the provider's endpoint came back online.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 276,
+    "path": "data/raw/incidents/incident_2025_11_auth_provider_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "e450428f-def1-43d4-912c-cd252cb43bde",
+    "doc_id": "incident_2025_11_auth_provider_outage",
+    "parent_id": "incident_2025_11_auth_provider_outage",
+    "source": "local_markdown",
+    "title": "Incident 2025 11 Auth Provider Outage",
+    "text": "- Evaluate adding a secondary identity provider for login redundancy\n- Add a status-page banner that can be triggered automatically from auth service error rates\n- Document the current single point of failure explicitly for future incident response",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 248,
+    "path": "data/raw/incidents/incident_2025_11_auth_provider_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "b3f9e606-c752-45f1-9c00-6b498431946a",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -688,7 +1529,7 @@
     ]
   },
   {
-    "chunk_id": "46a34d28-d5fb-4fd4-979e-697ab72dfd03",
+    "chunk_id": "e2b0c5bb-3443-4b54-9a62-677e41fc0169",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -708,7 +1549,7 @@
     ]
   },
   {
-    "chunk_id": "0b56e5e3-55aa-4289-987e-df6715e05730",
+    "chunk_id": "74571084-4f86-46be-87f6-7c614258769e",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -728,7 +1569,7 @@
     ]
   },
   {
-    "chunk_id": "e2aacbe9-c46a-482a-b77a-c5494b291c98",
+    "chunk_id": "f9d0cefa-7266-4bed-bceb-1177cf546807",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -748,7 +1589,7 @@
     ]
   },
   {
-    "chunk_id": "9f1fb29c-1b40-4f3d-93fa-e87ee14afc84",
+    "chunk_id": "d6038ab5-adc7-42c3-9ca7-eb287363543b",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -768,7 +1609,7 @@
     ]
   },
   {
-    "chunk_id": "a3d20f21-27af-4393-afef-006bb97aef0b",
+    "chunk_id": "a1cb285e-9c30-4435-9749-d918629d3c28",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -786,7 +1627,7 @@
     "tags": []
   },
   {
-    "chunk_id": "3b44afb7-37bb-499d-bc7c-3cc90a5134eb",
+    "chunk_id": "bc24a50b-08fd-4411-8e4d-7df4af33c51d",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -804,7 +1645,7 @@
     "tags": []
   },
   {
-    "chunk_id": "e012fc2e-9999-4e87-99a8-58958e52a11b",
+    "chunk_id": "21315d9e-3e46-4b18-8c89-c8ed00883086",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -822,7 +1663,7 @@
     "tags": []
   },
   {
-    "chunk_id": "f79d5e13-ab0f-460b-8dba-7243345bd844",
+    "chunk_id": "cd3be9cc-7126-4d65-8b20-4e535d9da6bd",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -840,7 +1681,7 @@
     "tags": []
   },
   {
-    "chunk_id": "8db08c99-9756-48fc-8c50-8017d8a4b051",
+    "chunk_id": "84186227-4499-4f34-a2f1-cca1a4231c57",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -858,7 +1699,7 @@
     "tags": []
   },
   {
-    "chunk_id": "4e8ac721-7122-4963-9ac5-1755e9f41423",
+    "chunk_id": "4e6d23b8-2953-424a-ac2e-b36665a53055",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -880,7 +1721,7 @@
     ]
   },
   {
-    "chunk_id": "a8b350d6-e19e-4c80-838d-f859bde2be5b",
+    "chunk_id": "ee1cb11a-1324-46a9-a38b-d71b4f9480d7",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -902,7 +1743,7 @@
     ]
   },
   {
-    "chunk_id": "d3514b8d-716a-405f-955e-fc8434efef2d",
+    "chunk_id": "ee5be642-4d28-4d0e-8345-a71924eb84fc",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -924,7 +1765,7 @@
     ]
   },
   {
-    "chunk_id": "396cd748-9b2f-454c-ae02-bbea85347786",
+    "chunk_id": "ca61b54f-0fd4-4a64-a22f-27ee0c1c4112",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -946,7 +1787,7 @@
     ]
   },
   {
-    "chunk_id": "61bdf09e-aa37-4aa3-9d08-de7b8f91138c",
+    "chunk_id": "772d0ed5-fce1-4837-9800-5761a86f745e",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",

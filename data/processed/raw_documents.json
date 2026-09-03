@@ -1,5 +1,18 @@
 [
   {
+    "doc_id": "auth_outage_runbook",
+    "source": "local_markdown",
+    "title": "Auth Outage Runbook",
+    "content": "# Auth Outage Runbook\n\n## Symptoms\n- Spike in login failures with no corresponding change to internal auth service error rate\n- Password reset requests failing\n- New user sign-ups failing while existing sessions remain valid\n- Elevated error rate specifically on OAuth token-issuance calls\n\n## Immediate Checks\n- Check the external identity provider's public status page for a known outage\n- Check auth service logs for timeouts or errors specifically on calls to the external provider\n- Confirm whether existing authenticated sessions are still functioning normally\n- Check auth service error rate broken down by internal errors versus upstream provider errors\n\n## Mitigation Steps\n- If the external identity provider is down: post a status banner informing users of the outage and estimated impact\n- Confirm there is no viable internal fallback for new logins during a provider outage\n- Monitor the provider's status page for recovery and confirm login success rate returns to baseline once resolved\n- Do not restart the auth service if the root cause is confirmed external \u2014 a restart will not resolve provider-side outages\n\n## Escalation\n- Escalate to the identity provider's support channel if the outage exceeds 30 minutes with no public acknowledgement\n- Escalate internally to product/support teams to coordinate customer communication for outages longer than 15 minutes\n",
+    "url": null,
+    "path": "data/raw/runbooks/auth_outage_runbook.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "cache_failure_runbook",
     "source": "local_markdown",
     "title": "Cache Failure Runbook",
@@ -13,12 +26,38 @@
     }
   },
   {
+    "doc_id": "disk_space_runbook",
+    "source": "local_markdown",
+    "title": "Disk Space Runbook",
+    "content": "# Disk Space Runbook\n\n## Symptoms\n- Service crash-looping with write-failure errors in logs\n- Disk usage alert above 85 percent on a host\n- Log rotation appears stalled or absent\n- Sudden inability to write temp files or upload buffers\n\n## Immediate Checks\n- Check disk usage on the affected host: df -h\n- Identify the largest directories consuming space: du -sh /var/log/* or equivalent\n- Check whether log rotation is running and whether any log file exceeds its expected rotation threshold\n- Check for any debug or verbose logging flags left enabled\n\n## Mitigation Steps\n- If a single oversized log file is the cause, truncate or compress it to free immediate space\n- Disable any debug logging flags contributing to excessive log volume\n- Manually trigger log rotation if the scheduled job appears stuck\n- Restart the affected service once sufficient disk space is confirmed available\n\n## Escalation\n- Escalate to infrastructure team if disk usage cannot be reduced below 85 percent within 15 minutes\n- Escalate to the owning service team if the root cause is unclear after initial checks\n",
+    "url": null,
+    "path": "data/raw/runbooks/disk_space_runbook.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "database_latency_runbook",
     "source": "local_markdown",
     "title": "Database Latency Runbook",
     "content": "# Database Latency Runbook\n\n## Symptoms\n- Elevated p95 latency\n- Increased timeout rate\n- Connection pool saturation\n\n## Immediate Checks\n- Check database CPU\n- Check active connections\n- Check recent deploys\n\n## Mitigation Steps\n- Roll back recent deploys\n- Increase connection pool size temporarily\n- Shift read traffic to replicas if available\n\n## Escalation\n- Escalate to database owner if saturation persists for more than 10 minutes\n\n",
     "url": null,
     "path": "data/raw/runbooks/database_latency_runbook.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "auth_service_architecture",
+    "source": "local_markdown",
+    "title": "Auth Service Architecture",
+    "content": "# Auth Service Architecture\n\n## Services\nThe auth service handles session validation for existing users internally, but delegates new login, sign-up, and password-reset flows to an external third-party identity provider via OAuth.\n\n## Failure Modes\nCommon failure modes include the external identity provider's token-issuance endpoint becoming unavailable, which blocks new logins while leaving existing sessions unaffected since session validation does not depend on the external provider.\n\n## Mitigations\nMitigations include user-facing status communication during a provider outage; there is currently no secondary identity provider or fallback path for new logins, which is a known single point of failure.\n",
+    "url": null,
+    "path": "data/raw/docs/auth_service_architecture.md",
     "created_at": null,
     "updated_at": null,
     "metadata": {
@@ -52,12 +91,51 @@
     }
   },
   {
+    "doc_id": "message_queue_architecture",
+    "source": "local_markdown",
+    "title": "Message Queue Architecture",
+    "content": "# Message Queue Architecture\n\n## Services\nOrder processing depends on a message queue between the checkout service, which publishes order-created events, and a pool of consumers in the order-processing service that handle fulfillment, confirmation emails, and inventory updates.\n\n## Failure Modes\nCommon failure modes include a stuck consumer blocking its partition on a malformed or unprocessable message, consumer group lag building up under high order volume, and producer-side schema drift sending payloads consumers cannot handle.\n\n## Mitigations\nMitigations include dead-lettering messages that exceed a retry limit instead of retrying indefinitely, per-partition lag alerting, and schema validation at the producer to reject malformed payloads before they reach the queue.\n",
+    "url": null,
+    "path": "data/raw/docs/message_queue_architecture.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
     "title": "Incident 2025 06 Cache Stampede",
     "content": "# Cache Stampede After Redis Restart\n\n## Summary\nA planned Redis maintenance restart triggered a cache stampede that overwhelmed the primary database for 11 minutes.\n\n## Impact\nDatabase CPU peaked at 98 percent and query latency rose from a baseline of 15 ms to over 3,000 ms. Error rates on product listing and search endpoints reached 22 percent.\n\n## Root Cause\nWhen Redis was restarted for a planned memory configuration change, all cached keys were evicted simultaneously. The application had no cache-aside protection: every request that missed the empty cache immediately issued a database query. With 40,000 active users, this produced a thundering herd of concurrent reads against the primary database that exceeded its query throughput capacity.\n\n## Mitigation\nThe on-call engineer temporarily reduced the upstream request rate via the API gateway rate limiter, giving the database time to recover. Redis was confirmed healthy and keys began repopulating from application traffic. The rate limit was lifted once database latency returned to baseline.\n\n## Follow-up Actions\n- Implement cache warming script to pre-populate critical keys before planned restarts\n- Add probabilistic early expiration to prevent synchronized key expiry\n- Add alert on Redis keyspace drop greater than 50 percent within 60 seconds\n",
     "url": null,
     "path": "data/raw/incidents/incident_2025_06_cache_stampede.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2025_09_load_balancer_misconfig",
+    "source": "local_markdown",
+    "title": "Incident 2025 09 Load Balancer Misconfig",
+    "content": "# Load Balancer Weight Misconfiguration\n\n## Summary\nA configuration change sent 90 percent of production traffic to a single backend instance, causing widespread 503 errors during a routine deployment.\n\n## Impact\nFor 11 minutes, the overloaded instance returned 503 Service Unavailable for roughly 60 percent of requests it received, while the remaining healthy instances sat mostly idle. Overall error rate across the fleet peaked at 22 percent.\n\n## Root Cause\nA deployment script intended to update health-check paths on all backend instances instead applied a weight override meant for a canary test to the full instance pool, setting one instance's traffic weight to 90 and leaving the rest at their canary-test values of 2 to 3. The load balancer honored the weights exactly as configured and routed traffic accordingly, overwhelming the single instance.\n\n## Mitigation\nThe on-call engineer noticed the traffic skew in the load balancer dashboard, identified the erroneous weight configuration, and reverted it to equal weighting across all instances. Error rate returned to baseline within 90 seconds of the revert.\n\n## Follow-up Actions\n- Separate canary-weight configuration from the general deployment script so they cannot be applied together by mistake\n- Add an alert on traffic-weight imbalance across a backend pool\n- Require a manual approval step for any load balancer weight change outside of the standard canary rollout tool\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2025_09_load_balancer_misconfig.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2025_08_queue_consumer_lag",
+    "source": "local_markdown",
+    "title": "Incident 2025 08 Queue Consumer Lag",
+    "content": "# Order Processing Queue Consumer Lag\n\n## Summary\nA stuck consumer group caused the order-processing message queue to back up for over two hours, delaying order confirmation emails and warehouse fulfillment triggers.\n\n## Impact\nCustomers placed orders successfully, but confirmation emails and the downstream fulfillment trigger were delayed by up to 2 hours and 15 minutes. No orders were lost \u2014 messages remained in the queue \u2014 but customer support received a spike in \"where is my order confirmation\" tickets.\n\n## Root Cause\nOne consumer in the order-processing consumer group entered an infinite retry loop on a single malformed message (a payload with a null customer_id from an edge case in the checkout service). Because the consumer never acknowledged the message, it kept redelivering to the same partition, and the consumer's retry backoff blocked it from picking up any subsequent messages on that partition. Other partitions were unaffected, but the affected partition handled roughly 40 percent of order volume.\n\n## Mitigation\nThe on-call engineer identified the stuck partition via consumer lag metrics, manually moved the malformed message to a dead-letter queue, and restarted the consumer. Lag drained within 20 minutes once the blocking message was removed.\n\n## Follow-up Actions\n- Add schema validation at the producer side to reject null customer_id before it reaches the queue\n- Add a per-partition lag alert, not just aggregate consumer-group lag\n- Add a max-retry limit with automatic dead-lettering instead of infinite retry\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2025_08_queue_consumer_lag.md",
     "created_at": null,
     "updated_at": null,
     "metadata": {
@@ -78,12 +156,64 @@
     }
   },
   {
+    "doc_id": "incident_2025_12_billing_data_corruption",
+    "source": "local_markdown",
+    "title": "Incident 2025 12 Billing Data Corruption",
+    "content": "# Billing Calculation Data Corruption\n\n## Summary\nA database migration with an incorrect default value silently corrupted tax calculations for orders placed over a 6-hour window before being caught.\n\n## Impact\nApproximately 1,400 orders were billed with an incorrect tax amount, most undercharging customers by a small percentage rather than overcharging. No orders were charged more than the correct amount by more than a rounding difference. The issue was caught by a routine reconciliation job rather than a customer report.\n\n## Root Cause\nA migration added a new tax_region_code column to the orders table with a default value of the wrong region code (an existing region rather than \"unknown\"), intended as a temporary placeholder to be backfilled by a separate job. The backfill job was scheduled to run after the migration but was accidentally left disabled from a prior test run. Orders placed before the backfill ran inherited the wrong default region code and were billed using that region's tax rate instead of their actual region's rate.\n\n## Mitigation\nThe nightly billing reconciliation job flagged a tax-amount anomaly for the affected time window. The team ran the backfill job manually to correct the region codes, recalculated tax for the affected orders, and issued corrected invoices and refunds where customers had been undercharged.\n\n## Follow-up Actions\n- Require backfill jobs tied to a migration to run automatically as part of the same deployment, not as a manual follow-up step\n- Add a data-quality check that flags any row still holding a migration's placeholder default value after 24 hours\n- Add tax-amount anomaly detection with a tighter alert threshold than the current reconciliation job\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2025_12_billing_data_corruption.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
     "title": "Incident 2025 04 Rate Limit",
     "content": "# Payment Provider Rate Limit Incident\n\n## Summary\nThe payment service began receiving HTTP 429 responses from the third-party payment provider during a promotional flash sale, causing checkout failures for a subset of users.\n\n## Impact\nRoughly 8 percent of checkout attempts failed with payment errors for 31 minutes. Revenue impact was estimated at approximately $14,000 during the window.\n\n## Root Cause\nThe flash sale generated a 6x spike in payment authorization requests. The payment service had no per-second throttle and submitted requests to the provider at the raw rate they arrived. The provider enforced a rate limit of 200 requests per second; the service was peaking at approximately 1,100 per second. Requests above the limit were rejected with 429 responses that the service surfaced to users as checkout errors.\n\n## Mitigation\nThe on-call team added a token bucket rate limiter in the payment service capped at 180 requests per second and introduced a retry queue for rejected requests. Within 10 minutes, the error rate dropped to zero.\n\n## Follow-up Actions\n- Implement retry queue with exponential backoff for 429 responses\n- Add alerting on payment provider HTTP 4xx rate\n- Coordinate capacity increase with provider before future promotions\n",
     "url": null,
     "path": "data/raw/incidents/incident_2025_04_rate_limit.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2025_07_tls_cert_expiry",
+    "source": "local_markdown",
+    "title": "Incident 2025 07 Tls Cert Expiry",
+    "content": "# Outbound TLS Certificate Expiry\n\n## Summary\nAn expired client TLS certificate caused all outbound calls to the payment processor to fail with handshake errors for 34 minutes.\n\n## Impact\nEvery outbound request from the payment service to the external payment processor failed with a TLS handshake error. Inbound traffic and all other services were unaffected. Approximately 2,800 payment attempts failed during the window and were queued for retry.\n\n## Root Cause\nThe client certificate used to authenticate the payment service to the processor's mutual-TLS endpoint expired at 03:00 UTC. The certificate rotation job that normally renews this certificate 30 days before expiry had been silently failing for two months due to an unrelated permissions change on the secrets store, and no alert existed for rotation-job failures.\n\n## Mitigation\nOn-call was paged by the processor's own downtime alert rather than an internal one. The team manually generated a new client certificate, uploaded it to the secrets store, and restarted the payment service to pick up the new cert. Handshakes succeeded immediately after restart.\n\n## Follow-up Actions\n- Add an alert on certificate rotation job failures, not just certificate expiry\n- Add a dashboard panel showing days-until-expiry for all mTLS client certificates\n- Fix the secrets store permissions that broke the rotation job\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2025_07_tls_cert_expiry.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2025_10_disk_space_exhaustion",
+    "source": "local_markdown",
+    "title": "Incident 2025 10 Disk Space Exhaustion",
+    "content": "# Log Volume Disk Space Exhaustion\n\n## Summary\nUnrotated debug logging filled the search service's local disk, causing the service to crash-loop for 40 minutes.\n\n## Impact\nThe search service became unavailable, returning connection errors for all search queries. Other services that depend on search results (product listing pages, the checkout recommendation widget) degraded to showing cached or empty results rather than failing outright.\n\n## Root Cause\nA debug logging flag had been left enabled after a prior investigation and was never reverted. Debug-level logs, including full request and response bodies, accumulated at roughly 4 GB per hour. Log rotation was configured but had a bug that skipped rotation when the log file exceeded a certain size threshold, so the file grew unbounded until the disk filled completely and the process crashed on write failure, then crash-looped on restart since the disk stayed full.\n\n## Mitigation\nOn-call identified the full disk via host metrics, manually truncated the oversized log file, disabled the debug logging flag, and restarted the service. Search availability recovered immediately after restart.\n\n## Follow-up Actions\n- Fix the log rotation bug that skips rotation above a certain file size\n- Add an alert on disk usage above 85 percent, not just service-level error rate\n- Add an automatic expiry on debug logging flags so they cannot be left on indefinitely\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2025_10_disk_space_exhaustion.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2025_11_auth_provider_outage",
+    "source": "local_markdown",
+    "title": "Incident 2025 11 Auth Provider Outage",
+    "content": "# Third-Party Auth Provider Outage\n\n## Summary\nAn outage at the external identity provider blocked all new user logins for 52 minutes, though already-authenticated sessions were unaffected.\n\n## Impact\nUsers who were not already logged in could not sign in, sign up, or reset passwords. Existing sessions with a valid, unexpired token continued to work normally since session validation does not call the identity provider on every request. Roughly 15 percent of daily active users attempted to log in during the outage window and were blocked.\n\n## Root Cause\nThe external identity provider had a regional outage affecting its OAuth token-issuance endpoint. The auth service has no fallback identity provider and no cached credential path for new logins, so every login attempt synchronously depended on that single external endpoint being available.\n\n## Mitigation\nThe team confirmed the outage via the provider's public status page, communicated the outage to users via a banner, and waited for the provider to recover \u2014 there was no internal mitigation available. Logins resumed automatically once the provider's endpoint came back online.\n\n## Follow-up Actions\n- Evaluate adding a secondary identity provider for login redundancy\n- Add a status-page banner that can be triggered automatically from auth service error rates\n- Document the current single point of failure explicitly for future incident response\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2025_11_auth_provider_outage.md",
     "created_at": null,
     "updated_at": null,
     "metadata": {
