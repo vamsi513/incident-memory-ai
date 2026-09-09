@@ -79,52 +79,99 @@ jobs:
             set -e
             cd /home/ec2-user/incidentmemai
 
-            # Save running image for rollback
-            OLD_IMAGE=$(sudo docker inspect incidentmemai-api --format='{{.Config.Image}}' 2>/dev/null || echo "")
+            # Save running images for rollback (both services)
+            OLD_API_IMAGE=$(sudo docker inspect incidentmemai-api --format='{{.Config.Image}}' 2>/dev/null || echo "")
+            OLD_APP_IMAGE=$(sudo docker inspect incidentmemai-app --format='{{.Config.Image}}' 2>/dev/null || echo "")
 
             # Deploy exact tested commit
             git fetch origin
             git checkout --detach ${{ github.sha }}
 
             sudo docker build -t incidentmemai-api:${{ github.sha }} .
+
+            # Health-checks one container by name/port, retrying, and reports
+            # success (0) or failure (1) without exiting the whole script --
+            # both services need to get their own deploy attempt regardless
+            # of how the other one goes.
+            check_health() {
+              local port=$1
+              for attempt in $(seq 1 12); do
+                if curl --fail --silent "http://localhost:${port}/health" >/dev/null; then
+                  echo "Health check passed on attempt $attempt (port $port)"
+                  return 0
+                fi
+                echo "Attempt $attempt failed on port $port, retrying in 5s..."
+                sleep 5
+              done
+              return 1
+            }
+
+            API_OK=1
+            APP_OK=1
+
+            # --- incidentmemai-api (api.main:app, retrieval-only, port 8002) ---
             sudo docker stop incidentmemai-api || true
             sudo docker rm incidentmemai-api || true
             sudo docker run -d --name incidentmemai-api --network host --env-file .env \
               incidentmemai-api:${{ github.sha }}
 
-            # Health check — 12 attempts × 5 s = 60 s window
-            for attempt in $(seq 1 12); do
-              if curl --fail --silent http://localhost:8002/health; then
-                echo "Health check passed on attempt $attempt"
-                # `docker image prune -f` only removes dangling images, but every
-                # deploy tags a new image by commit SHA, so old deploys are never
-                # dangling and pile up until the disk fills. Explicitly drop every
-                # tagged incidentmemai-api image except the one just deployed and
-                # the one it replaced (kept for rollback).
-                KEEP_IMAGE="incidentmemai-api:${{ github.sha }}"
-                sudo docker images incidentmemai-api --format '{{.Repository}}:{{.Tag}}' | while read -r img; do
-                  if [ "$img" != "$KEEP_IMAGE" ] && [ "$img" != "$OLD_IMAGE" ]; then
-                    sudo docker rmi "$img" || true
-                  fi
-                done
-                # Best-effort: buildkit runs its own background GC right after a
-                # build, which can hold this lock and make prune fail with "a
-                # prune operation is already running" even though the deploy
-                # itself succeeded (image already removed above). Non-fatal.
-                sudo docker image prune -f || true
-                exit 0
+            if check_health 8002; then
+              API_OK=0
+            else
+              echo "incidentmemai-api health check failed — rolling back"
+              sudo docker logs incidentmemai-api --tail 50
+              sudo docker stop incidentmemai-api || true
+              sudo docker rm incidentmemai-api || true
+              if [ -n "$OLD_API_IMAGE" ]; then
+                sudo docker run -d --name incidentmemai-api --network host --env-file .env "$OLD_API_IMAGE"
+                echo "Rolled back incidentmemai-api to $OLD_API_IMAGE"
               fi
-              echo "Attempt $attempt failed, retrying in 5s..."
-              sleep 5
-            done
-
-            # Rollback to previous image
-            echo "Health check failed — rolling back"
-            sudo docker logs incidentmemai-api --tail 50
-            sudo docker stop incidentmemai-api || true
-            sudo docker rm incidentmemai-api || true
-            if [ -n "$OLD_IMAGE" ]; then
-              sudo docker run -d --name incidentmemai-api --network host --env-file .env "$OLD_IMAGE"
-              echo "Rolled back to $OLD_IMAGE"
+              API_OK=1
             fi
+
+            # --- incidentmemai-app (app.main:app, retrieval + LLM generation
+            # with citations and a no-answer path, port 8003) — same image,
+            # different entrypoint command; no separate build needed. This is
+            # what the Streamlit UI's API_BASE_URL actually points at. ---
+            sudo docker stop incidentmemai-app || true
+            sudo docker rm incidentmemai-app || true
+            sudo docker run -d --name incidentmemai-app --network host --env-file .env \
+              incidentmemai-api:${{ github.sha }} \
+              uvicorn app.main:app --host 0.0.0.0 --port 8003
+
+            if check_health 8003; then
+              APP_OK=0
+            else
+              echo "incidentmemai-app health check failed — rolling back"
+              sudo docker logs incidentmemai-app --tail 50
+              sudo docker stop incidentmemai-app || true
+              sudo docker rm incidentmemai-app || true
+              if [ -n "$OLD_APP_IMAGE" ]; then
+                sudo docker run -d --name incidentmemai-app --network host --env-file .env \
+                  "$OLD_APP_IMAGE" uvicorn app.main:app --host 0.0.0.0 --port 8003
+                echo "Rolled back incidentmemai-app to $OLD_APP_IMAGE"
+              fi
+              APP_OK=1
+            fi
+
+            if [ "$API_OK" -eq 0 ] && [ "$APP_OK" -eq 0 ]; then
+              # `docker image prune -f` only removes dangling images, but every
+              # deploy tags a new image by commit SHA, so old deploys are never
+              # dangling and pile up until the disk fills. Explicitly drop every
+              # tagged incidentmemai-api image except the one just deployed and
+              # the ones either service rolled back to.
+              KEEP_IMAGE="incidentmemai-api:${{ github.sha }}"
+              sudo docker images incidentmemai-api --format '{{.Repository}}:{{.Tag}}' | while read -r img; do
+                if [ "$img" != "$KEEP_IMAGE" ] && [ "$img" != "$OLD_API_IMAGE" ] && [ "$img" != "$OLD_APP_IMAGE" ]; then
+                  sudo docker rmi "$img" || true
+                fi
+              done
+              # Best-effort: buildkit runs its own background GC right after a
+              # build, which can hold this lock and make prune fail with "a
+              # prune operation is already running" even though the deploy
+              # itself succeeded (image already removed above). Non-fatal.
+              sudo docker image prune -f || true
+              exit 0
+            fi
+
             exit 1
