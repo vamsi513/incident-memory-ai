@@ -86,7 +86,14 @@ def _inject_section_candidates(records: list[dict], query: str) -> list[dict]:
             ]
         ).lower()
 
-        if query_terms and not any(term in haystacks for term in query_terms):
+        # Requiring every query term to be present (not just any one) matters
+        # once multiple incidents share a common term like "checkout" -- with
+        # `any`, a chunk mentioning "checkout" in passing (but not the
+        # query's other, more specific term) could outrank the chunk that's
+        # actually about both. Surfaced by the corpus expansion: a second
+        # checkout-related incident started outranking the actual checkout
+        # *timeout* incident for a query naming both terms.
+        if query_terms and not all(term in haystacks for term in query_terms):
             continue
 
         injected.append(record)

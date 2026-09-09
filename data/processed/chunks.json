@@ -1,6 +1,78 @@
 [
   {
-    "chunk_id": "95ec497d-df58-4bf4-b083-70926b54f59e",
+    "chunk_id": "a0f57ea5-d70c-450b-8a01-693b7640fd36",
+    "doc_id": "notification_delivery_runbook",
+    "parent_id": "notification_delivery_runbook",
+    "source": "local_markdown",
+    "title": "Notification Delivery Runbook",
+    "text": "- Push notification or email sent count drops sharply while the triggering events (orders, shipping updates) continue at normal volume\n- Users report not receiving expected notifications\n- Notification queue depth grows without draining",
+    "section": "Symptoms",
+    "start_char": 0,
+    "end_char": 236,
+    "path": "data/raw/runbooks/notification_delivery_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "db5af735-abec-4a04-af20-71a4671070fc",
+    "doc_id": "notification_delivery_runbook",
+    "parent_id": "notification_delivery_runbook",
+    "source": "local_markdown",
+    "title": "Notification Delivery Runbook",
+    "text": "- Check the notification queue depth and drain rate in metrics\n- Check for authentication or certificate errors in the notification provider's client logs\n- Confirm the provider's own status page doesn't show an ongoing outage on their end\n- Check certificate or API-key expiry dates for the notification provider integration",
+    "section": "Immediate Checks",
+    "start_char": 0,
+    "end_char": 325,
+    "path": "data/raw/runbooks/notification_delivery_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "38b7c354-4f14-472b-ad3c-9dd564344bb8",
+    "doc_id": "notification_delivery_runbook",
+    "parent_id": "notification_delivery_runbook",
+    "source": "local_markdown",
+    "title": "Notification Delivery Runbook",
+    "text": "- If a certificate or credential has expired: renew it through the provider's dashboard and confirm delivery resumes\n- If the provider is down: confirm notifications are queuing rather than being dropped, so they can be delivered once the provider recovers\n- If the queue is draining slower than it fills: temporarily increase worker concurrency for the notification consumer\n- Manually verify a sample of queued notifications are delivered correctly before considering the incident resolved",
+    "section": "Mitigation Steps",
+    "start_char": 0,
+    "end_char": 491,
+    "path": "data/raw/runbooks/notification_delivery_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "1285e795-88c4-48d1-8861-7ac4ebd90933",
+    "doc_id": "notification_delivery_runbook",
+    "parent_id": "notification_delivery_runbook",
+    "source": "local_markdown",
+    "title": "Notification Delivery Runbook",
+    "text": "- Escalate to the notification provider's support channel if an outage on their end exceeds 30 minutes\n- Escalate internally if queued notifications risk becoming stale or irrelevant (e.g. time-sensitive shipping updates) before they can be delivered",
+    "section": "Escalation",
+    "start_char": 0,
+    "end_char": 250,
+    "path": "data/raw/runbooks/notification_delivery_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "a938ef00-064a-432a-8aaa-bf1a11af1dc0",
     "doc_id": "auth_outage_runbook",
     "parent_id": "auth_outage_runbook",
     "source": "local_markdown",
@@ -20,7 +92,7 @@
     ]
   },
   {
-    "chunk_id": "6b7f1aa1-2449-4c51-b383-1fce0a0cf0cd",
+    "chunk_id": "1298fabd-3a71-4f95-be29-af1ca610f040",
     "doc_id": "auth_outage_runbook",
     "parent_id": "auth_outage_runbook",
     "source": "local_markdown",
@@ -40,7 +112,7 @@
     ]
   },
   {
-    "chunk_id": "674bdb05-79e2-43fa-9a5a-e35e38d8391a",
+    "chunk_id": "0528055b-aa74-4dfc-8d01-2f4f0f76aae9",
     "doc_id": "auth_outage_runbook",
     "parent_id": "auth_outage_runbook",
     "source": "local_markdown",
@@ -60,7 +132,7 @@
     ]
   },
   {
-    "chunk_id": "74da41f6-465d-4e17-9f7c-3ff8dd869502",
+    "chunk_id": "95bb2006-106b-401b-bbcc-c4e31dbce778",
     "doc_id": "auth_outage_runbook",
     "parent_id": "auth_outage_runbook",
     "source": "local_markdown",
@@ -80,7 +152,79 @@
     ]
   },
   {
-    "chunk_id": "258d3d0d-f716-4fcd-8578-3ac160f297a1",
+    "chunk_id": "1a8dad4d-61fe-4f55-a27f-47b80f577c8b",
+    "doc_id": "scheduled_job_failure_runbook",
+    "parent_id": "scheduled_job_failure_runbook",
+    "source": "local_markdown",
+    "title": "Scheduled Job Failure Runbook",
+    "text": "- Data that depends on a nightly or periodic job looks stale or drifted (e.g. inventory counts, reconciliation reports)\n- No recent \"job completed successfully\" log entry or metric for the expected schedule\n- Downstream systems that consume the job's output are operating on outdated data",
+    "section": "Symptoms",
+    "start_char": 0,
+    "end_char": 288,
+    "path": "data/raw/runbooks/scheduled_job_failure_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "b05cf838-9629-45ff-9d3b-69599deea77d",
+    "doc_id": "scheduled_job_failure_runbook",
+    "parent_id": "scheduled_job_failure_runbook",
+    "source": "local_markdown",
+    "title": "Scheduled Job Failure Runbook",
+    "text": "- Check the job scheduler (cron, workflow orchestrator) for the job's last recorded run time and exit status\n- Confirm the job is still actually scheduled on the expected host or scheduler instance, especially after any recent infrastructure migration\n- Check the job's logs for the most recent run, successful or not\n- Compare the job's expected schedule against its actual run history to see how long it has been missing",
+    "section": "Immediate Checks",
+    "start_char": 0,
+    "end_char": 422,
+    "path": "data/raw/runbooks/scheduled_job_failure_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "9d5b2de6-43d8-4133-8e59-3b8eb7d249e7",
+    "doc_id": "scheduled_job_failure_runbook",
+    "parent_id": "scheduled_job_failure_runbook",
+    "source": "local_markdown",
+    "title": "Scheduled Job Failure Runbook",
+    "text": "- If the job is missing from the scheduler: re-add it and trigger an immediate manual run\n- If the job ran but failed: review the failure logs, fix the underlying issue, and re-run manually\n- After a manual run, reconcile any data drift that accumulated while the job was not running\n- Confirm the job's next scheduled run occurs as expected before closing out",
+    "section": "Mitigation Steps",
+    "start_char": 0,
+    "end_char": 360,
+    "path": "data/raw/runbooks/scheduled_job_failure_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "a233e9a7-c8c8-4b6b-9a21-c7899f38e462",
+    "doc_id": "scheduled_job_failure_runbook",
+    "parent_id": "scheduled_job_failure_runbook",
+    "source": "local_markdown",
+    "title": "Scheduled Job Failure Runbook",
+    "text": "- Escalate to the team that owns the affected downstream data if drift has led to customer-visible incorrect information\n- Escalate to infrastructure if the job's absence traces back to a host or scheduler migration, so other jobs can be audited for the same gap",
+    "section": "Escalation",
+    "start_char": 0,
+    "end_char": 262,
+    "path": "data/raw/runbooks/scheduled_job_failure_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "e56f369d-d6ee-49cc-ba97-8eaa3907d1e6",
     "doc_id": "cache_failure_runbook",
     "parent_id": "cache_failure_runbook",
     "source": "local_markdown",
@@ -101,7 +245,7 @@
     ]
   },
   {
-    "chunk_id": "12e703b2-22c9-4214-8f8a-1ab105ab94f4",
+    "chunk_id": "97295ffe-ed40-4f7d-a134-c14a9b44f681",
     "doc_id": "cache_failure_runbook",
     "parent_id": "cache_failure_runbook",
     "source": "local_markdown",
@@ -122,7 +266,7 @@
     ]
   },
   {
-    "chunk_id": "a42f86ff-42c2-44c4-bd1d-c0b5d4383829",
+    "chunk_id": "19ff3905-dfac-4b5a-a1ef-916987059ad9",
     "doc_id": "cache_failure_runbook",
     "parent_id": "cache_failure_runbook",
     "source": "local_markdown",
@@ -143,7 +287,7 @@
     ]
   },
   {
-    "chunk_id": "7422289b-e585-4fa7-acd5-35db414b5a06",
+    "chunk_id": "352412b7-9e0c-440b-8a16-911a8b2dffbc",
     "doc_id": "cache_failure_runbook",
     "parent_id": "cache_failure_runbook",
     "source": "local_markdown",
@@ -164,7 +308,79 @@
     ]
   },
   {
-    "chunk_id": "ae24efe6-dbf8-429a-b91d-3ecc251c33d5",
+    "chunk_id": "28f0686f-0718-4a7d-8c28-7a50882bded9",
+    "doc_id": "cdn_stale_content_runbook",
+    "parent_id": "cdn_stale_content_runbook",
+    "source": "local_markdown",
+    "title": "Cdn Stale Content Runbook",
+    "text": "- Users report seeing outdated prices, copy, or images after a known deploy or content update\n- CDN edge cache hit ratio remains high for a path that was just changed\n- Origin server returns updated content when queried directly, but the public URL still returns old content",
+    "section": "Symptoms",
+    "start_char": 0,
+    "end_char": 274,
+    "path": "data/raw/runbooks/cdn_stale_content_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "b89f86e0-70db-4bab-b8d4-e0fcc94b996c",
+    "doc_id": "cdn_stale_content_runbook",
+    "parent_id": "cdn_stale_content_runbook",
+    "source": "local_markdown",
+    "title": "Cdn Stale Content Runbook",
+    "text": "- Fetch the affected URL directly against the origin, bypassing the CDN, and confirm it shows the updated content\n- Fetch the same URL through the CDN and compare response headers for cache-status and age\n- Check whether the deploy's cache-purge step actually ran and which paths it targeted\n- Confirm the affected path matches what the purge step targeted (watch for recent path or route changes)",
+    "section": "Immediate Checks",
+    "start_char": 0,
+    "end_char": 397,
+    "path": "data/raw/runbooks/cdn_stale_content_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "01908112-dfb0-4bf2-8fd6-20204b2c6641",
+    "doc_id": "cdn_stale_content_runbook",
+    "parent_id": "cdn_stale_content_runbook",
+    "source": "local_markdown",
+    "title": "Cdn Stale Content Runbook",
+    "text": "- Manually trigger a full-path purge for the affected URL(s) via the CDN dashboard or purge API\n- If the purge step's path list is stale, update it to match the current routing before the next deploy\n- For urgent cases, temporarily lower the affected path's cache TTL to force faster natural expiry",
+    "section": "Mitigation Steps",
+    "start_char": 0,
+    "end_char": 298,
+    "path": "data/raw/runbooks/cdn_stale_content_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "36bdfe98-8300-406c-8ee8-a90f3eb45e18",
+    "doc_id": "cdn_stale_content_runbook",
+    "parent_id": "cdn_stale_content_runbook",
+    "source": "local_markdown",
+    "title": "Cdn Stale Content Runbook",
+    "text": "- Escalate to the CDN provider if a manual purge request does not clear stale content within 15 minutes\n- Escalate to the platform team if this is the second stale-content incident tied to the same deploy pipeline step within 30 days",
+    "section": "Escalation",
+    "start_char": 0,
+    "end_char": 233,
+    "path": "data/raw/runbooks/cdn_stale_content_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "32c9286d-eaf3-47ae-9bc0-937d20170a57",
     "doc_id": "disk_space_runbook",
     "parent_id": "disk_space_runbook",
     "source": "local_markdown",
@@ -182,7 +398,7 @@
     "tags": []
   },
   {
-    "chunk_id": "3faf93ac-7435-460a-8aa8-5d67de228e96",
+    "chunk_id": "f2ac1419-ae0e-4158-80d2-65f93a810adb",
     "doc_id": "disk_space_runbook",
     "parent_id": "disk_space_runbook",
     "source": "local_markdown",
@@ -200,7 +416,7 @@
     "tags": []
   },
   {
-    "chunk_id": "dad6afca-4e83-4d59-8a5f-d14113d59433",
+    "chunk_id": "b525ed2e-9cee-477a-803d-796e5b43740c",
     "doc_id": "disk_space_runbook",
     "parent_id": "disk_space_runbook",
     "source": "local_markdown",
@@ -218,7 +434,7 @@
     "tags": []
   },
   {
-    "chunk_id": "b6790910-4533-410b-89db-5dfa746440c5",
+    "chunk_id": "4fc72ede-8bd2-432f-be3e-3ef2d3e9aa36",
     "doc_id": "disk_space_runbook",
     "parent_id": "disk_space_runbook",
     "source": "local_markdown",
@@ -236,7 +452,87 @@
     "tags": []
   },
   {
-    "chunk_id": "09c7c9ff-2a8b-4c83-a9dd-c9fce2e8bf46",
+    "chunk_id": "594581b3-1257-4d75-b7b6-15f182d8acd3",
+    "doc_id": "search_indexing_lag_runbook",
+    "parent_id": "search_indexing_lag_runbook",
+    "source": "local_markdown",
+    "title": "Search Indexing Lag Runbook",
+    "text": "- Newly published or updated products don't appear in search results, though they load correctly via direct link\n- Search indexing lag metric (time between product-change event and index update) rises above normal baseline\n- Indexer logs show a rising rate of parse or validation errors on incoming events",
+    "section": "Symptoms",
+    "start_char": 0,
+    "end_char": 305,
+    "path": "data/raw/runbooks/search_indexing_lag_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "454eba20-ae67-4f0b-8794-e97d5ebab6f6",
+    "doc_id": "search_indexing_lag_runbook",
+    "parent_id": "search_indexing_lag_runbook",
+    "source": "local_markdown",
+    "title": "Search Indexing Lag Runbook",
+    "text": "- Check the search indexing pipeline's consumer lag against the product-change event stream\n- Check the indexer's logs for parse errors, and note whether they correlate with a recent schema change to the event\n- Confirm producers and the indexer are running compatible versions of the event schema\n- Spot-check a few recently published products directly in the search index to confirm the scope of the lag",
+    "section": "Immediate Checks",
+    "start_char": 0,
+    "end_char": 405,
+    "path": "data/raw/runbooks/search_indexing_lag_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "685ca711-3453-4dcc-95d2-701ef65f07e9",
+    "doc_id": "search_indexing_lag_runbook",
+    "parent_id": "search_indexing_lag_runbook",
+    "source": "local_markdown",
+    "title": "Search Indexing Lag Runbook",
+    "text": "- If a schema mismatch is the cause: deploy a fix to the indexer to tolerate the new field, or roll back the producer change, whichever is faster\n- Manually re-index affected products using the product catalog as the source of truth once the underlying cause is fixed\n- If events were dropped rather than dead-lettered, identify the affected time window from logs and replay from the catalog rather than the event stream",
+    "section": "Mitigation Steps",
+    "start_char": 0,
+    "end_char": 420,
+    "path": "data/raw/runbooks/search_indexing_lag_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "e8161800-04fd-4146-833f-2698ceba3a1a",
+    "doc_id": "search_indexing_lag_runbook",
+    "parent_id": "search_indexing_lag_runbook",
+    "source": "local_markdown",
+    "title": "Search Indexing Lag Runbook",
+    "text": "- Escalate to the team owning the product-change event schema if repeated indexer breakage traces back to uncoordinated schema changes\n- Escalate to merchandising if a live promotional launch is affected, so they can extend or adjust the promotion",
+    "section": "Escalation",
+    "start_char": 0,
+    "end_char": 247,
+    "path": "data/raw/runbooks/search_indexing_lag_runbook.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "d6ff24ec-c787-4bbe-8217-82d45e3d5c76",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -258,7 +554,7 @@
     ]
   },
   {
-    "chunk_id": "e60d86e1-fbe9-4921-aea8-e8cf458dcda0",
+    "chunk_id": "007931ae-a6b4-44ac-a104-4bdac5bc4070",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -280,7 +576,7 @@
     ]
   },
   {
-    "chunk_id": "c1935dd1-81ac-4682-b313-1264c9b50288",
+    "chunk_id": "e19ec0d7-b723-4078-ad15-7afa4bb018bb",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -302,7 +598,7 @@
     ]
   },
   {
-    "chunk_id": "202c0d27-ba7c-42c2-90ad-c4786490a5fc",
+    "chunk_id": "a1a24365-c03c-487c-b71f-f869f84b6d5a",
     "doc_id": "database_latency_runbook",
     "parent_id": "database_latency_runbook",
     "source": "local_markdown",
@@ -324,7 +620,7 @@
     ]
   },
   {
-    "chunk_id": "f6c916b3-14f8-4dad-8f67-7b3b11201322",
+    "chunk_id": "deabb860-b17c-452b-87dc-3a0492ef0662",
     "doc_id": "auth_service_architecture",
     "parent_id": "auth_service_architecture",
     "source": "local_markdown",
@@ -342,7 +638,7 @@
     "tags": []
   },
   {
-    "chunk_id": "cd234f58-8ead-49fd-aa63-a7d7b017ed53",
+    "chunk_id": "346a5059-fb0c-4f79-821a-cc4b3f9a0ee4",
     "doc_id": "auth_service_architecture",
     "parent_id": "auth_service_architecture",
     "source": "local_markdown",
@@ -360,7 +656,7 @@
     "tags": []
   },
   {
-    "chunk_id": "669c8faf-5e10-4033-a506-71dc02dc2ae8",
+    "chunk_id": "9c5f6868-a658-47ab-aff8-c88e3c46879e",
     "doc_id": "auth_service_architecture",
     "parent_id": "auth_service_architecture",
     "source": "local_markdown",
@@ -378,7 +674,178 @@
     "tags": []
   },
   {
-    "chunk_id": "fdce2b4f-a890-4375-8e95-d633ce035e64",
+    "chunk_id": "7ae98729-cdb7-4196-99cb-e18833614463",
+    "doc_id": "cdn_caching_architecture",
+    "parent_id": "cdn_caching_architecture",
+    "source": "local_markdown",
+    "title": "Cdn Caching Architecture",
+    "text": "Static assets and select cacheable pages (product listings, the pricing page) are served through a CDN in front of the origin servers. The deploy pipeline calls the CDN's purge API for a fixed list of paths as part of releasing changes to cached pages.",
+    "section": "Services",
+    "start_char": 0,
+    "end_char": 252,
+    "path": "data/raw/docs/cdn_caching_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "b64538d9-0fc9-4850-becb-aea18488a302",
+    "doc_id": "cdn_caching_architecture",
+    "parent_id": "cdn_caching_architecture",
+    "source": "local_markdown",
+    "title": "Cdn Caching Architecture",
+    "text": "The most common failure mode is stale content: if a page's path changes or the purge step's target list falls out of sync with actual routing, the CDN continues serving pre-update content until the cache entry's TTL naturally expires, which can be hours depending on the path's configured TTL.",
+    "section": "Failure Modes",
+    "start_char": 0,
+    "end_char": 293,
+    "path": "data/raw/docs/cdn_caching_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "476e7a0a-b0f5-4009-bd5b-4e23bb31c638",
+    "doc_id": "cdn_caching_architecture",
+    "parent_id": "cdn_caching_architecture",
+    "source": "local_markdown",
+    "title": "Cdn Caching Architecture",
+    "text": "Mitigations include deriving the purge step's path list from the live routing configuration rather than a hardcoded list, and a post-deploy check that compares CDN edge responses against origin responses for key pages to catch staleness immediately after a release rather than waiting for a user report.",
+    "section": "Mitigations",
+    "start_char": 0,
+    "end_char": 303,
+    "path": "data/raw/docs/cdn_caching_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "ba426a82-85f4-4320-af71-d07a19fe4a2b",
+    "doc_id": "scheduled_jobs_architecture",
+    "parent_id": "scheduled_jobs_architecture",
+    "source": "local_markdown",
+    "title": "Scheduled Jobs Architecture",
+    "text": "Periodic tasks (nightly inventory reconciliation, thumbnail re-processing, cleanup jobs) run on a schedule, historically via host-level cron entries. Each job is expected to report a success or failure status after each run.",
+    "section": "Services",
+    "start_char": 0,
+    "end_char": 224,
+    "path": "data/raw/docs/scheduled_jobs_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "145e9f0a-f82d-4657-9c61-6b7747b4c443",
+    "doc_id": "scheduled_jobs_architecture",
+    "parent_id": "scheduled_jobs_architecture",
+    "source": "local_markdown",
+    "title": "Scheduled Jobs Architecture",
+    "text": "The main failure mode is a job silently ceasing to run without anyone noticing, most commonly after an infrastructure migration where the new host's cron configuration is provisioned from a template that doesn't include every job that existed on the old host. Because host-level cron has no independent monitoring of whether a job actually ran, this kind of gap can persist for days before downstream data drift makes it visible.",
+    "section": "Failure Modes",
+    "start_char": 0,
+    "end_char": 429,
+    "path": "data/raw/docs/scheduled_jobs_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "556daddf-1f03-4e70-9485-58310351941c",
+    "doc_id": "scheduled_jobs_architecture",
+    "parent_id": "scheduled_jobs_architecture",
+    "source": "local_markdown",
+    "title": "Scheduled Jobs Architecture",
+    "text": "Mitigations include a dead-man's-switch style alert per job that fires if it hasn't reported success within its expected interval plus a margin, and moving scheduled jobs off host-level cron into a centrally managed scheduler that isn't tied to any single host's provisioning template.",
+    "section": "Mitigations",
+    "start_char": 0,
+    "end_char": 285,
+    "path": "data/raw/docs/scheduled_jobs_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "e1738b4a-f71c-493b-98f4-09c34a332877",
+    "doc_id": "search_indexing_architecture",
+    "parent_id": "search_indexing_architecture",
+    "source": "local_markdown",
+    "title": "Search Indexing Architecture",
+    "text": "The search index is kept up to date by an asynchronous indexing pipeline that consumes a stream of product-change events (created, updated, price changed, delisted) and applies them to the search index. This is decoupled from the product catalog's own database so search can scale and be queried independently.",
+    "section": "Services",
+    "start_char": 0,
+    "end_char": 310,
+    "path": "data/raw/docs/search_indexing_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "database",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "cf6f7342-3ac4-4c5f-a863-9a6400d9c44f",
+    "doc_id": "search_indexing_architecture",
+    "parent_id": "search_indexing_architecture",
+    "source": "local_markdown",
+    "title": "Search Indexing Architecture",
+    "text": "The main failure mode is indexing lag: if the indexer falls behind (due to a schema mismatch with producers, a backlog, or an outage), newly published or updated products don't appear in search even though they exist correctly in the catalog and are reachable by direct link. A stricter risk is event rejection due to schema incompatibility, which can silently drop updates rather than merely delaying them if rejected events aren't captured for reprocessing.",
+    "section": "Failure Modes",
+    "start_char": 0,
+    "end_char": 459,
+    "path": "data/raw/docs/search_indexing_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "database",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "b6393b50-14b0-42ca-8702-33c96e4db254",
+    "doc_id": "search_indexing_architecture",
+    "parent_id": "search_indexing_architecture",
+    "source": "local_markdown",
+    "title": "Search Indexing Architecture",
+    "text": "Mitigations include making the indexer's event parser tolerant of new or missing optional fields rather than rejecting the whole event, routing rejected events to a dead-letter queue for reprocessing instead of dropping them, and a compatibility check in CI for changes to the product-change event schema shared between producers and the indexer.",
+    "section": "Mitigations",
+    "start_char": 0,
+    "end_char": 346,
+    "path": "data/raw/docs/search_indexing_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": null,
+    "tags": [
+      "database",
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "ee7e83f2-4202-48d2-9103-02b401afb83f",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -400,7 +867,7 @@
     ]
   },
   {
-    "chunk_id": "4e1df44c-3d3e-413d-9aa7-b7baf13949f7",
+    "chunk_id": "e4d9b554-7566-4fd9-9260-a1e4dc6a9724",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -422,7 +889,7 @@
     ]
   },
   {
-    "chunk_id": "7c39ceaa-2acb-42d0-9651-f4cd2b68e500",
+    "chunk_id": "f91729f8-7ba7-48ed-ae96-a0e587b7211b",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -444,7 +911,7 @@
     ]
   },
   {
-    "chunk_id": "4bee91bb-c4fe-4242-a5f7-60d4d5b47db6",
+    "chunk_id": "f77c36cc-c60c-41dd-af17-38adef828571",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -466,7 +933,7 @@
     ]
   },
   {
-    "chunk_id": "2618a12d-5c7a-4db4-a443-94be336a8446",
+    "chunk_id": "fb3f649e-20f1-486e-be3a-ad8306534b1d",
     "doc_id": "api_gateway_architecture",
     "parent_id": "api_gateway_architecture",
     "source": "local_markdown",
@@ -488,7 +955,7 @@
     ]
   },
   {
-    "chunk_id": "713e90f2-a9b3-427e-9be5-11c460a51cba",
+    "chunk_id": "b1a905c5-1c10-4d89-8b3a-ebbc54b69ed9",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -510,7 +977,7 @@
     ]
   },
   {
-    "chunk_id": "9dd64edd-d764-4611-a803-33322468f672",
+    "chunk_id": "66c030b8-8138-4f51-aadd-67236d09097b",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -532,7 +999,7 @@
     ]
   },
   {
-    "chunk_id": "01682983-a13f-42c1-aa79-b5d12c839e75",
+    "chunk_id": "1441c3ef-164c-4b7e-a060-d9ba61008f3c",
     "doc_id": "checkout_architecture",
     "parent_id": "checkout_architecture",
     "source": "local_markdown",
@@ -554,7 +1021,61 @@
     ]
   },
   {
-    "chunk_id": "129034d0-8237-4ab6-96a3-ca2462b2b566",
+    "chunk_id": "ac5de822-572e-4aab-9852-176541d0d5c1",
+    "doc_id": "notification_service_architecture",
+    "parent_id": "notification_service_architecture",
+    "source": "local_markdown",
+    "title": "Notification Service Architecture",
+    "text": "The notification service consumes events (order confirmed, order shipped, price drop on a wishlisted item) and delivers push notifications and emails through third-party providers. Notifications are queued internally before delivery so a provider outage doesn't cause events to be lost.",
+    "section": "Services",
+    "start_char": 0,
+    "end_char": 286,
+    "path": "data/raw/docs/notification_service_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "ef5bb90f-7683-46d4-b522-e3502a020f3e",
+    "doc_id": "notification_service_architecture",
+    "parent_id": "notification_service_architecture",
+    "source": "local_markdown",
+    "title": "Notification Service Architecture",
+    "text": "Common failure modes include an expired or misconfigured provider credential/certificate causing delivery to fail outright, and provider-side outages or rate limits causing the internal queue to back up. Because delivery is queued rather than synchronous, a backlog shows up as growing queue depth rather than immediate errors, which can delay detection if queue-depth isn't actively monitored.",
+    "section": "Failure Modes",
+    "start_char": 0,
+    "end_char": 394,
+    "path": "data/raw/docs/notification_service_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "e644eec0-27a6-4bc8-b0ea-a680e7057f44",
+    "doc_id": "notification_service_architecture",
+    "parent_id": "notification_service_architecture",
+    "source": "local_markdown",
+    "title": "Notification Service Architecture",
+    "text": "Mitigations include certificate/credential expiry monitoring with advance warning, an end-to-end synthetic notification test that runs on a schedule to catch delivery failures proactively, and queue-depth alerting so a backlog is caught before queued notifications become stale or irrelevant.",
+    "section": "Mitigations",
+    "start_char": 0,
+    "end_char": 292,
+    "path": "data/raw/docs/notification_service_architecture.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": null,
+    "tags": []
+  },
+  {
+    "chunk_id": "41135d9b-430c-4fcf-8487-3f1864e2fd9d",
     "doc_id": "message_queue_architecture",
     "parent_id": "message_queue_architecture",
     "source": "local_markdown",
@@ -574,7 +1095,7 @@
     ]
   },
   {
-    "chunk_id": "e857fc10-4dc4-4719-8e2f-18d8b28a8c2f",
+    "chunk_id": "7b184a20-f090-4687-8df6-3dbdf7882be4",
     "doc_id": "message_queue_architecture",
     "parent_id": "message_queue_architecture",
     "source": "local_markdown",
@@ -594,7 +1115,7 @@
     ]
   },
   {
-    "chunk_id": "ba761fc5-e2c2-4777-aabd-8db7f1802430",
+    "chunk_id": "b2cc017d-d726-40a3-a883-d8b1f6241302",
     "doc_id": "message_queue_architecture",
     "parent_id": "message_queue_architecture",
     "source": "local_markdown",
@@ -614,7 +1135,597 @@
     ]
   },
   {
-    "chunk_id": "c22dd396-cf53-4f98-9a17-c105af1652c8",
+    "chunk_id": "7d69c2b9-d186-4ef6-b695-3581729dc6a9",
+    "doc_id": "incident_2026_11_duplicate_order_processing",
+    "parent_id": "incident_2026_11_duplicate_order_processing",
+    "source": "local_markdown",
+    "title": "Incident 2026 11 Duplicate Order Processing",
+    "text": "A restart of the order-processing consumer during a deployment caused roughly 200 orders to be processed twice, resulting in duplicate fulfillment triggers and, for a subset of orders, duplicate charges.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 203,
+    "path": "data/raw/incidents/incident_2026_11_duplicate_order_processing.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "e41df6ea-cd76-4f0f-9503-3e5db6a035ac",
+    "doc_id": "incident_2026_11_duplicate_order_processing",
+    "parent_id": "incident_2026_11_duplicate_order_processing",
+    "source": "local_markdown",
+    "title": "Incident 2026 11 Duplicate Order Processing",
+    "text": "About 200 orders had duplicate fulfillment requests sent to the warehouse system, and 45 of those also resulted in a duplicate charge to the customer's payment method, since charge deduplication relied on the same processing step that ran twice.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 245,
+    "path": "data/raw/incidents/incident_2026_11_duplicate_order_processing.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "ff0044ff-9d53-4c0d-89c3-7f6d25d00d85",
+    "doc_id": "incident_2026_11_duplicate_order_processing",
+    "parent_id": "incident_2026_11_duplicate_order_processing",
+    "source": "local_markdown",
+    "title": "Incident 2026 11 Duplicate Order Processing",
+    "text": "The order-processing consumer reads messages from a queue and commits its read offset only after fully processing a batch, not after each message. During a deployment, the consumer was restarted mid-batch; because the offset for that batch had not yet been committed, the new consumer instance re-read and reprocessed the entire batch, including messages that had already been fully processed (and charged) by the old instance before it was killed.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 448,
+    "path": "data/raw/incidents/incident_2026_11_duplicate_order_processing.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "0d886317-9f14-4bbf-9a30-2b72de8b287e",
+    "doc_id": "incident_2026_11_duplicate_order_processing",
+    "parent_id": "incident_2026_11_duplicate_order_processing",
+    "source": "local_markdown",
+    "title": "Incident 2026 11 Duplicate Order Processing",
+    "text": "On-call identified the duplicate charges via a spike in payment-provider refund requests from customers, cross-referenced order IDs against the payment provider's transaction log to find all duplicates, and issued refunds for the 45 duplicate charges. Duplicate fulfillment requests were caught and canceled at the warehouse system before shipment in all but 3 cases, which were handled as return requests.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 406,
+    "path": "data/raw/incidents/incident_2026_11_duplicate_order_processing.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "da989085-3bc7-4523-b252-10302b9223e2",
+    "doc_id": "incident_2026_11_duplicate_order_processing",
+    "parent_id": "incident_2026_11_duplicate_order_processing",
+    "source": "local_markdown",
+    "title": "Incident 2026 11 Duplicate Order Processing",
+    "text": "- Make order processing idempotent per order ID (check-then-process against a processed-orders table) rather than relying solely on queue offset commits\n- Commit queue offsets per-message or in smaller batches to shrink the reprocessing window on restart\n- Add a reconciliation check that flags any order ID processed more than once",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 332,
+    "path": "data/raw/incidents/incident_2026_11_duplicate_order_processing.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "329efba4-607d-4deb-8618-d6f785d68570",
+    "doc_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "parent_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "source": "local_markdown",
+    "title": "Incident 2026 08 Session Cache Eviction Mass Logout",
+    "text": "A memory-pressure event on the session cache caused it to evict a large fraction of active sessions at once, logging out an estimated 40 percent of active users simultaneously.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 176,
+    "path": "data/raw/incidents/incident_2026_08_session_cache_eviction_mass_logout.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "84bc3d61-44ad-4d92-ad25-6ebc5635fb00",
+    "doc_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "parent_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "source": "local_markdown",
+    "title": "Incident 2026 08 Session Cache Eviction Mass Logout",
+    "text": "Affected users were redirected to the login page mid-session and had to sign in again. Any in-progress checkout or form submission for those users was lost. No payment or data corruption occurred, but the sudden spike in login traffic itself briefly elevated login latency for all users, including those not affected by the original eviction.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 342,
+    "path": "data/raw/incidents/incident_2026_08_session_cache_eviction_mass_logout.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "e9d6ff00-5ec6-4a01-a8c0-efe069ff4d9c",
+    "doc_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "parent_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "source": "local_markdown",
+    "title": "Incident 2026 08 Session Cache Eviction Mass Logout",
+    "text": "Session data is stored in an in-memory cache with a fixed memory limit and an eviction policy that removes the least-recently-used entries once the limit is reached. A marketing campaign drove an unusually large traffic spike, and the resulting spike in new sessions pushed the cache past its memory limit, triggering mass eviction of older (but still active) sessions rather than just the campaign's new short-lived ones, because session recency was tracked by creation time rather than last-access time.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 505,
+    "path": "data/raw/incidents/incident_2026_08_session_cache_eviction_mass_logout.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "6ffdb7b1-42ce-4ea7-8142-b52fa625bf9e",
+    "doc_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "parent_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "source": "local_markdown",
+    "title": "Incident 2026 08 Session Cache Eviction Mass Logout",
+    "text": "On-call increased the session cache's memory limit as an immediate mitigation once the pattern was identified, which stopped further mass evictions. Affected users were not individually notified, since re-login was the only user-visible effect and no data was lost beyond in-progress form state.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 295,
+    "path": "data/raw/incidents/incident_2026_08_session_cache_eviction_mass_logout.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "f319a75c-54da-4f93-a0db-7ba4e1c3f31d",
+    "doc_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "parent_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "source": "local_markdown",
+    "title": "Incident 2026 08 Session Cache Eviction Mass Logout",
+    "text": "- Switch the eviction policy to track last-access time rather than creation time, so active sessions are protected from eviction regardless of age\n- Add capacity alerting on session cache memory usage well before the eviction threshold\n- Load-test the session cache against traffic patterns matching a marketing campaign spike, not just steady-state traffic",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 357,
+    "path": "data/raw/incidents/incident_2026_08_session_cache_eviction_mass_logout.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "latency"
+    ]
+  },
+  {
+    "chunk_id": "ccef3302-6c9d-4a2c-8cd0-3e2b8ea16349",
+    "doc_id": "incident_2026_10_image_upload_outage",
+    "parent_id": "incident_2026_10_image_upload_outage",
+    "source": "local_markdown",
+    "title": "Incident 2026 10 Image Upload Outage",
+    "text": "Sellers were unable to upload new product images for 50 minutes after the image-processing service's storage bucket ran out of available connections.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 149,
+    "path": "data/raw/incidents/incident_2026_10_image_upload_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "49038701-3b95-4403-8cff-f4b272a36788",
+    "doc_id": "incident_2026_10_image_upload_outage",
+    "parent_id": "incident_2026_10_image_upload_outage",
+    "source": "local_markdown",
+    "title": "Incident 2026 10 Image Upload Outage",
+    "text": "New product listings and image updates to existing listings failed with an upload error during the window. Existing product images already live on the storefront were unaffected, since they are served from a separate read path.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 227,
+    "path": "data/raw/incidents/incident_2026_10_image_upload_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "d29a5a4d-95d2-4480-bfaa-3335c8fa8299",
+    "doc_id": "incident_2026_10_image_upload_outage",
+    "parent_id": "incident_2026_10_image_upload_outage",
+    "source": "local_markdown",
+    "title": "Incident 2026 10 Image Upload Outage",
+    "text": "The image-processing service opens a new connection to the storage bucket for each upload rather than reusing a connection pool. A batch re-processing job that re-generates thumbnail sizes for older images was running concurrently with normal upload traffic and, combined, the two exceeded the storage provider's per-account connection limit, causing new connection attempts (including normal seller uploads) to be rejected.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 424,
+    "path": "data/raw/incidents/incident_2026_10_image_upload_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "4dec5d63-0db4-4693-906d-c667d7a8b009",
+    "doc_id": "incident_2026_10_image_upload_outage",
+    "parent_id": "incident_2026_10_image_upload_outage",
+    "source": "local_markdown",
+    "title": "Incident 2026 10 Image Upload Outage",
+    "text": "On-call identified the batch job as the concurrent load source, paused it, and connections recovered within a few minutes as existing ones were released. The batch job was rescheduled to run overnight instead.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 209,
+    "path": "data/raw/incidents/incident_2026_10_image_upload_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "5969ac4d-6ff2-4869-a3c7-d1231f482429",
+    "doc_id": "incident_2026_10_image_upload_outage",
+    "parent_id": "incident_2026_10_image_upload_outage",
+    "source": "local_markdown",
+    "title": "Incident 2026 10 Image Upload Outage",
+    "text": "- Migrate the image-processing service to use a shared, bounded connection pool instead of opening a new connection per upload\n- Cap the batch re-processing job's concurrency so it cannot approach the account-wide connection limit on its own\n- Add alerting on storage-provider connection rejection errors specifically, not just generic upload failure rate",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 355,
+    "path": "data/raw/incidents/incident_2026_10_image_upload_outage.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "6e15857a-5529-4ca8-8efa-4e67bf0351e7",
+    "doc_id": "incident_2026_05_search_indexing_lag",
+    "parent_id": "incident_2026_05_search_indexing_lag",
+    "source": "local_markdown",
+    "title": "Incident 2026 05 Search Indexing Lag",
+    "text": "Newly published products did not appear in search results for up to 4 hours due to a backlog in the search indexing pipeline, though they were visible via direct product-page links.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 181,
+    "path": "data/raw/incidents/incident_2026_05_search_indexing_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "37dfc545-bcf2-4de6-bce9-ca96fa83e048",
+    "doc_id": "incident_2026_05_search_indexing_lag",
+    "parent_id": "incident_2026_05_search_indexing_lag",
+    "source": "local_markdown",
+    "title": "Incident 2026 05 Search Indexing Lag",
+    "text": "Merchandising teams reported that newly launched products were getting far less search traffic than expected during the affected window; several time-limited promotional launches lost most of their intended visibility.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 218,
+    "path": "data/raw/incidents/incident_2026_05_search_indexing_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "2f8d5178-eb8f-4c3e-ba03-6f4d9c72b4a3",
+    "doc_id": "incident_2026_05_search_indexing_lag",
+    "parent_id": "incident_2026_05_search_indexing_lag",
+    "source": "local_markdown",
+    "title": "Incident 2026 05 Search Indexing Lag",
+    "text": "The search indexing pipeline consumes a stream of product-change events and indexes them asynchronously. A downstream schema change to the product-change event added a new required field, and the indexer's event parser rejected every event missing that field -- which was every event during the rollout window, since producers and the indexer were deployed at different times. Rejected events were dropped rather than retried, so the indexer fell further behind until the parser was fixed.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 489,
+    "path": "data/raw/incidents/incident_2026_05_search_indexing_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "dbd677c8-79cf-49cc-bc16-ea8a277a8cf1",
+    "doc_id": "incident_2026_05_search_indexing_lag",
+    "parent_id": "incident_2026_05_search_indexing_lag",
+    "source": "local_markdown",
+    "title": "Incident 2026 05 Search Indexing Lag",
+    "text": "On-call identified the parsing errors in the indexer's logs, deployed a fix that treated the new field as optional with a default, and manually re-ran indexing for products published during the affected window using the product catalog as the source of truth.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 259,
+    "path": "data/raw/incidents/incident_2026_05_search_indexing_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "e9843d22-5897-4e38-8a23-5c2b5087475c",
+    "doc_id": "incident_2026_05_search_indexing_lag",
+    "parent_id": "incident_2026_05_search_indexing_lag",
+    "source": "local_markdown",
+    "title": "Incident 2026 05 Search Indexing Lag",
+    "text": "- Make the indexer's event parser tolerant of new optional fields by default (ignore unknown fields, default missing ones) instead of rejecting the whole event\n- Route rejected events to a dead-letter queue for reprocessing instead of dropping them\n- Coordinate schema changes to the product-change event across producers and consumers with a compatibility check in CI",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 368,
+    "path": "data/raw/incidents/incident_2026_05_search_indexing_lag.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "d7398ace-d102-4aa8-ac1b-ffc9d3d8d4ba",
+    "doc_id": "incident_2026_06_feature_flag_misconfiguration",
+    "parent_id": "incident_2026_06_feature_flag_misconfiguration",
+    "source": "local_markdown",
+    "title": "Incident 2026 06 Feature Flag Misconfiguration",
+    "text": "A feature flag intended to enable a new checkout redesign for 1 percent of users was misconfigured and instead enabled it for 100 percent of users, exposing an incomplete UI to the entire customer base for 25 minutes.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 217,
+    "path": "data/raw/incidents/incident_2026_06_feature_flag_misconfiguration.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "e10f5a84-28a1-44e4-bfed-37d559f4d057",
+    "doc_id": "incident_2026_06_feature_flag_misconfiguration",
+    "parent_id": "incident_2026_06_feature_flag_misconfiguration",
+    "source": "local_markdown",
+    "title": "Incident 2026 06 Feature Flag Misconfiguration",
+    "text": "All users attempting checkout during the window saw the redesigned, unfinished checkout flow, which was missing a working \"apply discount code\" button. Discount-code usage during the window dropped to zero, and several users abandoned checkout entirely rather than pay full price.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 280,
+    "path": "data/raw/incidents/incident_2026_06_feature_flag_misconfiguration.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "59810161-c1a4-4814-891e-127ff5dee411",
+    "doc_id": "incident_2026_06_feature_flag_misconfiguration",
+    "parent_id": "incident_2026_06_feature_flag_misconfiguration",
+    "source": "local_markdown",
+    "title": "Incident 2026 06 Feature Flag Misconfiguration",
+    "text": "The feature-flagging system's rollout-percentage field accepts a value from 0 to 100. The engineer configuring the rollout intended to enter \"1\" for 1 percent but the change was applied through a script that read the value from a config file where a decimal point had been dropped during a prior refactor of that file's format, turning \"1.0\" into \"10\" and, due to a separate unit mismatch in the same script, effectively \"100\" by the time it reached the flagging system.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 470,
+    "path": "data/raw/incidents/incident_2026_06_feature_flag_misconfiguration.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "913098d3-1d01-486c-b2dc-014da6d950bb",
+    "doc_id": "incident_2026_06_feature_flag_misconfiguration",
+    "parent_id": "incident_2026_06_feature_flag_misconfiguration",
+    "source": "local_markdown",
+    "title": "Incident 2026 06 Feature Flag Misconfiguration",
+    "text": "On-call noticed the spike in checkout abandonment and discount-code failure metrics, checked the feature flag dashboard, found the rollout percentage was 100 instead of 1, and immediately set it back to 1 percent, restoring the original checkout flow for nearly all users within minutes.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 287,
+    "path": "data/raw/incidents/incident_2026_06_feature_flag_misconfiguration.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "aed74efa-5b41-4079-8f32-6fe694a5ab4e",
+    "doc_id": "incident_2026_06_feature_flag_misconfiguration",
+    "parent_id": "incident_2026_06_feature_flag_misconfiguration",
+    "source": "local_markdown",
+    "title": "Incident 2026 06 Feature Flag Misconfiguration",
+    "text": "- Add a confirmation step in the rollout script showing the exact percentage before applying it\n- Add a maximum single-step rollout-percentage change limit (e.g. no jump larger than 10 percentage points without explicit override)\n- Add alerting on sudden drops in discount-code usage as a proxy for checkout-flow regressions",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 324,
+    "path": "data/raw/incidents/incident_2026_06_feature_flag_misconfiguration.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "6497beb1-3d65-44ca-851c-447013fe1ce6",
+    "doc_id": "incident_2026_03_migration_lock_contention",
+    "parent_id": "incident_2026_03_migration_lock_contention",
+    "source": "local_markdown",
+    "title": "Incident 2026 03 Migration Lock Contention",
+    "text": "A routine database schema migration took an exclusive lock on the orders table for 35 minutes, blocking all order writes for the duration.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 138,
+    "path": "data/raw/incidents/incident_2026_03_migration_lock_contention.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "6f291bba-98a7-491a-bacd-927e182209eb",
+    "doc_id": "incident_2026_03_migration_lock_contention",
+    "parent_id": "incident_2026_03_migration_lock_contention",
+    "source": "local_markdown",
+    "title": "Incident 2026 03 Migration Lock Contention",
+    "text": "Customers could browse and add items to cart normally, but every checkout attempt during the window failed with a generic error. Checkout conversion dropped to zero for 35 minutes.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 180,
+    "path": "data/raw/incidents/incident_2026_03_migration_lock_contention.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "c94e62d8-121b-4e0b-952c-c845d19f0df5",
+    "doc_id": "incident_2026_03_migration_lock_contention",
+    "parent_id": "incident_2026_03_migration_lock_contention",
+    "source": "local_markdown",
+    "title": "Incident 2026 03 Migration Lock Contention",
+    "text": "The migration added a new column with a non-null default value to the orders table. On the database engine in use, adding a column with a default requires rewriting every existing row under an exclusive table lock, which is fast on a small table but took over half an hour on the orders table's actual size. This was not caught in staging because the staging orders table has a small fraction of production's row count.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 419,
+    "path": "data/raw/incidents/incident_2026_03_migration_lock_contention.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "9bec4a9b-5587-44cb-bf0e-f151ba2c5ab9",
+    "doc_id": "incident_2026_03_migration_lock_contention",
+    "parent_id": "incident_2026_03_migration_lock_contention",
+    "source": "local_markdown",
+    "title": "Incident 2026 03 Migration Lock Contention",
+    "text": "On-call identified the long-running migration via the database's active-queries view and canceled it, releasing the lock and restoring checkout immediately. The column was later added successfully using a safer multi-step approach (add nullable column, backfill in batches, then add the constraint).",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 299,
+    "path": "data/raw/incidents/incident_2026_03_migration_lock_contention.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "aeb26506-2c97-43a1-9b0f-00cfafa42b9f",
+    "doc_id": "incident_2026_03_migration_lock_contention",
+    "parent_id": "incident_2026_03_migration_lock_contention",
+    "source": "local_markdown",
+    "title": "Incident 2026 03 Migration Lock Contention",
+    "text": "- Add a migration linter that flags \"add column with non-null default\" on large tables\n- Load staging's orders table with a production-representative row count before running migration rehearsals\n- Document the safe multi-step pattern for adding non-null columns to large tables",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 278,
+    "path": "data/raw/incidents/incident_2026_03_migration_lock_contention.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout",
+      "database"
+    ]
+  },
+  {
+    "chunk_id": "f5beee8d-3148-4bfb-9ede-7a0a9066cd22",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -636,7 +1747,7 @@
     ]
   },
   {
-    "chunk_id": "b9a7d31f-c08f-46be-a54b-c2146a92d341",
+    "chunk_id": "46b69e3f-7b10-4eb6-b865-e629d60c77a6",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -658,7 +1769,7 @@
     ]
   },
   {
-    "chunk_id": "22d5f018-52ca-4d49-9549-18f7a69f61db",
+    "chunk_id": "d27886e0-5d52-40b4-b473-68d3543c4b5f",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -680,7 +1791,7 @@
     ]
   },
   {
-    "chunk_id": "23a72fb9-9d3f-4c5b-8235-d05e1b99fac7",
+    "chunk_id": "88ef1c80-b115-46fe-9c84-f62c5232639c",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -702,7 +1813,7 @@
     ]
   },
   {
-    "chunk_id": "8be9b83f-684d-4396-aa39-45c0a759b580",
+    "chunk_id": "ced84633-7b3b-4c9f-b3ad-dab3f2c4d931",
     "doc_id": "incident_2025_06_cache_stampede",
     "parent_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
@@ -724,7 +1835,187 @@
     ]
   },
   {
-    "chunk_id": "68ff02e6-b44d-4ca4-a1da-a112c60b36ca",
+    "chunk_id": "78ace3aa-fb53-4ec5-85a8-1ce3daf3e4f5",
+    "doc_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "parent_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 02 Nightly Reconciliation Job Silent Failure",
+    "text": "The nightly job that reconciles inventory counts between the warehouse system and the storefront silently stopped running for eight days without anyone noticing, causing storefront inventory to drift from actual stock.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 218,
+    "path": "data/raw/incidents/incident_2026_02_nightly_reconciliation_job_silent_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "882a8416-956c-435b-b0e7-b195e005d57b",
+    "doc_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "parent_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 02 Nightly Reconciliation Job Silent Failure",
+    "text": "By the time the drift was noticed, roughly 3 percent of listed products showed as in-stock when they were actually sold out, leading to a backlog of orders that had to be manually canceled and refunded.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 202,
+    "path": "data/raw/incidents/incident_2026_02_nightly_reconciliation_job_silent_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "891a19ed-e92e-4af2-abc3-16d180f6eacc",
+    "doc_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "parent_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 02 Nightly Reconciliation Job Silent Failure",
+    "text": "The reconciliation job was scheduled via a cron entry on a host that was replaced during a routine infrastructure migration. The new host's cron configuration was provisioned from an older template that predated the reconciliation job's addition, so the job was never scheduled on the new host. Because the job had no independent \"last successful run\" monitoring, nothing detected that it had stopped running.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 409,
+    "path": "data/raw/incidents/incident_2026_02_nightly_reconciliation_job_silent_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "9e77123d-574e-4df6-8ac2-121e0334c608",
+    "doc_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "parent_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 02 Nightly Reconciliation Job Silent Failure",
+    "text": "Once discovered via a customer-reported out-of-stock order, the job was manually re-added to the new host's cron configuration and run immediately to correct the drift. Affected orders were identified by comparing timestamps and manually processed.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 248,
+    "path": "data/raw/incidents/incident_2026_02_nightly_reconciliation_job_silent_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "4531e384-a09b-44fe-95ab-769e88893418",
+    "doc_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "parent_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 02 Nightly Reconciliation Job Silent Failure",
+    "text": "- Add a dead-man's-switch alert that fires if the reconciliation job has not reported success within 26 hours\n- Move scheduled jobs out of host-level cron and into a centrally managed scheduler that isn't tied to a specific host's provisioning template\n- Audit all other cron-based jobs for the same host-migration exposure",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 323,
+    "path": "data/raw/incidents/incident_2026_02_nightly_reconciliation_job_silent_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "fba9e75c-0aef-4928-9b2d-aa1507084631",
+    "doc_id": "incident_2026_12_circuit_breaker_misfire",
+    "parent_id": "incident_2026_12_circuit_breaker_misfire",
+    "source": "local_markdown",
+    "title": "Incident 2026 12 Circuit Breaker Misfire",
+    "text": "A misconfigured circuit breaker on the recommendations-service client tripped during a brief, unrelated network blip and stayed open for 20 minutes, blocking all recommendation requests even after the underlying network issue had fully resolved.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 245,
+    "path": "data/raw/incidents/incident_2026_12_circuit_breaker_misfire.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "7d59a519-5dae-4e0f-9d28-6820cf6bcf7a",
+    "doc_id": "incident_2026_12_circuit_breaker_misfire",
+    "parent_id": "incident_2026_12_circuit_breaker_misfire",
+    "source": "local_markdown",
+    "title": "Incident 2026 12 Circuit Breaker Misfire",
+    "text": "The homepage's \"recommended for you\" section fell back to a generic, non-personalized product list for all users during the window. This is an intended graceful-degradation behavior, so no errors were shown to users, but personalized-recommendation click-through rate dropped to the generic-fallback baseline for 20 minutes.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 324,
+    "path": "data/raw/incidents/incident_2026_12_circuit_breaker_misfire.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "c42d511b-6528-40e5-8103-57fcc49fa3e8",
+    "doc_id": "incident_2026_12_circuit_breaker_misfire",
+    "parent_id": "incident_2026_12_circuit_breaker_misfire",
+    "source": "local_markdown",
+    "title": "Incident 2026 12 Circuit Breaker Misfire",
+    "text": "The circuit breaker's half-open retry interval, which controls how soon it attempts a test request after tripping to check if the dependency has recovered, was configured to 20 minutes instead of the intended 20 seconds due to a units mismatch when the config was migrated from seconds to a duration-string format during an unrelated refactor. The underlying network blip that originally tripped the breaker resolved within seconds, but the breaker did not attempt to check again until the full 20-minute interval had elapsed.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 526,
+    "path": "data/raw/incidents/incident_2026_12_circuit_breaker_misfire.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "9cad1f76-3e7e-41c6-ab6d-84c3ec8a11b9",
+    "doc_id": "incident_2026_12_circuit_breaker_misfire",
+    "parent_id": "incident_2026_12_circuit_breaker_misfire",
+    "source": "local_markdown",
+    "title": "Incident 2026 12 Circuit Breaker Misfire",
+    "text": "On-call noticed the sustained generic-fallback rate on the recommendations dashboard, identified the misconfigured retry interval, and manually reset the circuit breaker to closed, restoring personalized recommendations immediately.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 232,
+    "path": "data/raw/incidents/incident_2026_12_circuit_breaker_misfire.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "e8e62e09-4155-49ca-b960-d7b2f84101f2",
+    "doc_id": "incident_2026_12_circuit_breaker_misfire",
+    "parent_id": "incident_2026_12_circuit_breaker_misfire",
+    "source": "local_markdown",
+    "title": "Incident 2026 12 Circuit Breaker Misfire",
+    "text": "- Fix the units mismatch in the circuit breaker's retry-interval config and add a unit test asserting the parsed value matches the intended duration\n- Add a dashboard panel showing current circuit breaker state (open/half-open/closed) and time-in-state for each protected dependency\n- Add an alert for any circuit breaker remaining open longer than its configured retry interval would suggest is expected",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 404,
+    "path": "data/raw/incidents/incident_2026_12_circuit_breaker_misfire.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "9cecbd46-410f-4e02-935d-34247eb7dc74",
     "doc_id": "incident_2025_09_load_balancer_misconfig",
     "parent_id": "incident_2025_09_load_balancer_misconfig",
     "source": "local_markdown",
@@ -742,7 +2033,7 @@
     "tags": []
   },
   {
-    "chunk_id": "135d8df7-eb72-4075-a199-8e3c468a31df",
+    "chunk_id": "d08dadae-d1d0-4b74-9758-66909da60efd",
     "doc_id": "incident_2025_09_load_balancer_misconfig",
     "parent_id": "incident_2025_09_load_balancer_misconfig",
     "source": "local_markdown",
@@ -760,7 +2051,7 @@
     "tags": []
   },
   {
-    "chunk_id": "a9c98e67-f16c-438e-bd7d-250f898a31ab",
+    "chunk_id": "7e671220-e5b7-467d-a2e0-3f440caa6b18",
     "doc_id": "incident_2025_09_load_balancer_misconfig",
     "parent_id": "incident_2025_09_load_balancer_misconfig",
     "source": "local_markdown",
@@ -778,7 +2069,7 @@
     "tags": []
   },
   {
-    "chunk_id": "8bae14ea-cbec-4c32-84a2-27b8323fe553",
+    "chunk_id": "98d9a6a4-c565-4cd1-bbff-52bc6bc10fbe",
     "doc_id": "incident_2025_09_load_balancer_misconfig",
     "parent_id": "incident_2025_09_load_balancer_misconfig",
     "source": "local_markdown",
@@ -796,7 +2087,7 @@
     "tags": []
   },
   {
-    "chunk_id": "3dbded2d-85d5-463b-ad56-11166b15164e",
+    "chunk_id": "7bdb8a92-0dc1-499c-9a70-16edd0a51c6e",
     "doc_id": "incident_2025_09_load_balancer_misconfig",
     "parent_id": "incident_2025_09_load_balancer_misconfig",
     "source": "local_markdown",
@@ -814,7 +2105,7 @@
     "tags": []
   },
   {
-    "chunk_id": "8c8e3b22-6c10-4223-96b2-938f212cfa3e",
+    "chunk_id": "791985b9-0b49-4db0-b545-b0d6f60fac37",
     "doc_id": "incident_2025_08_queue_consumer_lag",
     "parent_id": "incident_2025_08_queue_consumer_lag",
     "source": "local_markdown",
@@ -834,7 +2125,7 @@
     ]
   },
   {
-    "chunk_id": "b5d92615-ceaf-442f-9578-8e08fd192cf6",
+    "chunk_id": "2ef0c688-7c7d-46bc-9ea0-d2d2ce90dd0f",
     "doc_id": "incident_2025_08_queue_consumer_lag",
     "parent_id": "incident_2025_08_queue_consumer_lag",
     "source": "local_markdown",
@@ -854,7 +2145,7 @@
     ]
   },
   {
-    "chunk_id": "ee2e36b1-771b-4d2f-91a0-defda2aa0c34",
+    "chunk_id": "81073436-f977-4089-9775-1741755f595c",
     "doc_id": "incident_2025_08_queue_consumer_lag",
     "parent_id": "incident_2025_08_queue_consumer_lag",
     "source": "local_markdown",
@@ -874,7 +2165,7 @@
     ]
   },
   {
-    "chunk_id": "f228f87f-d1c7-46e3-9246-65f2d75b1921",
+    "chunk_id": "4669c28e-ca62-496c-b31a-e1c205e72265",
     "doc_id": "incident_2025_08_queue_consumer_lag",
     "parent_id": "incident_2025_08_queue_consumer_lag",
     "source": "local_markdown",
@@ -894,7 +2185,7 @@
     ]
   },
   {
-    "chunk_id": "dac04d4d-7da5-4d42-b648-7d64a4d4e8a8",
+    "chunk_id": "cd1cf98c-aa54-4218-845f-c7d7753bfa96",
     "doc_id": "incident_2025_08_queue_consumer_lag",
     "parent_id": "incident_2025_08_queue_consumer_lag",
     "source": "local_markdown",
@@ -914,7 +2205,217 @@
     ]
   },
   {
-    "chunk_id": "4933510e-aa8d-4fc5-a0de-d0b80dba5420",
+    "chunk_id": "c0313344-99a2-42d7-aea3-1dce080ffa08",
+    "doc_id": "incident_2026_09_api_gateway_misrouting",
+    "parent_id": "incident_2026_09_api_gateway_misrouting",
+    "source": "local_markdown",
+    "title": "Incident 2026 09 Api Gateway Misrouting",
+    "text": "A routing configuration change intended to add a new API path instead altered an existing path's routing rule, sending roughly 15 percent of search-API traffic to the recommendations service backend for 12 minutes.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 214,
+    "path": "data/raw/incidents/incident_2026_09_api_gateway_misrouting.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "43ba675c-f780-4ae7-a89e-f666ee539c2b",
+    "doc_id": "incident_2026_09_api_gateway_misrouting",
+    "parent_id": "incident_2026_09_api_gateway_misrouting",
+    "source": "local_markdown",
+    "title": "Incident 2026 09 Api Gateway Misrouting",
+    "text": "Requests to the search API that were misrouted received recommendation results instead of search results, or a 404 if the recommendations service didn't recognize the request shape at all. Overall search error rate rose during the window; recommendations-service load also increased unexpectedly, though it stayed within capacity.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 330,
+    "path": "data/raw/incidents/incident_2026_09_api_gateway_misrouting.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "546cb14c-5471-40ad-a893-a6775060454c",
+    "doc_id": "incident_2026_09_api_gateway_misrouting",
+    "parent_id": "incident_2026_09_api_gateway_misrouting",
+    "source": "local_markdown",
+    "title": "Incident 2026 09 Api Gateway Misrouting",
+    "text": "The gateway's routing rules are matched by longest-prefix match. The new path added for a recommendations feature used a prefix that, due to a trailing-slash inconsistency, unintentionally matched a broader set of URLs than intended, overlapping with an existing search-API path pattern and taking priority over it because it was defined later in the rule list, which the gateway treats as higher priority on ties.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 414,
+    "path": "data/raw/incidents/incident_2026_09_api_gateway_misrouting.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "70993156-952e-4e8a-bf8e-9075987453ac",
+    "doc_id": "incident_2026_09_api_gateway_misrouting",
+    "parent_id": "incident_2026_09_api_gateway_misrouting",
+    "source": "local_markdown",
+    "title": "Incident 2026 09 Api Gateway Misrouting",
+    "text": "On-call identified the misrouted traffic via the search API's error-rate dashboard, correlated it with the recent routing change, and reverted the change, restoring correct routing within a few minutes.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 202,
+    "path": "data/raw/incidents/incident_2026_09_api_gateway_misrouting.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "cdacdd94-6539-4df7-b80b-d02a3a7d0c45",
+    "doc_id": "incident_2026_09_api_gateway_misrouting",
+    "parent_id": "incident_2026_09_api_gateway_misrouting",
+    "source": "local_markdown",
+    "title": "Incident 2026 09 Api Gateway Misrouting",
+    "text": "- Add a routing-rule validation step in CI that checks for prefix overlaps against all existing rules before a change is allowed to merge\n- Normalize trailing slashes before prefix matching in the gateway\n- Add a canary step for routing changes that sends a small percentage of traffic through the new rule before a full rollout",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 328,
+    "path": "data/raw/incidents/incident_2026_09_api_gateway_misrouting.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "search",
+    "severity": "sev2",
+    "tags": [
+      "search"
+    ]
+  },
+  {
+    "chunk_id": "bc69f768-4d3c-40f4-8add-9fc188b8df18",
+    "doc_id": "incident_2026_07_payment_webhook_backlog",
+    "parent_id": "incident_2026_07_payment_webhook_backlog",
+    "source": "local_markdown",
+    "title": "Incident 2026 07 Payment Webhook Backlog",
+    "text": "A backlog in processing payment-confirmation webhooks from the payment provider delayed order-confirmation emails and order fulfillment triggers by up to 90 minutes.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 165,
+    "path": "data/raw/incidents/incident_2026_07_payment_webhook_backlog.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "fabf1eb9-8dc1-4f72-805d-f6a26cd22c28",
+    "doc_id": "incident_2026_07_payment_webhook_backlog",
+    "parent_id": "incident_2026_07_payment_webhook_backlog",
+    "source": "local_markdown",
+    "title": "Incident 2026 07 Payment Webhook Backlog",
+    "text": "Payments themselves succeeded normally at the provider, but roughly 1,800 orders had their confirmation email and fulfillment-start trigger delayed. Several customers contacted support believing their payment had failed because no confirmation arrived promptly.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 261,
+    "path": "data/raw/incidents/incident_2026_07_payment_webhook_backlog.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "0726a858-cc39-4870-9d64-971d22dedfd8",
+    "doc_id": "incident_2026_07_payment_webhook_backlog",
+    "parent_id": "incident_2026_07_payment_webhook_backlog",
+    "source": "local_markdown",
+    "title": "Incident 2026 07 Payment Webhook Backlog",
+    "text": "The webhook receiver processes each incoming webhook synchronously, including a call to the internal order service to mark the order as paid. The order service experienced elevated latency during the window due to an unrelated database issue, and because the webhook receiver has no timeout on that internal call, each webhook took far longer to process than normal. Since webhooks were arriving faster than they could be processed under the elevated latency, a backlog built up in the provider's retry queue.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 509,
+    "path": "data/raw/incidents/incident_2026_07_payment_webhook_backlog.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "a5894307-2cc8-4d19-8a1e-8d2347046cbc",
+    "doc_id": "incident_2026_07_payment_webhook_backlog",
+    "parent_id": "incident_2026_07_payment_webhook_backlog",
+    "source": "local_markdown",
+    "title": "Incident 2026 07 Payment Webhook Backlog",
+    "text": "Once the order service's latency issue was resolved independently, the webhook backlog drained on its own as the provider retried unprocessed webhooks. On-call also manually queried the payment provider's API for a list of confirmed-but-unprocessed payments to confirm no webhooks were permanently lost.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 303,
+    "path": "data/raw/incidents/incident_2026_07_payment_webhook_backlog.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "d247a737-d981-431b-bc03-37f2e923c313",
+    "doc_id": "incident_2026_07_payment_webhook_backlog",
+    "parent_id": "incident_2026_07_payment_webhook_backlog",
+    "source": "local_markdown",
+    "title": "Incident 2026 07 Payment Webhook Backlog",
+    "text": "- Add a timeout on the webhook receiver's call to the order service, queuing the webhook for async processing on timeout rather than blocking\n- Decouple webhook receipt from webhook processing entirely using an internal queue\n- Add alerting on payment-webhook processing latency, not just on webhook receipt errors",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 314,
+    "path": "data/raw/incidents/incident_2026_07_payment_webhook_backlog.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": [
+      "database",
+      "latency",
+      "timeout"
+    ]
+  },
+  {
+    "chunk_id": "abaf7dd0-1530-4051-b7f7-568ccdfd1013",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -936,7 +2437,7 @@
     ]
   },
   {
-    "chunk_id": "46d40a5e-49b7-469f-9a99-914766c0c432",
+    "chunk_id": "78a20eb7-4c82-4e46-8a7c-e6270eff90cf",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -958,7 +2459,7 @@
     ]
   },
   {
-    "chunk_id": "c1b35b2a-f0b8-4a61-a6ea-be5cf89f9955",
+    "chunk_id": "274eb2d4-926e-4e5d-bbde-c00fe5685ce0",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -980,7 +2481,7 @@
     ]
   },
   {
-    "chunk_id": "940afb63-8051-49f9-a098-d0f05c1cb0fb",
+    "chunk_id": "d5441493-d6ce-4e2b-9138-68d29529eeca",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -1002,7 +2503,7 @@
     ]
   },
   {
-    "chunk_id": "06b8c4db-4ac5-4c94-9bfd-c3344b852d40",
+    "chunk_id": "2f7670a8-12a4-4b62-a8a5-ef4f04a036a3",
     "doc_id": "incident_2025_01_checkout_timeout",
     "parent_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
@@ -1024,7 +2525,7 @@
     ]
   },
   {
-    "chunk_id": "a00e673e-40a9-4cb3-a691-c508fc25fea0",
+    "chunk_id": "9238b7f5-98fd-4d36-9fd1-1c8461236633",
     "doc_id": "incident_2025_12_billing_data_corruption",
     "parent_id": "incident_2025_12_billing_data_corruption",
     "source": "local_markdown",
@@ -1044,7 +2545,7 @@
     ]
   },
   {
-    "chunk_id": "7e595c61-d161-4280-91af-b1e0706e1350",
+    "chunk_id": "57f79442-6a86-4ebf-9c15-6ce8b038536b",
     "doc_id": "incident_2025_12_billing_data_corruption",
     "parent_id": "incident_2025_12_billing_data_corruption",
     "source": "local_markdown",
@@ -1064,7 +2565,7 @@
     ]
   },
   {
-    "chunk_id": "0a321028-87ae-4f51-badc-6f7cdb547395",
+    "chunk_id": "3a825286-3686-4f93-b789-fe31a551b341",
     "doc_id": "incident_2025_12_billing_data_corruption",
     "parent_id": "incident_2025_12_billing_data_corruption",
     "source": "local_markdown",
@@ -1084,7 +2585,7 @@
     ]
   },
   {
-    "chunk_id": "33b3173f-e4c4-4822-96ce-fd0ecc2ffd4b",
+    "chunk_id": "5f26febc-5742-430f-b9a7-3d66cf0137dc",
     "doc_id": "incident_2025_12_billing_data_corruption",
     "parent_id": "incident_2025_12_billing_data_corruption",
     "source": "local_markdown",
@@ -1104,7 +2605,7 @@
     ]
   },
   {
-    "chunk_id": "0d557f6d-cccd-4c3b-8792-1e2c038ede66",
+    "chunk_id": "1a3d8776-0c4e-495c-bfb4-3db7cac7f9e8",
     "doc_id": "incident_2025_12_billing_data_corruption",
     "parent_id": "incident_2025_12_billing_data_corruption",
     "source": "local_markdown",
@@ -1124,7 +2625,197 @@
     ]
   },
   {
-    "chunk_id": "e639cba8-df4e-415c-8ba0-398c72fc80ad",
+    "chunk_id": "1ff66ce4-596c-4b0d-95ab-ebd49dc4fa8f",
+    "doc_id": "incident_2026_01_cdn_stale_content",
+    "parent_id": "incident_2026_01_cdn_stale_content",
+    "source": "local_markdown",
+    "title": "Incident 2026 01 Cdn Stale Content",
+    "text": "A product-pricing update did not take effect for most users for over three hours because the CDN continued serving a stale cached version of the pricing page.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 158,
+    "path": "data/raw/incidents/incident_2026_01_cdn_stale_content.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "95367a98-807e-4a9a-ba91-258ae45fffc3",
+    "doc_id": "incident_2026_01_cdn_stale_content",
+    "parent_id": "incident_2026_01_cdn_stale_content",
+    "source": "local_markdown",
+    "title": "Incident 2026 01 Cdn Stale Content",
+    "text": "Roughly 70 percent of pricing-page requests, based on edge-cache hit-rate metrics, served prices that had already been superseded by a promotional update. No incorrect checkout charges occurred, since checkout re-validates price server-side, but customer support received a spike of confused-pricing tickets.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 308,
+    "path": "data/raw/incidents/incident_2026_01_cdn_stale_content.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "650348f0-9797-4e11-af15-06abd0e2a846",
+    "doc_id": "incident_2026_01_cdn_stale_content",
+    "parent_id": "incident_2026_01_cdn_stale_content",
+    "source": "local_markdown",
+    "title": "Incident 2026 01 Cdn Stale Content",
+    "text": "The deploy pipeline's cache-invalidation step calls the CDN's purge API for a fixed list of URL paths, but the pricing page had recently been moved to a new path as part of an unrelated refactor. The purge step still targeted the old path, so the new path's cached copies were never invalidated and continued serving the pre-promotion content until their normal TTL (4 hours) expired.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 384,
+    "path": "data/raw/incidents/incident_2026_01_cdn_stale_content.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "e08d7e85-8ad5-472f-925d-ad8c3a95eb91",
+    "doc_id": "incident_2026_01_cdn_stale_content",
+    "parent_id": "incident_2026_01_cdn_stale_content",
+    "source": "local_markdown",
+    "title": "Incident 2026 01 Cdn Stale Content",
+    "text": "On-call manually triggered a full-path cache purge via the CDN dashboard once the discrepancy was reported, which cleared the stale content within minutes.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 155,
+    "path": "data/raw/incidents/incident_2026_01_cdn_stale_content.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "a2a304e9-c6e2-40dc-92b1-11669997a64b",
+    "doc_id": "incident_2026_01_cdn_stale_content",
+    "parent_id": "incident_2026_01_cdn_stale_content",
+    "source": "local_markdown",
+    "title": "Incident 2026 01 Cdn Stale Content",
+    "text": "- Derive the purge step's path list from the routing config at deploy time instead of a hardcoded list\n- Add a post-deploy check that fetches the CDN edge response and diffs it against the origin response for key pages\n- Reduce the pricing page's cache TTL",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 256,
+    "path": "data/raw/incidents/incident_2026_01_cdn_stale_content.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": "checkout",
+    "severity": "sev2",
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "chunk_id": "9e89b62c-e09f-44b9-bcfd-e3863dc39487",
+    "doc_id": "incident_2026_04_push_notification_delivery_failure",
+    "parent_id": "incident_2026_04_push_notification_delivery_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 04 Push Notification Delivery Failure",
+    "text": "Push notifications to mobile devices stopped being delivered for 6 hours after the certificate used to authenticate with the push notification provider expired and its automated rotation failed silently.",
+    "section": "Summary",
+    "start_char": 0,
+    "end_char": 203,
+    "path": "data/raw/incidents/incident_2026_04_push_notification_delivery_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "1958e671-ee4c-4392-ba46-70fd0793e4e8",
+    "doc_id": "incident_2026_04_push_notification_delivery_failure",
+    "parent_id": "incident_2026_04_push_notification_delivery_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 04 Push Notification Delivery Failure",
+    "text": "Order-status and shipping-update push notifications were not delivered to any mobile app user during the window. No data was lost -- notifications remained queued and were delivered once the certificate was fixed -- but several thousand users received delayed shipping updates.",
+    "section": "Impact",
+    "start_char": 0,
+    "end_char": 277,
+    "path": "data/raw/incidents/incident_2026_04_push_notification_delivery_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "eb7e9cf8-645e-48c3-aea4-044a667c0495",
+    "doc_id": "incident_2026_04_push_notification_delivery_failure",
+    "parent_id": "incident_2026_04_push_notification_delivery_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 04 Push Notification Delivery Failure",
+    "text": "The push certificate's automated renewal job depends on an API call to the provider that had recently added a required additional authentication header. The renewal job was not updated for this change, so its renewal calls began failing with an authentication error. The job logged the failure but did not alert anyone, and the old certificate continued working right up until its expiry, at which point delivery stopped abruptly.",
+    "section": "Root Cause",
+    "start_char": 0,
+    "end_char": 430,
+    "path": "data/raw/incidents/incident_2026_04_push_notification_delivery_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "a424f7f0-2cd8-40d1-8134-4c96058e9f18",
+    "doc_id": "incident_2026_04_push_notification_delivery_failure",
+    "parent_id": "incident_2026_04_push_notification_delivery_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 04 Push Notification Delivery Failure",
+    "text": "On-call noticed the delivery failure via a drop in the notification-sent metric, identified the expired certificate, manually renewed it through the provider's dashboard, and confirmed delivery resumed. Queued notifications were flushed successfully once the certificate was valid again.",
+    "section": "Mitigation",
+    "start_char": 0,
+    "end_char": 287,
+    "path": "data/raw/incidents/incident_2026_04_push_notification_delivery_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "411cc5c0-5c6c-4a99-876e-cfdf4e5770f1",
+    "doc_id": "incident_2026_04_push_notification_delivery_failure",
+    "parent_id": "incident_2026_04_push_notification_delivery_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 04 Push Notification Delivery Failure",
+    "text": "- Alert on push certificate renewal failures, not just on expiry\n- Add a dashboard panel showing days until push certificate expiry\n- Add an end-to-end synthetic push notification test that runs hourly and alerts on failure",
+    "section": "Follow-up Actions",
+    "start_char": 0,
+    "end_char": 223,
+    "path": "data/raw/incidents/incident_2026_04_push_notification_delivery_failure.md",
+    "url": null,
+    "created_at": null,
+    "updated_at": null,
+    "service": null,
+    "severity": "sev2",
+    "tags": []
+  },
+  {
+    "chunk_id": "a4f4c02f-804b-42d9-bd64-dcee9de0c4cf",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -1144,7 +2835,7 @@
     ]
   },
   {
-    "chunk_id": "be62261a-c1d6-4446-a262-fc16848fc5c6",
+    "chunk_id": "e940be71-a6c4-4b71-93c5-7a94111da2f7",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -1164,7 +2855,7 @@
     ]
   },
   {
-    "chunk_id": "09904494-1ceb-4ba2-8182-d9374f59ed2d",
+    "chunk_id": "6a0cf73a-9253-4220-a6bf-c0649ee9a3ac",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -1184,7 +2875,7 @@
     ]
   },
   {
-    "chunk_id": "2413375e-90ca-4711-8ae0-339db649b3e9",
+    "chunk_id": "c89ba375-918d-43a3-a6d7-948520c0f6af",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -1204,7 +2895,7 @@
     ]
   },
   {
-    "chunk_id": "238a3037-77b6-4aeb-81f2-37adc7719c97",
+    "chunk_id": "92488b32-f816-471a-9b23-5b37224479cc",
     "doc_id": "incident_2025_04_rate_limit",
     "parent_id": "incident_2025_04_rate_limit",
     "source": "local_markdown",
@@ -1224,7 +2915,7 @@
     ]
   },
   {
-    "chunk_id": "b417cfca-b757-4ec0-af1c-aca9a59873f7",
+    "chunk_id": "ccdce132-951f-41be-bb0e-f0e88f6de601",
     "doc_id": "incident_2025_07_tls_cert_expiry",
     "parent_id": "incident_2025_07_tls_cert_expiry",
     "source": "local_markdown",
@@ -1242,7 +2933,7 @@
     "tags": []
   },
   {
-    "chunk_id": "d11f5695-4559-4e86-a895-f1e76aa9f4f4",
+    "chunk_id": "6fd56c53-a58d-4d16-8b59-72eae3ff67d1",
     "doc_id": "incident_2025_07_tls_cert_expiry",
     "parent_id": "incident_2025_07_tls_cert_expiry",
     "source": "local_markdown",
@@ -1260,7 +2951,7 @@
     "tags": []
   },
   {
-    "chunk_id": "61ce5eb0-710a-423a-b514-adb7d3f90cf3",
+    "chunk_id": "1b01f517-e654-4b0b-a70c-138e5aaadc29",
     "doc_id": "incident_2025_07_tls_cert_expiry",
     "parent_id": "incident_2025_07_tls_cert_expiry",
     "source": "local_markdown",
@@ -1278,7 +2969,7 @@
     "tags": []
   },
   {
-    "chunk_id": "ea8a9b63-4bdb-4385-809f-f489d3c27d5f",
+    "chunk_id": "ce5c088f-7175-496a-a825-06a8e6feaa61",
     "doc_id": "incident_2025_07_tls_cert_expiry",
     "parent_id": "incident_2025_07_tls_cert_expiry",
     "source": "local_markdown",
@@ -1296,7 +2987,7 @@
     "tags": []
   },
   {
-    "chunk_id": "d2fc68ab-affa-4133-a060-c0ecf661afd5",
+    "chunk_id": "360b1e7a-3f9e-4452-9a06-bd97b152ac3b",
     "doc_id": "incident_2025_07_tls_cert_expiry",
     "parent_id": "incident_2025_07_tls_cert_expiry",
     "source": "local_markdown",
@@ -1314,7 +3005,7 @@
     "tags": []
   },
   {
-    "chunk_id": "b1568cef-080e-4a99-9ed6-eaa2edca4eaa",
+    "chunk_id": "d1a3b91f-c714-40ac-9e7a-e77ebfd10bb5",
     "doc_id": "incident_2025_10_disk_space_exhaustion",
     "parent_id": "incident_2025_10_disk_space_exhaustion",
     "source": "local_markdown",
@@ -1335,7 +3026,7 @@
     ]
   },
   {
-    "chunk_id": "1db8e12c-a92d-44dc-87be-6295c0b4e5f9",
+    "chunk_id": "be54f2e6-7c47-4921-81d8-9bf559fa6e1f",
     "doc_id": "incident_2025_10_disk_space_exhaustion",
     "parent_id": "incident_2025_10_disk_space_exhaustion",
     "source": "local_markdown",
@@ -1356,7 +3047,7 @@
     ]
   },
   {
-    "chunk_id": "8dd57790-14a1-4dc0-b3ca-322649e44c68",
+    "chunk_id": "59673de1-15c5-4200-821a-002bef2b8e56",
     "doc_id": "incident_2025_10_disk_space_exhaustion",
     "parent_id": "incident_2025_10_disk_space_exhaustion",
     "source": "local_markdown",
@@ -1377,7 +3068,7 @@
     ]
   },
   {
-    "chunk_id": "cda74e6c-c44d-4868-88d8-d2aea0e5af15",
+    "chunk_id": "01ee5089-d26e-4ffa-b42b-ac842f6146db",
     "doc_id": "incident_2025_10_disk_space_exhaustion",
     "parent_id": "incident_2025_10_disk_space_exhaustion",
     "source": "local_markdown",
@@ -1398,7 +3089,7 @@
     ]
   },
   {
-    "chunk_id": "e9965a3f-76d8-4b98-8f2b-ea2c4f0e2bbd",
+    "chunk_id": "f884d66e-f432-4e4d-b4e0-4e4e525f585c",
     "doc_id": "incident_2025_10_disk_space_exhaustion",
     "parent_id": "incident_2025_10_disk_space_exhaustion",
     "source": "local_markdown",
@@ -1419,7 +3110,7 @@
     ]
   },
   {
-    "chunk_id": "c6680a0a-3af0-42c5-a081-f453c2893a63",
+    "chunk_id": "bbb771aa-fac4-4851-bd35-098932501114",
     "doc_id": "incident_2025_11_auth_provider_outage",
     "parent_id": "incident_2025_11_auth_provider_outage",
     "source": "local_markdown",
@@ -1437,7 +3128,7 @@
     "tags": []
   },
   {
-    "chunk_id": "1e34b868-afda-404e-9edc-d7527461d9b4",
+    "chunk_id": "1d7b48ff-6083-4c2d-9e3f-1cc594deac6b",
     "doc_id": "incident_2025_11_auth_provider_outage",
     "parent_id": "incident_2025_11_auth_provider_outage",
     "source": "local_markdown",
@@ -1455,7 +3146,7 @@
     "tags": []
   },
   {
-    "chunk_id": "3efeb114-1707-48ad-9f03-08d5c37b62a3",
+    "chunk_id": "23c02c05-7cfb-448e-9454-7a09e603320a",
     "doc_id": "incident_2025_11_auth_provider_outage",
     "parent_id": "incident_2025_11_auth_provider_outage",
     "source": "local_markdown",
@@ -1473,7 +3164,7 @@
     "tags": []
   },
   {
-    "chunk_id": "ac6fea7e-b193-408e-9ff3-420e7d1c6326",
+    "chunk_id": "620e3487-009c-443a-84ce-b738b7e7a0a5",
     "doc_id": "incident_2025_11_auth_provider_outage",
     "parent_id": "incident_2025_11_auth_provider_outage",
     "source": "local_markdown",
@@ -1491,7 +3182,7 @@
     "tags": []
   },
   {
-    "chunk_id": "e450428f-def1-43d4-912c-cd252cb43bde",
+    "chunk_id": "49c1cd90-e025-43d8-b24e-c17cdd990218",
     "doc_id": "incident_2025_11_auth_provider_outage",
     "parent_id": "incident_2025_11_auth_provider_outage",
     "source": "local_markdown",
@@ -1509,7 +3200,7 @@
     "tags": []
   },
   {
-    "chunk_id": "b3f9e606-c752-45f1-9c00-6b498431946a",
+    "chunk_id": "b679b0e7-16b6-407c-9414-da14dd90e10a",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -1529,7 +3220,7 @@
     ]
   },
   {
-    "chunk_id": "e2b0c5bb-3443-4b54-9a62-677e41fc0169",
+    "chunk_id": "1bb7fded-93ab-4e32-bc4c-062748579396",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -1549,7 +3240,7 @@
     ]
   },
   {
-    "chunk_id": "74571084-4f86-46be-87f6-7c614258769e",
+    "chunk_id": "ad66968b-dd06-4f91-8586-bc6ac7ebdbcc",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -1569,7 +3260,7 @@
     ]
   },
   {
-    "chunk_id": "f9d0cefa-7266-4bed-bceb-1177cf546807",
+    "chunk_id": "57a6cd9e-32e9-4253-809f-c651cafadf1c",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -1589,7 +3280,7 @@
     ]
   },
   {
-    "chunk_id": "d6038ab5-adc7-42c3-9ca7-eb287363543b",
+    "chunk_id": "fec048b0-d523-4c9f-b36f-bd915e67c2a4",
     "doc_id": "incident_2025_05_dns_failure",
     "parent_id": "incident_2025_05_dns_failure",
     "source": "local_markdown",
@@ -1609,7 +3300,7 @@
     ]
   },
   {
-    "chunk_id": "a1cb285e-9c30-4435-9749-d918629d3c28",
+    "chunk_id": "a1c8d8de-a1e2-4c99-ae9d-478f693fbae4",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -1627,7 +3318,7 @@
     "tags": []
   },
   {
-    "chunk_id": "bc24a50b-08fd-4411-8e4d-7df4af33c51d",
+    "chunk_id": "88f97a70-460c-403c-b717-087e9c38ac7e",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -1645,7 +3336,7 @@
     "tags": []
   },
   {
-    "chunk_id": "21315d9e-3e46-4b18-8c89-c8ed00883086",
+    "chunk_id": "4d76e5c4-10ca-4a58-be1c-e10eebdb71bd",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -1663,7 +3354,7 @@
     "tags": []
   },
   {
-    "chunk_id": "cd3be9cc-7126-4d65-8b20-4e535d9da6bd",
+    "chunk_id": "3e3a29c7-fc12-4657-b5e9-d360b6b4338c",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -1681,7 +3372,7 @@
     "tags": []
   },
   {
-    "chunk_id": "84186227-4499-4f34-a2f1-cca1a4231c57",
+    "chunk_id": "b0fb1cb1-815b-4dab-84d1-b70c51ee50ce",
     "doc_id": "incident_2025_03_memory_leak",
     "parent_id": "incident_2025_03_memory_leak",
     "source": "local_markdown",
@@ -1699,7 +3390,7 @@
     "tags": []
   },
   {
-    "chunk_id": "4e6d23b8-2953-424a-ac2e-b36665a53055",
+    "chunk_id": "2962748a-00d0-416f-a9e0-3bc08124cf03",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -1721,7 +3412,7 @@
     ]
   },
   {
-    "chunk_id": "ee1cb11a-1324-46a9-a38b-d71b4f9480d7",
+    "chunk_id": "e6263e2b-0f13-4cfd-8639-346f3936d22f",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -1743,7 +3434,7 @@
     ]
   },
   {
-    "chunk_id": "ee5be642-4d28-4d0e-8345-a71924eb84fc",
+    "chunk_id": "5e332d6f-2f87-49cb-a29a-c1d12dc45873",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -1765,7 +3456,7 @@
     ]
   },
   {
-    "chunk_id": "ca61b54f-0fd4-4a64-a22f-27ee0c1c4112",
+    "chunk_id": "26d5d5c9-e692-4b8c-ae0c-99287ebb9482",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",
@@ -1787,7 +3478,7 @@
     ]
   },
   {
-    "chunk_id": "772d0ed5-fce1-4837-9800-5761a86f745e",
+    "chunk_id": "02a39718-166d-47dd-8966-a352d5ff008f",
     "doc_id": "incident_2025_02_search_latency",
     "parent_id": "incident_2025_02_search_latency",
     "source": "local_markdown",

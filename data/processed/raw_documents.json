@@ -1,11 +1,37 @@
 [
   {
+    "doc_id": "notification_delivery_runbook",
+    "source": "local_markdown",
+    "title": "Notification Delivery Runbook",
+    "content": "# Notification Delivery Runbook\n\n## Symptoms\n- Push notification or email sent count drops sharply while the triggering events (orders, shipping updates) continue at normal volume\n- Users report not receiving expected notifications\n- Notification queue depth grows without draining\n\n## Immediate Checks\n- Check the notification queue depth and drain rate in metrics\n- Check for authentication or certificate errors in the notification provider's client logs\n- Confirm the provider's own status page doesn't show an ongoing outage on their end\n- Check certificate or API-key expiry dates for the notification provider integration\n\n## Mitigation Steps\n- If a certificate or credential has expired: renew it through the provider's dashboard and confirm delivery resumes\n- If the provider is down: confirm notifications are queuing rather than being dropped, so they can be delivered once the provider recovers\n- If the queue is draining slower than it fills: temporarily increase worker concurrency for the notification consumer\n- Manually verify a sample of queued notifications are delivered correctly before considering the incident resolved\n\n## Escalation\n- Escalate to the notification provider's support channel if an outage on their end exceeds 30 minutes\n- Escalate internally if queued notifications risk becoming stale or irrelevant (e.g. time-sensitive shipping updates) before they can be delivered\n",
+    "url": null,
+    "path": "data/raw/runbooks/notification_delivery_runbook.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "auth_outage_runbook",
     "source": "local_markdown",
     "title": "Auth Outage Runbook",
     "content": "# Auth Outage Runbook\n\n## Symptoms\n- Spike in login failures with no corresponding change to internal auth service error rate\n- Password reset requests failing\n- New user sign-ups failing while existing sessions remain valid\n- Elevated error rate specifically on OAuth token-issuance calls\n\n## Immediate Checks\n- Check the external identity provider's public status page for a known outage\n- Check auth service logs for timeouts or errors specifically on calls to the external provider\n- Confirm whether existing authenticated sessions are still functioning normally\n- Check auth service error rate broken down by internal errors versus upstream provider errors\n\n## Mitigation Steps\n- If the external identity provider is down: post a status banner informing users of the outage and estimated impact\n- Confirm there is no viable internal fallback for new logins during a provider outage\n- Monitor the provider's status page for recovery and confirm login success rate returns to baseline once resolved\n- Do not restart the auth service if the root cause is confirmed external \u2014 a restart will not resolve provider-side outages\n\n## Escalation\n- Escalate to the identity provider's support channel if the outage exceeds 30 minutes with no public acknowledgement\n- Escalate internally to product/support teams to coordinate customer communication for outages longer than 15 minutes\n",
     "url": null,
     "path": "data/raw/runbooks/auth_outage_runbook.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "scheduled_job_failure_runbook",
+    "source": "local_markdown",
+    "title": "Scheduled Job Failure Runbook",
+    "content": "# Scheduled Job Failure Runbook\n\n## Symptoms\n- Data that depends on a nightly or periodic job looks stale or drifted (e.g. inventory counts, reconciliation reports)\n- No recent \"job completed successfully\" log entry or metric for the expected schedule\n- Downstream systems that consume the job's output are operating on outdated data\n\n## Immediate Checks\n- Check the job scheduler (cron, workflow orchestrator) for the job's last recorded run time and exit status\n- Confirm the job is still actually scheduled on the expected host or scheduler instance, especially after any recent infrastructure migration\n- Check the job's logs for the most recent run, successful or not\n- Compare the job's expected schedule against its actual run history to see how long it has been missing\n\n## Mitigation Steps\n- If the job is missing from the scheduler: re-add it and trigger an immediate manual run\n- If the job ran but failed: review the failure logs, fix the underlying issue, and re-run manually\n- After a manual run, reconcile any data drift that accumulated while the job was not running\n- Confirm the job's next scheduled run occurs as expected before closing out\n\n## Escalation\n- Escalate to the team that owns the affected downstream data if drift has led to customer-visible incorrect information\n- Escalate to infrastructure if the job's absence traces back to a host or scheduler migration, so other jobs can be audited for the same gap\n",
+    "url": null,
+    "path": "data/raw/runbooks/scheduled_job_failure_runbook.md",
     "created_at": null,
     "updated_at": null,
     "metadata": {
@@ -26,12 +52,38 @@
     }
   },
   {
+    "doc_id": "cdn_stale_content_runbook",
+    "source": "local_markdown",
+    "title": "Cdn Stale Content Runbook",
+    "content": "# CDN Stale Content Runbook\n\n## Symptoms\n- Users report seeing outdated prices, copy, or images after a known deploy or content update\n- CDN edge cache hit ratio remains high for a path that was just changed\n- Origin server returns updated content when queried directly, but the public URL still returns old content\n\n## Immediate Checks\n- Fetch the affected URL directly against the origin, bypassing the CDN, and confirm it shows the updated content\n- Fetch the same URL through the CDN and compare response headers for cache-status and age\n- Check whether the deploy's cache-purge step actually ran and which paths it targeted\n- Confirm the affected path matches what the purge step targeted (watch for recent path or route changes)\n\n## Mitigation Steps\n- Manually trigger a full-path purge for the affected URL(s) via the CDN dashboard or purge API\n- If the purge step's path list is stale, update it to match the current routing before the next deploy\n- For urgent cases, temporarily lower the affected path's cache TTL to force faster natural expiry\n\n## Escalation\n- Escalate to the CDN provider if a manual purge request does not clear stale content within 15 minutes\n- Escalate to the platform team if this is the second stale-content incident tied to the same deploy pipeline step within 30 days\n",
+    "url": null,
+    "path": "data/raw/runbooks/cdn_stale_content_runbook.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "disk_space_runbook",
     "source": "local_markdown",
     "title": "Disk Space Runbook",
     "content": "# Disk Space Runbook\n\n## Symptoms\n- Service crash-looping with write-failure errors in logs\n- Disk usage alert above 85 percent on a host\n- Log rotation appears stalled or absent\n- Sudden inability to write temp files or upload buffers\n\n## Immediate Checks\n- Check disk usage on the affected host: df -h\n- Identify the largest directories consuming space: du -sh /var/log/* or equivalent\n- Check whether log rotation is running and whether any log file exceeds its expected rotation threshold\n- Check for any debug or verbose logging flags left enabled\n\n## Mitigation Steps\n- If a single oversized log file is the cause, truncate or compress it to free immediate space\n- Disable any debug logging flags contributing to excessive log volume\n- Manually trigger log rotation if the scheduled job appears stuck\n- Restart the affected service once sufficient disk space is confirmed available\n\n## Escalation\n- Escalate to infrastructure team if disk usage cannot be reduced below 85 percent within 15 minutes\n- Escalate to the owning service team if the root cause is unclear after initial checks\n",
     "url": null,
     "path": "data/raw/runbooks/disk_space_runbook.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "search_indexing_lag_runbook",
+    "source": "local_markdown",
+    "title": "Search Indexing Lag Runbook",
+    "content": "# Search Indexing Lag Runbook\n\n## Symptoms\n- Newly published or updated products don't appear in search results, though they load correctly via direct link\n- Search indexing lag metric (time between product-change event and index update) rises above normal baseline\n- Indexer logs show a rising rate of parse or validation errors on incoming events\n\n## Immediate Checks\n- Check the search indexing pipeline's consumer lag against the product-change event stream\n- Check the indexer's logs for parse errors, and note whether they correlate with a recent schema change to the event\n- Confirm producers and the indexer are running compatible versions of the event schema\n- Spot-check a few recently published products directly in the search index to confirm the scope of the lag\n\n## Mitigation Steps\n- If a schema mismatch is the cause: deploy a fix to the indexer to tolerate the new field, or roll back the producer change, whichever is faster\n- Manually re-index affected products using the product catalog as the source of truth once the underlying cause is fixed\n- If events were dropped rather than dead-lettered, identify the affected time window from logs and replay from the catalog rather than the event stream\n\n## Escalation\n- Escalate to the team owning the product-change event schema if repeated indexer breakage traces back to uncoordinated schema changes\n- Escalate to merchandising if a live promotional launch is affected, so they can extend or adjust the promotion\n",
+    "url": null,
+    "path": "data/raw/runbooks/search_indexing_lag_runbook.md",
     "created_at": null,
     "updated_at": null,
     "metadata": {
@@ -65,6 +117,45 @@
     }
   },
   {
+    "doc_id": "cdn_caching_architecture",
+    "source": "local_markdown",
+    "title": "Cdn Caching Architecture",
+    "content": "# CDN and Caching Architecture\n\n## Services\nStatic assets and select cacheable pages (product listings, the pricing page) are served through a CDN in front of the origin servers. The deploy pipeline calls the CDN's purge API for a fixed list of paths as part of releasing changes to cached pages.\n\n## Failure Modes\nThe most common failure mode is stale content: if a page's path changes or the purge step's target list falls out of sync with actual routing, the CDN continues serving pre-update content until the cache entry's TTL naturally expires, which can be hours depending on the path's configured TTL.\n\n## Mitigations\nMitigations include deriving the purge step's path list from the live routing configuration rather than a hardcoded list, and a post-deploy check that compares CDN edge responses against origin responses for key pages to catch staleness immediately after a release rather than waiting for a user report.\n",
+    "url": null,
+    "path": "data/raw/docs/cdn_caching_architecture.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "scheduled_jobs_architecture",
+    "source": "local_markdown",
+    "title": "Scheduled Jobs Architecture",
+    "content": "# Scheduled Jobs Architecture\n\n## Services\nPeriodic tasks (nightly inventory reconciliation, thumbnail re-processing, cleanup jobs) run on a schedule, historically via host-level cron entries. Each job is expected to report a success or failure status after each run.\n\n## Failure Modes\nThe main failure mode is a job silently ceasing to run without anyone noticing, most commonly after an infrastructure migration where the new host's cron configuration is provisioned from a template that doesn't include every job that existed on the old host. Because host-level cron has no independent monitoring of whether a job actually ran, this kind of gap can persist for days before downstream data drift makes it visible.\n\n## Mitigations\nMitigations include a dead-man's-switch style alert per job that fires if it hasn't reported success within its expected interval plus a margin, and moving scheduled jobs off host-level cron into a centrally managed scheduler that isn't tied to any single host's provisioning template.\n",
+    "url": null,
+    "path": "data/raw/docs/scheduled_jobs_architecture.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "search_indexing_architecture",
+    "source": "local_markdown",
+    "title": "Search Indexing Architecture",
+    "content": "# Search Indexing Architecture\n\n## Services\nThe search index is kept up to date by an asynchronous indexing pipeline that consumes a stream of product-change events (created, updated, price changed, delisted) and applies them to the search index. This is decoupled from the product catalog's own database so search can scale and be queried independently.\n\n## Failure Modes\nThe main failure mode is indexing lag: if the indexer falls behind (due to a schema mismatch with producers, a backlog, or an outage), newly published or updated products don't appear in search even though they exist correctly in the catalog and are reachable by direct link. A stricter risk is event rejection due to schema incompatibility, which can silently drop updates rather than merely delaying them if rejected events aren't captured for reprocessing.\n\n## Mitigations\nMitigations include making the indexer's event parser tolerant of new or missing optional fields rather than rejecting the whole event, routing rejected events to a dead-letter queue for reprocessing instead of dropping them, and a compatibility check in CI for changes to the product-change event schema shared between producers and the indexer.\n",
+    "url": null,
+    "path": "data/raw/docs/search_indexing_architecture.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "api_gateway_architecture",
     "source": "local_markdown",
     "title": "Api Gateway Architecture",
@@ -91,6 +182,19 @@
     }
   },
   {
+    "doc_id": "notification_service_architecture",
+    "source": "local_markdown",
+    "title": "Notification Service Architecture",
+    "content": "# Notification Service Architecture\n\n## Services\nThe notification service consumes events (order confirmed, order shipped, price drop on a wishlisted item) and delivers push notifications and emails through third-party providers. Notifications are queued internally before delivery so a provider outage doesn't cause events to be lost.\n\n## Failure Modes\nCommon failure modes include an expired or misconfigured provider credential/certificate causing delivery to fail outright, and provider-side outages or rate limits causing the internal queue to back up. Because delivery is queued rather than synchronous, a backlog shows up as growing queue depth rather than immediate errors, which can delay detection if queue-depth isn't actively monitored.\n\n## Mitigations\nMitigations include certificate/credential expiry monitoring with advance warning, an end-to-end synthetic notification test that runs on a schedule to catch delivery failures proactively, and queue-depth alerting so a backlog is caught before queued notifications become stale or irrelevant.\n",
+    "url": null,
+    "path": "data/raw/docs/notification_service_architecture.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "message_queue_architecture",
     "source": "local_markdown",
     "title": "Message Queue Architecture",
@@ -104,12 +208,116 @@
     }
   },
   {
+    "doc_id": "incident_2026_11_duplicate_order_processing",
+    "source": "local_markdown",
+    "title": "Incident 2026 11 Duplicate Order Processing",
+    "content": "# Duplicate Order Processing After Consumer Restart\n\n## Summary\nA restart of the order-processing consumer during a deployment caused roughly 200 orders to be processed twice, resulting in duplicate fulfillment triggers and, for a subset of orders, duplicate charges.\n\n## Impact\nAbout 200 orders had duplicate fulfillment requests sent to the warehouse system, and 45 of those also resulted in a duplicate charge to the customer's payment method, since charge deduplication relied on the same processing step that ran twice.\n\n## Root Cause\nThe order-processing consumer reads messages from a queue and commits its read offset only after fully processing a batch, not after each message. During a deployment, the consumer was restarted mid-batch; because the offset for that batch had not yet been committed, the new consumer instance re-read and reprocessed the entire batch, including messages that had already been fully processed (and charged) by the old instance before it was killed.\n\n## Mitigation\nOn-call identified the duplicate charges via a spike in payment-provider refund requests from customers, cross-referenced order IDs against the payment provider's transaction log to find all duplicates, and issued refunds for the 45 duplicate charges. Duplicate fulfillment requests were caught and canceled at the warehouse system before shipment in all but 3 cases, which were handled as return requests.\n\n## Follow-up Actions\n- Make order processing idempotent per order ID (check-then-process against a processed-orders table) rather than relying solely on queue offset commits\n- Commit queue offsets per-message or in smaller batches to shrink the reprocessing window on restart\n- Add a reconciliation check that flags any order ID processed more than once\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_11_duplicate_order_processing.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_08_session_cache_eviction_mass_logout",
+    "source": "local_markdown",
+    "title": "Incident 2026 08 Session Cache Eviction Mass Logout",
+    "content": "# Session Cache Eviction Caused Mass Logout\n\n## Summary\nA memory-pressure event on the session cache caused it to evict a large fraction of active sessions at once, logging out an estimated 40 percent of active users simultaneously.\n\n## Impact\nAffected users were redirected to the login page mid-session and had to sign in again. Any in-progress checkout or form submission for those users was lost. No payment or data corruption occurred, but the sudden spike in login traffic itself briefly elevated login latency for all users, including those not affected by the original eviction.\n\n## Root Cause\nSession data is stored in an in-memory cache with a fixed memory limit and an eviction policy that removes the least-recently-used entries once the limit is reached. A marketing campaign drove an unusually large traffic spike, and the resulting spike in new sessions pushed the cache past its memory limit, triggering mass eviction of older (but still active) sessions rather than just the campaign's new short-lived ones, because session recency was tracked by creation time rather than last-access time.\n\n## Mitigation\nOn-call increased the session cache's memory limit as an immediate mitigation once the pattern was identified, which stopped further mass evictions. Affected users were not individually notified, since re-login was the only user-visible effect and no data was lost beyond in-progress form state.\n\n## Follow-up Actions\n- Switch the eviction policy to track last-access time rather than creation time, so active sessions are protected from eviction regardless of age\n- Add capacity alerting on session cache memory usage well before the eviction threshold\n- Load-test the session cache against traffic patterns matching a marketing campaign spike, not just steady-state traffic\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_08_session_cache_eviction_mass_logout.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_10_image_upload_outage",
+    "source": "local_markdown",
+    "title": "Incident 2026 10 Image Upload Outage",
+    "content": "# Product Image Upload Outage\n\n## Summary\nSellers were unable to upload new product images for 50 minutes after the image-processing service's storage bucket ran out of available connections.\n\n## Impact\nNew product listings and image updates to existing listings failed with an upload error during the window. Existing product images already live on the storefront were unaffected, since they are served from a separate read path.\n\n## Root Cause\nThe image-processing service opens a new connection to the storage bucket for each upload rather than reusing a connection pool. A batch re-processing job that re-generates thumbnail sizes for older images was running concurrently with normal upload traffic and, combined, the two exceeded the storage provider's per-account connection limit, causing new connection attempts (including normal seller uploads) to be rejected.\n\n## Mitigation\nOn-call identified the batch job as the concurrent load source, paused it, and connections recovered within a few minutes as existing ones were released. The batch job was rescheduled to run overnight instead.\n\n## Follow-up Actions\n- Migrate the image-processing service to use a shared, bounded connection pool instead of opening a new connection per upload\n- Cap the batch re-processing job's concurrency so it cannot approach the account-wide connection limit on its own\n- Add alerting on storage-provider connection rejection errors specifically, not just generic upload failure rate\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_10_image_upload_outage.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_05_search_indexing_lag",
+    "source": "local_markdown",
+    "title": "Incident 2026 05 Search Indexing Lag",
+    "content": "# Search Indexing Lag Hid New Products\n\n## Summary\nNewly published products did not appear in search results for up to 4 hours due to a backlog in the search indexing pipeline, though they were visible via direct product-page links.\n\n## Impact\nMerchandising teams reported that newly launched products were getting far less search traffic than expected during the affected window; several time-limited promotional launches lost most of their intended visibility.\n\n## Root Cause\nThe search indexing pipeline consumes a stream of product-change events and indexes them asynchronously. A downstream schema change to the product-change event added a new required field, and the indexer's event parser rejected every event missing that field -- which was every event during the rollout window, since producers and the indexer were deployed at different times. Rejected events were dropped rather than retried, so the indexer fell further behind until the parser was fixed.\n\n## Mitigation\nOn-call identified the parsing errors in the indexer's logs, deployed a fix that treated the new field as optional with a default, and manually re-ran indexing for products published during the affected window using the product catalog as the source of truth.\n\n## Follow-up Actions\n- Make the indexer's event parser tolerant of new optional fields by default (ignore unknown fields, default missing ones) instead of rejecting the whole event\n- Route rejected events to a dead-letter queue for reprocessing instead of dropping them\n- Coordinate schema changes to the product-change event across producers and consumers with a compatibility check in CI\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_05_search_indexing_lag.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_06_feature_flag_misconfiguration",
+    "source": "local_markdown",
+    "title": "Incident 2026 06 Feature Flag Misconfiguration",
+    "content": "# Feature Flag Misconfiguration Exposed Unfinished Checkout Redesign\n\n## Summary\nA feature flag intended to enable a new checkout redesign for 1 percent of users was misconfigured and instead enabled it for 100 percent of users, exposing an incomplete UI to the entire customer base for 25 minutes.\n\n## Impact\nAll users attempting checkout during the window saw the redesigned, unfinished checkout flow, which was missing a working \"apply discount code\" button. Discount-code usage during the window dropped to zero, and several users abandoned checkout entirely rather than pay full price.\n\n## Root Cause\nThe feature-flagging system's rollout-percentage field accepts a value from 0 to 100. The engineer configuring the rollout intended to enter \"1\" for 1 percent but the change was applied through a script that read the value from a config file where a decimal point had been dropped during a prior refactor of that file's format, turning \"1.0\" into \"10\" and, due to a separate unit mismatch in the same script, effectively \"100\" by the time it reached the flagging system.\n\n## Mitigation\nOn-call noticed the spike in checkout abandonment and discount-code failure metrics, checked the feature flag dashboard, found the rollout percentage was 100 instead of 1, and immediately set it back to 1 percent, restoring the original checkout flow for nearly all users within minutes.\n\n## Follow-up Actions\n- Add a confirmation step in the rollout script showing the exact percentage before applying it\n- Add a maximum single-step rollout-percentage change limit (e.g. no jump larger than 10 percentage points without explicit override)\n- Add alerting on sudden drops in discount-code usage as a proxy for checkout-flow regressions\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_06_feature_flag_misconfiguration.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_03_migration_lock_contention",
+    "source": "local_markdown",
+    "title": "Incident 2026 03 Migration Lock Contention",
+    "content": "# Schema Migration Lock Blocked Writes\n\n## Summary\nA routine database schema migration took an exclusive lock on the orders table for 35 minutes, blocking all order writes for the duration.\n\n## Impact\nCustomers could browse and add items to cart normally, but every checkout attempt during the window failed with a generic error. Checkout conversion dropped to zero for 35 minutes.\n\n## Root Cause\nThe migration added a new column with a non-null default value to the orders table. On the database engine in use, adding a column with a default requires rewriting every existing row under an exclusive table lock, which is fast on a small table but took over half an hour on the orders table's actual size. This was not caught in staging because the staging orders table has a small fraction of production's row count.\n\n## Mitigation\nOn-call identified the long-running migration via the database's active-queries view and canceled it, releasing the lock and restoring checkout immediately. The column was later added successfully using a safer multi-step approach (add nullable column, backfill in batches, then add the constraint).\n\n## Follow-up Actions\n- Add a migration linter that flags \"add column with non-null default\" on large tables\n- Load staging's orders table with a production-representative row count before running migration rehearsals\n- Document the safe multi-step pattern for adding non-null columns to large tables\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_03_migration_lock_contention.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "incident_2025_06_cache_stampede",
     "source": "local_markdown",
     "title": "Incident 2025 06 Cache Stampede",
     "content": "# Cache Stampede After Redis Restart\n\n## Summary\nA planned Redis maintenance restart triggered a cache stampede that overwhelmed the primary database for 11 minutes.\n\n## Impact\nDatabase CPU peaked at 98 percent and query latency rose from a baseline of 15 ms to over 3,000 ms. Error rates on product listing and search endpoints reached 22 percent.\n\n## Root Cause\nWhen Redis was restarted for a planned memory configuration change, all cached keys were evicted simultaneously. The application had no cache-aside protection: every request that missed the empty cache immediately issued a database query. With 40,000 active users, this produced a thundering herd of concurrent reads against the primary database that exceeded its query throughput capacity.\n\n## Mitigation\nThe on-call engineer temporarily reduced the upstream request rate via the API gateway rate limiter, giving the database time to recover. Redis was confirmed healthy and keys began repopulating from application traffic. The rate limit was lifted once database latency returned to baseline.\n\n## Follow-up Actions\n- Implement cache warming script to pre-populate critical keys before planned restarts\n- Add probabilistic early expiration to prevent synchronized key expiry\n- Add alert on Redis keyspace drop greater than 50 percent within 60 seconds\n",
     "url": null,
     "path": "data/raw/incidents/incident_2025_06_cache_stampede.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_02_nightly_reconciliation_job_silent_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 02 Nightly Reconciliation Job Silent Failure",
+    "content": "# Nightly Reconciliation Job Silent Failure\n\n## Summary\nThe nightly job that reconciles inventory counts between the warehouse system and the storefront silently stopped running for eight days without anyone noticing, causing storefront inventory to drift from actual stock.\n\n## Impact\nBy the time the drift was noticed, roughly 3 percent of listed products showed as in-stock when they were actually sold out, leading to a backlog of orders that had to be manually canceled and refunded.\n\n## Root Cause\nThe reconciliation job was scheduled via a cron entry on a host that was replaced during a routine infrastructure migration. The new host's cron configuration was provisioned from an older template that predated the reconciliation job's addition, so the job was never scheduled on the new host. Because the job had no independent \"last successful run\" monitoring, nothing detected that it had stopped running.\n\n## Mitigation\nOnce discovered via a customer-reported out-of-stock order, the job was manually re-added to the new host's cron configuration and run immediately to correct the drift. Affected orders were identified by comparing timestamps and manually processed.\n\n## Follow-up Actions\n- Add a dead-man's-switch alert that fires if the reconciliation job has not reported success within 26 hours\n- Move scheduled jobs out of host-level cron and into a centrally managed scheduler that isn't tied to a specific host's provisioning template\n- Audit all other cron-based jobs for the same host-migration exposure\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_02_nightly_reconciliation_job_silent_failure.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_12_circuit_breaker_misfire",
+    "source": "local_markdown",
+    "title": "Incident 2026 12 Circuit Breaker Misfire",
+    "content": "# Circuit Breaker Misfire Blocked Healthy Traffic\n\n## Summary\nA misconfigured circuit breaker on the recommendations-service client tripped during a brief, unrelated network blip and stayed open for 20 minutes, blocking all recommendation requests even after the underlying network issue had fully resolved.\n\n## Impact\nThe homepage's \"recommended for you\" section fell back to a generic, non-personalized product list for all users during the window. This is an intended graceful-degradation behavior, so no errors were shown to users, but personalized-recommendation click-through rate dropped to the generic-fallback baseline for 20 minutes.\n\n## Root Cause\nThe circuit breaker's half-open retry interval, which controls how soon it attempts a test request after tripping to check if the dependency has recovered, was configured to 20 minutes instead of the intended 20 seconds due to a units mismatch when the config was migrated from seconds to a duration-string format during an unrelated refactor. The underlying network blip that originally tripped the breaker resolved within seconds, but the breaker did not attempt to check again until the full 20-minute interval had elapsed.\n\n## Mitigation\nOn-call noticed the sustained generic-fallback rate on the recommendations dashboard, identified the misconfigured retry interval, and manually reset the circuit breaker to closed, restoring personalized recommendations immediately.\n\n## Follow-up Actions\n- Fix the units mismatch in the circuit breaker's retry-interval config and add a unit test asserting the parsed value matches the intended duration\n- Add a dashboard panel showing current circuit breaker state (open/half-open/closed) and time-in-state for each protected dependency\n- Add an alert for any circuit breaker remaining open longer than its configured retry interval would suggest is expected\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_12_circuit_breaker_misfire.md",
     "created_at": null,
     "updated_at": null,
     "metadata": {
@@ -143,6 +351,32 @@
     }
   },
   {
+    "doc_id": "incident_2026_09_api_gateway_misrouting",
+    "source": "local_markdown",
+    "title": "Incident 2026 09 Api Gateway Misrouting",
+    "content": "# API Gateway Routing Config Change Sent Traffic to Wrong Backend\n\n## Summary\nA routing configuration change intended to add a new API path instead altered an existing path's routing rule, sending roughly 15 percent of search-API traffic to the recommendations service backend for 12 minutes.\n\n## Impact\nRequests to the search API that were misrouted received recommendation results instead of search results, or a 404 if the recommendations service didn't recognize the request shape at all. Overall search error rate rose during the window; recommendations-service load also increased unexpectedly, though it stayed within capacity.\n\n## Root Cause\nThe gateway's routing rules are matched by longest-prefix match. The new path added for a recommendations feature used a prefix that, due to a trailing-slash inconsistency, unintentionally matched a broader set of URLs than intended, overlapping with an existing search-API path pattern and taking priority over it because it was defined later in the rule list, which the gateway treats as higher priority on ties.\n\n## Mitigation\nOn-call identified the misrouted traffic via the search API's error-rate dashboard, correlated it with the recent routing change, and reverted the change, restoring correct routing within a few minutes.\n\n## Follow-up Actions\n- Add a routing-rule validation step in CI that checks for prefix overlaps against all existing rules before a change is allowed to merge\n- Normalize trailing slashes before prefix matching in the gateway\n- Add a canary step for routing changes that sends a small percentage of traffic through the new rule before a full rollout\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_09_api_gateway_misrouting.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_07_payment_webhook_backlog",
+    "source": "local_markdown",
+    "title": "Incident 2026 07 Payment Webhook Backlog",
+    "content": "# Payment Provider Webhook Backlog Delayed Order Confirmations\n\n## Summary\nA backlog in processing payment-confirmation webhooks from the payment provider delayed order-confirmation emails and order fulfillment triggers by up to 90 minutes.\n\n## Impact\nPayments themselves succeeded normally at the provider, but roughly 1,800 orders had their confirmation email and fulfillment-start trigger delayed. Several customers contacted support believing their payment had failed because no confirmation arrived promptly.\n\n## Root Cause\nThe webhook receiver processes each incoming webhook synchronously, including a call to the internal order service to mark the order as paid. The order service experienced elevated latency during the window due to an unrelated database issue, and because the webhook receiver has no timeout on that internal call, each webhook took far longer to process than normal. Since webhooks were arriving faster than they could be processed under the elevated latency, a backlog built up in the provider's retry queue.\n\n## Mitigation\nOnce the order service's latency issue was resolved independently, the webhook backlog drained on its own as the provider retried unprocessed webhooks. On-call also manually queried the payment provider's API for a list of confirmed-but-unprocessed payments to confirm no webhooks were permanently lost.\n\n## Follow-up Actions\n- Add a timeout on the webhook receiver's call to the order service, queuing the webhook for async processing on timeout rather than blocking\n- Decouple webhook receipt from webhook processing entirely using an internal queue\n- Add alerting on payment-webhook processing latency, not just on webhook receipt errors\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_07_payment_webhook_backlog.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
     "doc_id": "incident_2025_01_checkout_timeout",
     "source": "local_markdown",
     "title": "Incident 2025 01 Checkout Timeout",
@@ -162,6 +396,32 @@
     "content": "# Billing Calculation Data Corruption\n\n## Summary\nA database migration with an incorrect default value silently corrupted tax calculations for orders placed over a 6-hour window before being caught.\n\n## Impact\nApproximately 1,400 orders were billed with an incorrect tax amount, most undercharging customers by a small percentage rather than overcharging. No orders were charged more than the correct amount by more than a rounding difference. The issue was caught by a routine reconciliation job rather than a customer report.\n\n## Root Cause\nA migration added a new tax_region_code column to the orders table with a default value of the wrong region code (an existing region rather than \"unknown\"), intended as a temporary placeholder to be backfilled by a separate job. The backfill job was scheduled to run after the migration but was accidentally left disabled from a prior test run. Orders placed before the backfill ran inherited the wrong default region code and were billed using that region's tax rate instead of their actual region's rate.\n\n## Mitigation\nThe nightly billing reconciliation job flagged a tax-amount anomaly for the affected time window. The team ran the backfill job manually to correct the region codes, recalculated tax for the affected orders, and issued corrected invoices and refunds where customers had been undercharged.\n\n## Follow-up Actions\n- Require backfill jobs tied to a migration to run automatically as part of the same deployment, not as a manual follow-up step\n- Add a data-quality check that flags any row still holding a migration's placeholder default value after 24 hours\n- Add tax-amount anomaly detection with a tighter alert threshold than the current reconciliation job\n",
     "url": null,
     "path": "data/raw/incidents/incident_2025_12_billing_data_corruption.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_01_cdn_stale_content",
+    "source": "local_markdown",
+    "title": "Incident 2026 01 Cdn Stale Content",
+    "content": "# CDN Stale Content After Deploy\n\n## Summary\nA product-pricing update did not take effect for most users for over three hours because the CDN continued serving a stale cached version of the pricing page.\n\n## Impact\nRoughly 70 percent of pricing-page requests, based on edge-cache hit-rate metrics, served prices that had already been superseded by a promotional update. No incorrect checkout charges occurred, since checkout re-validates price server-side, but customer support received a spike of confused-pricing tickets.\n\n## Root Cause\nThe deploy pipeline's cache-invalidation step calls the CDN's purge API for a fixed list of URL paths, but the pricing page had recently been moved to a new path as part of an unrelated refactor. The purge step still targeted the old path, so the new path's cached copies were never invalidated and continued serving the pre-promotion content until their normal TTL (4 hours) expired.\n\n## Mitigation\nOn-call manually triggered a full-path cache purge via the CDN dashboard once the discrepancy was reported, which cleared the stale content within minutes.\n\n## Follow-up Actions\n- Derive the purge step's path list from the routing config at deploy time instead of a hardcoded list\n- Add a post-deploy check that fetches the CDN edge response and diffs it against the origin response for key pages\n- Reduce the pricing page's cache TTL\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_01_cdn_stale_content.md",
+    "created_at": null,
+    "updated_at": null,
+    "metadata": {
+      "file_type": "md"
+    }
+  },
+  {
+    "doc_id": "incident_2026_04_push_notification_delivery_failure",
+    "source": "local_markdown",
+    "title": "Incident 2026 04 Push Notification Delivery Failure",
+    "content": "# Push Notification Delivery Failure After Certificate Rotation\n\n## Summary\nPush notifications to mobile devices stopped being delivered for 6 hours after the certificate used to authenticate with the push notification provider expired and its automated rotation failed silently.\n\n## Impact\nOrder-status and shipping-update push notifications were not delivered to any mobile app user during the window. No data was lost -- notifications remained queued and were delivered once the certificate was fixed -- but several thousand users received delayed shipping updates.\n\n## Root Cause\nThe push certificate's automated renewal job depends on an API call to the provider that had recently added a required additional authentication header. The renewal job was not updated for this change, so its renewal calls began failing with an authentication error. The job logged the failure but did not alert anyone, and the old certificate continued working right up until its expiry, at which point delivery stopped abruptly.\n\n## Mitigation\nOn-call noticed the delivery failure via a drop in the notification-sent metric, identified the expired certificate, manually renewed it through the provider's dashboard, and confirmed delivery resumed. Queued notifications were flushed successfully once the certificate was valid again.\n\n## Follow-up Actions\n- Alert on push certificate renewal failures, not just on expiry\n- Add a dashboard panel showing days until push certificate expiry\n- Add an end-to-end synthetic push notification test that runs hourly and alerts on failure\n",
+    "url": null,
+    "path": "data/raw/incidents/incident_2026_04_push_notification_delivery_failure.md",
     "created_at": null,
     "updated_at": null,
     "metadata": {

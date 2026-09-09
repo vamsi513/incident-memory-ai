@@ -118,7 +118,11 @@ class HybridSearchService:
             haystack = " ".join(
                 [record.document_id, record.text, record.metadata.service or ""]
             ).lower()
-            if query_terms and not any(term in haystack for term in query_terms):
+            # Requiring every query term (not just any one) matters once
+            # multiple incidents share a common term like "checkout" -- see
+            # the matching fix in retrieval/pipeline.py's
+            # _inject_section_candidates for the full explanation.
+            if query_terms and not all(term in haystack for term in query_terms):
                 continue
 
             injected.append(record)
