@@ -1,122 +1,376 @@
 [
   {
     "query": "Why did shopping cart requests start failing after a deployment?",
-    "expected_doc_ids": ["incident_2025_01_checkout_timeout"]
+    "expected_doc_ids": [
+      "incident_2025_01_checkout_timeout"
+    ]
   },
   {
     "query": "What caused search API response times to degrade after cache maintenance?",
-    "expected_doc_ids": ["incident_2025_02_search_latency"]
+    "expected_doc_ids": [
+      "incident_2025_02_search_latency"
+    ]
   },
   {
     "query": "What steps should an on-call engineer follow when database query times are slow?",
-    "expected_doc_ids": ["database_latency_runbook"]
+    "expected_doc_ids": [
+      "database_latency_runbook"
+    ]
   },
   {
     "query": "Which document describes how the checkout flow depends on the payment service?",
-    "expected_doc_ids": ["checkout_architecture"]
+    "expected_doc_ids": [
+      "checkout_architecture"
+    ]
   },
   {
     "query": "What caused the user service to restart repeatedly with out-of-memory errors?",
-    "expected_doc_ids": ["incident_2025_03_memory_leak"]
+    "expected_doc_ids": [
+      "incident_2025_03_memory_leak"
+    ]
   },
   {
     "query": "Which incident was caused by a third-party provider rejecting requests during a flash sale?",
-    "expected_doc_ids": ["incident_2025_04_rate_limit"]
+    "expected_doc_ids": [
+      "incident_2025_04_rate_limit"
+    ]
   },
   {
     "query": "Why did microservices fail to reach each other by hostname?",
-    "expected_doc_ids": ["incident_2025_05_dns_failure"]
+    "expected_doc_ids": [
+      "incident_2025_05_dns_failure"
+    ]
   },
   {
     "query": "What happened to the database when the caching layer was restarted?",
-    "expected_doc_ids": ["incident_2025_06_cache_stampede"]
+    "expected_doc_ids": [
+      "incident_2025_06_cache_stampede"
+    ]
   },
   {
     "query": "What should I check when the cache hit rate drops and database CPU spikes?",
-    "expected_doc_ids": ["cache_failure_runbook"]
+    "expected_doc_ids": [
+      "cache_failure_runbook"
+    ]
   },
   {
     "query": "Which incidents involved connection pool saturation as part of the root cause?",
-    "expected_doc_ids": ["incident_2025_01_checkout_timeout", "database_latency_runbook"]
+    "expected_doc_ids": [
+      "incident_2025_01_checkout_timeout",
+      "database_latency_runbook"
+    ]
   },
   {
     "query": "Which incidents identified missing alerting as a follow-up action?",
-    "expected_doc_ids": ["incident_2025_01_checkout_timeout", "incident_2025_03_memory_leak", "incident_2025_06_cache_stampede"]
+    "expected_doc_ids": [
+      "incident_2025_01_checkout_timeout",
+      "incident_2025_03_memory_leak",
+      "incident_2025_06_cache_stampede"
+    ]
   },
   {
     "query": "What role does the API gateway play when a downstream service experiences DNS failures?",
-    "expected_doc_ids": ["api_gateway_architecture", "incident_2025_05_dns_failure"]
+    "expected_doc_ids": [
+      "api_gateway_architecture",
+      "incident_2025_05_dns_failure"
+    ]
   },
   {
     "query": "Why did outbound calls to the payment processor start failing with TLS handshake errors?",
-    "expected_doc_ids": ["incident_2025_07_tls_cert_expiry"]
+    "expected_doc_ids": [
+      "incident_2025_07_tls_cert_expiry"
+    ]
   },
   {
     "query": "What caused order confirmation emails to be delayed for hours?",
-    "expected_doc_ids": ["incident_2025_08_queue_consumer_lag"]
+    "expected_doc_ids": [
+      "incident_2025_08_queue_consumer_lag"
+    ]
   },
   {
     "query": "Why did one backend instance return 503 errors while other instances sat idle during a deployment?",
-    "expected_doc_ids": ["incident_2025_09_load_balancer_misconfig"]
+    "expected_doc_ids": [
+      "incident_2025_09_load_balancer_misconfig"
+    ]
   },
   {
     "query": "What caused the search service to crash-loop because its disk filled up?",
-    "expected_doc_ids": ["incident_2025_10_disk_space_exhaustion"]
+    "expected_doc_ids": [
+      "incident_2025_10_disk_space_exhaustion"
+    ]
   },
   {
     "query": "Why were new user logins blocked while existing sessions kept working normally?",
-    "expected_doc_ids": ["incident_2025_11_auth_provider_outage"]
+    "expected_doc_ids": [
+      "incident_2025_11_auth_provider_outage"
+    ]
   },
   {
     "query": "What caused orders to be billed with the wrong tax amount after a database migration?",
-    "expected_doc_ids": ["incident_2025_12_billing_data_corruption"]
+    "expected_doc_ids": [
+      "incident_2025_12_billing_data_corruption"
+    ]
   },
   {
     "query": "What steps should I follow when a host's disk usage alert fires above 85 percent?",
-    "expected_doc_ids": ["disk_space_runbook"]
+    "expected_doc_ids": [
+      "disk_space_runbook"
+    ]
   },
   {
     "query": "What should an on-call engineer check when login failures spike but internal auth service metrics look normal?",
-    "expected_doc_ids": ["auth_outage_runbook"]
+    "expected_doc_ids": [
+      "auth_outage_runbook"
+    ]
   },
   {
     "query": "Which document describes how the checkout service and order-processing consumers communicate through a queue?",
-    "expected_doc_ids": ["message_queue_architecture"]
+    "expected_doc_ids": [
+      "message_queue_architecture"
+    ]
   },
   {
     "query": "Which document explains why existing sessions still work when the external identity provider goes down?",
-    "expected_doc_ids": ["auth_service_architecture"]
+    "expected_doc_ids": [
+      "auth_service_architecture"
+    ]
   },
   {
     "query": "Why couldn't services find each other by internal hostname after a configuration change?",
-    "expected_doc_ids": ["incident_2025_05_dns_failure"]
+    "expected_doc_ids": [
+      "incident_2025_05_dns_failure"
+    ]
   },
   {
     "query": "Which incident involved a service being killed repeatedly due to excessive memory usage?",
-    "expected_doc_ids": ["incident_2025_03_memory_leak"]
+    "expected_doc_ids": [
+      "incident_2025_03_memory_leak"
+    ]
   },
   {
     "query": "What caused a certificate rotation job to stop working without anyone noticing for months?",
-    "expected_doc_ids": ["incident_2025_07_tls_cert_expiry"]
+    "expected_doc_ids": [
+      "incident_2025_07_tls_cert_expiry"
+    ]
   },
   {
     "query": "What caused a backlog in message processing that delayed downstream fulfillment triggers?",
-    "expected_doc_ids": ["incident_2025_08_queue_consumer_lag"]
+    "expected_doc_ids": [
+      "incident_2025_08_queue_consumer_lag"
+    ]
   },
   {
     "query": "Which incidents were caused by an automated background job silently failing without an alert?",
-    "expected_doc_ids": ["incident_2025_07_tls_cert_expiry", "incident_2025_12_billing_data_corruption"]
+    "expected_doc_ids": [
+      "incident_2025_07_tls_cert_expiry",
+      "incident_2025_12_billing_data_corruption"
+    ]
   },
   {
     "query": "Which documents describe how a stuck consumer or event backlog can affect order processing?",
-    "expected_doc_ids": ["message_queue_architecture", "incident_2025_08_queue_consumer_lag"]
+    "expected_doc_ids": [
+      "message_queue_architecture",
+      "incident_2025_08_queue_consumer_lag"
+    ]
   },
   {
     "query": "Which documents together explain what happens to logins when the external identity provider has an outage?",
-    "expected_doc_ids": ["auth_service_architecture", "incident_2025_11_auth_provider_outage"]
+    "expected_doc_ids": [
+      "auth_service_architecture",
+      "incident_2025_11_auth_provider_outage"
+    ]
   },
   {
     "query": "Which documents relate to checkout or payment failures?",
-    "expected_doc_ids": ["incident_2025_01_checkout_timeout", "checkout_architecture", "incident_2025_07_tls_cert_expiry"]
+    "expected_doc_ids": [
+      "incident_2025_01_checkout_timeout",
+      "checkout_architecture",
+      "incident_2025_07_tls_cert_expiry"
+    ]
+  },
+  {
+    "query": "Why did the pricing page keep showing stale content after a deploy?",
+    "expected_doc_ids": [
+      "incident_2026_01_cdn_stale_content"
+    ]
+  },
+  {
+    "query": "Why did the nightly inventory reconciliation job stop running without anyone noticing?",
+    "expected_doc_ids": [
+      "incident_2026_02_nightly_reconciliation_job_silent_failure"
+    ]
+  },
+  {
+    "query": "Why did a database migration block all checkout writes for 35 minutes?",
+    "expected_doc_ids": [
+      "incident_2026_03_migration_lock_contention"
+    ]
+  },
+  {
+    "query": "Why did push notifications stop being delivered after a certificate rotation?",
+    "expected_doc_ids": [
+      "incident_2026_04_push_notification_delivery_failure"
+    ]
+  },
+  {
+    "query": "Why didn't newly published products appear in search results?",
+    "expected_doc_ids": [
+      "incident_2026_05_search_indexing_lag"
+    ]
+  },
+  {
+    "query": "Why was an unfinished checkout redesign shown to all users instead of just 1 percent?",
+    "expected_doc_ids": [
+      "incident_2026_06_feature_flag_misconfiguration"
+    ]
+  },
+  {
+    "query": "Why were order confirmation emails delayed even though payments had already succeeded?",
+    "expected_doc_ids": [
+      "incident_2026_07_payment_webhook_backlog"
+    ]
+  },
+  {
+    "query": "Why were a large number of users logged out at the same time?",
+    "expected_doc_ids": [
+      "incident_2026_08_session_cache_eviction_mass_logout"
+    ]
+  },
+  {
+    "query": "Why was search API traffic routed to the recommendations service instead?",
+    "expected_doc_ids": [
+      "incident_2026_09_api_gateway_misrouting"
+    ]
+  },
+  {
+    "query": "Why were sellers unable to upload product images for almost an hour?",
+    "expected_doc_ids": [
+      "incident_2026_10_image_upload_outage"
+    ]
+  },
+  {
+    "query": "Why were some customers charged twice for the same order?",
+    "expected_doc_ids": [
+      "incident_2026_11_duplicate_order_processing"
+    ]
+  },
+  {
+    "query": "Why did personalized recommendations stay disabled long after a brief network blip had already resolved?",
+    "expected_doc_ids": [
+      "incident_2026_12_circuit_breaker_misfire"
+    ]
+  },
+  {
+    "query": "What should I check when users report seeing outdated content shortly after a deploy?",
+    "expected_doc_ids": [
+      "cdn_stale_content_runbook"
+    ]
+  },
+  {
+    "query": "What steps should I follow if a nightly job doesn't seem to have run?",
+    "expected_doc_ids": [
+      "scheduled_job_failure_runbook"
+    ]
+  },
+  {
+    "query": "What should I check when the notification sent count drops but the triggering events continue normally?",
+    "expected_doc_ids": [
+      "notification_delivery_runbook"
+    ]
+  },
+  {
+    "query": "What should I check when new products don't show up in search but load fine via a direct link?",
+    "expected_doc_ids": [
+      "search_indexing_lag_runbook"
+    ]
+  },
+  {
+    "query": "Which document explains how a CDN purge step can fall out of sync with routing changes?",
+    "expected_doc_ids": [
+      "cdn_caching_architecture"
+    ]
+  },
+  {
+    "query": "Which document describes queuing notifications internally to protect against a provider outage?",
+    "expected_doc_ids": [
+      "notification_service_architecture"
+    ]
+  },
+  {
+    "query": "Which document explains why the search index can lag behind the product catalog?",
+    "expected_doc_ids": [
+      "search_indexing_architecture"
+    ]
+  },
+  {
+    "query": "Which document explains why a scheduled job can silently stop running after a host migration?",
+    "expected_doc_ids": [
+      "scheduled_jobs_architecture"
+    ]
+  },
+  {
+    "query": "What caused new product listings to be invisible in search even though the products existed in the catalog?",
+    "expected_doc_ids": [
+      "incident_2026_05_search_indexing_lag"
+    ]
+  },
+  {
+    "query": "What made a large share of active users get signed out all at once?",
+    "expected_doc_ids": [
+      "incident_2026_08_session_cache_eviction_mass_logout"
+    ]
+  },
+  {
+    "query": "Why did checkout stop working during a routine schema change?",
+    "expected_doc_ids": [
+      "incident_2026_03_migration_lock_contention"
+    ]
+  },
+  {
+    "query": "What caused customers to be billed more than once for the same purchase?",
+    "expected_doc_ids": [
+      "incident_2026_11_duplicate_order_processing"
+    ]
+  },
+  {
+    "query": "Which runbook covers troubleshooting when search indexing falls behind?",
+    "expected_doc_ids": [
+      "search_indexing_lag_runbook"
+    ]
+  },
+  {
+    "query": "Which incident involved a CDN serving outdated pricing information after a release?",
+    "expected_doc_ids": [
+      "incident_2026_01_cdn_stale_content"
+    ]
+  },
+  {
+    "query": "Which documents together explain why a scheduled job can stop running silently and describe a real case where that happened?",
+    "expected_doc_ids": [
+      "scheduled_jobs_architecture",
+      "incident_2026_02_nightly_reconciliation_job_silent_failure"
+    ]
+  },
+  {
+    "query": "Which documents describe both the general failure modes of the search indexing pipeline and a specific incident where it fell behind?",
+    "expected_doc_ids": [
+      "search_indexing_architecture",
+      "incident_2026_05_search_indexing_lag"
+    ]
+  },
+  {
+    "query": "Which documents connect how notifications are queued for delivery with an actual delivery failure caused by an expired certificate?",
+    "expected_doc_ids": [
+      "notification_service_architecture",
+      "incident_2026_04_push_notification_delivery_failure"
+    ]
+  },
+  {
+    "query": "Which incidents were caused by an incorrect numeric value being set in a configuration -- a percentage, weight, or duration?",
+    "expected_doc_ids": [
+      "incident_2026_06_feature_flag_misconfiguration",
+      "incident_2025_09_load_balancer_misconfig",
+      "incident_2026_12_circuit_breaker_misfire"
+    ]
   }
 ]
