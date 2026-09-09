@@ -40,15 +40,24 @@ jobs:
 
       - name: Security scan
         run: |
+          # Upgrade pip itself first -- otherwise pip-audit also flags pip's
+          # own version (a build tool, not something the running service
+          # ships or executes), which is noise unrelated to this app.
+          pip install --upgrade pip
           pip install pip-audit
-          # CVE-2026-9856: path traversal via chat_template keys in transformers'
-          # save_pretrained() (PreTrainedTokenizerBase/ProcessorMixin). Fixed in
-          # transformers==5.10.0, but sentence-transformers==3.2.1 hard-pins
-          # transformers<5.0.0, so the fix isn't installable yet. This codebase
-          # never calls save_pretrained() or touches chat_template (grepped, no
-          # matches) - it only loads the fixed all-MiniLM-L6-v2 model for
-          # embeddings via .encode(). Vulnerable path is unreachable here.
-          pip-audit --ignore-vuln PYSEC-2025-217 --ignore-vuln PYSEC-2026-2288 --ignore-vuln PYSEC-2026-2289 --ignore-vuln PYSEC-2026-2290 --ignore-vuln CVE-2026-9856
+          # transformers==4.57.1 is the newest version sentence-transformers
+          # 3.2.1 allows (it hard-pins transformers<5.0.0) and clears every
+          # CVE fixed below 5.0.0. The remaining ones all require either
+          # AutoModel.from_pretrained() with an attacker-controlled repo ID,
+          # trust_remote_code, save_pretrained(), or chat_template handling
+          # (grepped for all four - no matches) - this codebase only loads
+          # two fixed, known models (all-MiniLM-L6-v2, ms-marco-MiniLM-L-6-v2)
+          # via SentenceTransformer/CrossEncoder, never any of those paths.
+          # PYSEC-2025-218 (GLM4 deserialization RCE): unreachable, no GLM4
+          # model ever loaded.
+          # PYSEC-2026-2288/2289/2290 and CVE-2026-9856: same reasoning as
+          # above (trust_remote_code bypass / save_pretrained path traversal).
+          pip-audit --ignore-vuln PYSEC-2025-217 --ignore-vuln PYSEC-2025-218 --ignore-vuln PYSEC-2026-2288 --ignore-vuln PYSEC-2026-2289 --ignore-vuln PYSEC-2026-2290 --ignore-vuln CVE-2026-9856
 
       - name: Build Docker image
         run: docker build -t incidentmemai-api:${{ github.sha }} .
