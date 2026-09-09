@@ -59,6 +59,21 @@ jobs:
           # above (trust_remote_code bypass / save_pretrained path traversal).
           pip-audit --ignore-vuln PYSEC-2025-217 --ignore-vuln PYSEC-2025-218 --ignore-vuln PYSEC-2026-2288 --ignore-vuln PYSEC-2026-2289 --ignore-vuln PYSEC-2026-2290 --ignore-vuln CVE-2026-9856
 
+      - name: Security scan (deploy dependencies)
+        run: |
+          # requirements-deploy.txt is what actually ships in the Docker
+          # image (see Dockerfile) - it has its own separate pins from
+          # requirements-ci.txt above, so auditing only requirements-ci.txt
+          # gives a false sense of coverage over what's really running in
+          # production. Audited in its own venv rather than the test job's
+          # main one, since requirements-deploy.txt's CPU-only torch build
+          # (via --extra-index-url) can conflict with whatever the main
+          # venv already resolved.
+          python -m venv /tmp/deploy-audit-venv
+          /tmp/deploy-audit-venv/bin/pip install --upgrade pip
+          /tmp/deploy-audit-venv/bin/pip install -r requirements-deploy.txt pip-audit
+          /tmp/deploy-audit-venv/bin/pip-audit --ignore-vuln PYSEC-2025-217 --ignore-vuln PYSEC-2025-218 --ignore-vuln PYSEC-2026-2288 --ignore-vuln PYSEC-2026-2289 --ignore-vuln PYSEC-2026-2290 --ignore-vuln CVE-2026-9856
+
       - name: Build Docker image
         run: docker build -t incidentmemai-api:${{ github.sha }} .
 
