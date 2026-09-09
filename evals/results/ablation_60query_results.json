@@ -1,0 +1,4354 @@
+{
+  "summaries": {
+    "bm25_only": {
+      "n": 60,
+      "hit_rate_at_5": 0.95,
+      "recall_at_5": 0.9333,
+      "mrr": 0.8158,
+      "ndcg_at_10": 0.8392,
+      "avg_latency_ms": 0.33
+    },
+    "dense_only": {
+      "n": 60,
+      "hit_rate_at_5": 0.95,
+      "recall_at_5": 0.9444,
+      "mrr": 0.8611,
+      "ndcg_at_10": 0.884,
+      "avg_latency_ms": 8.63
+    },
+    "hybrid_no_rerank": {
+      "n": 60,
+      "hit_rate_at_5": 0.9667,
+      "recall_at_5": 0.9472,
+      "mrr": 0.8547,
+      "ndcg_at_10": 0.875,
+      "avg_latency_ms": 4.33
+    },
+    "hybrid_rerank": {
+      "n": 60,
+      "hit_rate_at_5": 0.9833,
+      "recall_at_5": 0.9694,
+      "mrr": 0.8681,
+      "ndcg_at_10": 0.888,
+      "avg_latency_ms": 54.62
+    }
+  },
+  "per_config": {
+    "bm25_only": [
+      {
+        "query": "Why did shopping cart requests start failing after a deployment?",
+        "expected": [
+          "incident_2025_01_checkout_timeout"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 1.49
+      },
+      {
+        "query": "What caused search API response times to degrade after cache maintenance?",
+        "expected": [
+          "incident_2025_02_search_latency"
+        ],
+        "retrieved": [
+          "incident_2025_02_search_latency",
+          "incident_2025_06_cache_stampede",
+          "cdn_stale_content_runbook",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.27
+      },
+      {
+        "query": "What steps should an on-call engineer follow when database query times are slow?",
+        "expected": [
+          "database_latency_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_06_cache_stampede",
+          "checkout_architecture",
+          "incident_2025_01_checkout_timeout",
+          "cache_failure_runbook",
+          "incident_2025_03_memory_leak"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 0.3
+      },
+      {
+        "query": "Which document describes how the checkout flow depends on the payment service?",
+        "expected": [
+          "checkout_architecture"
+        ],
+        "retrieved": [
+          "checkout_architecture",
+          "message_queue_architecture",
+          "incident_2026_06_feature_flag_misconfiguration",
+          "api_gateway_architecture",
+          "incident_2025_04_rate_limit"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.28
+      },
+      {
+        "query": "What caused the user service to restart repeatedly with out-of-memory errors?",
+        "expected": [
+          "incident_2025_03_memory_leak"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_05_dns_failure",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_03_memory_leak"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.2,
+        "ndcg_at_10": 0.38685280723454163,
+        "latency_ms": 0.29
+      },
+      {
+        "query": "Which incident was caused by a third-party provider rejecting requests during a flash sale?",
+        "expected": [
+          "incident_2025_04_rate_limit"
+        ],
+        "retrieved": [
+          "incident_2025_04_rate_limit",
+          "notification_service_architecture",
+          "auth_service_architecture",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.32
+      },
+      {
+        "query": "Why did microservices fail to reach each other by hostname?",
+        "expected": [
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "api_gateway_architecture",
+          "incident_2025_05_dns_failure",
+          "incident_2025_07_tls_cert_expiry",
+          "message_queue_architecture",
+          "scheduled_jobs_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 0.26
+      },
+      {
+        "query": "What happened to the database when the caching layer was restarted?",
+        "expected": [
+          "incident_2025_06_cache_stampede"
+        ],
+        "retrieved": [
+          "incident_2025_06_cache_stampede",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.27
+      },
+      {
+        "query": "What should I check when the cache hit rate drops and database CPU spikes?",
+        "expected": [
+          "cache_failure_runbook"
+        ],
+        "retrieved": [
+          "cache_failure_runbook",
+          "database_latency_runbook",
+          "cdn_stale_content_runbook",
+          "incident_2025_02_search_latency",
+          "incident_2025_06_cache_stampede"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.43
+      },
+      {
+        "query": "Which incidents involved connection pool saturation as part of the root cause?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "database_latency_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_01_checkout_timeout",
+          "database_latency_runbook",
+          "checkout_architecture",
+          "disk_space_runbook",
+          "incident_2026_10_image_upload_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.27
+      },
+      {
+        "query": "Which incidents identified missing alerting as a follow-up action?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "incident_2025_03_memory_leak",
+          "incident_2025_06_cache_stampede"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "notification_service_architecture",
+          "incident_2026_10_image_upload_outage",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 0.25
+      },
+      {
+        "query": "What role does the API gateway play when a downstream service experiences DNS failures?",
+        "expected": [
+          "api_gateway_architecture",
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "api_gateway_architecture",
+          "checkout_architecture",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_04_rate_limit",
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.8503449055347546,
+        "latency_ms": 0.3
+      },
+      {
+        "query": "Why did outbound calls to the payment processor start failing with TLS handshake errors?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_04_push_notification_delivery_failure",
+          "auth_outage_runbook",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_07_payment_webhook_backlog"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.3
+      },
+      {
+        "query": "What caused order confirmation emails to be delayed for hours?",
+        "expected": [
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "message_queue_architecture",
+          "incident_2026_11_duplicate_order_processing",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.25
+      },
+      {
+        "query": "Why did one backend instance return 503 errors while other instances sat idle during a deployment?",
+        "expected": [
+          "incident_2025_09_load_balancer_misconfig"
+        ],
+        "retrieved": [
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_03_memory_leak",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.32
+      },
+      {
+        "query": "What caused the search service to crash-loop because its disk filled up?",
+        "expected": [
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "retrieved": [
+          "incident_2025_10_disk_space_exhaustion",
+          "api_gateway_architecture",
+          "incident_2025_08_queue_consumer_lag",
+          "disk_space_runbook",
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.29
+      },
+      {
+        "query": "Why were new user logins blocked while existing sessions kept working normally?",
+        "expected": [
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "retrieved": [
+          "incident_2025_11_auth_provider_outage",
+          "auth_service_architecture",
+          "auth_outage_runbook",
+          "incident_2026_10_image_upload_outage",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.34
+      },
+      {
+        "query": "What caused orders to be billed with the wrong tax amount after a database migration?",
+        "expected": [
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2026_03_migration_lock_contention",
+          "scheduled_job_failure_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.31
+      },
+      {
+        "query": "What steps should I follow when a host's disk usage alert fires above 85 percent?",
+        "expected": [
+          "disk_space_runbook"
+        ],
+        "retrieved": [
+          "disk_space_runbook",
+          "incident_2025_10_disk_space_exhaustion",
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2025_03_memory_leak"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.32
+      },
+      {
+        "query": "What should an on-call engineer check when login failures spike but internal auth service metrics look normal?",
+        "expected": [
+          "auth_outage_runbook"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "auth_service_architecture",
+          "api_gateway_architecture",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.35
+      },
+      {
+        "query": "Which document describes how the checkout service and order-processing consumers communicate through a queue?",
+        "expected": [
+          "message_queue_architecture"
+        ],
+        "retrieved": [
+          "message_queue_architecture",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "notification_service_architecture",
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.32
+      },
+      {
+        "query": "Which document explains why existing sessions still work when the external identity provider goes down?",
+        "expected": [
+          "auth_service_architecture"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage",
+          "api_gateway_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 0.37
+      },
+      {
+        "query": "Why couldn't services find each other by internal hostname after a configuration change?",
+        "expected": [
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "incident_2025_05_dns_failure",
+          "api_gateway_architecture",
+          "scheduled_jobs_architecture",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.3
+      },
+      {
+        "query": "Which incident involved a service being killed repeatedly due to excessive memory usage?",
+        "expected": [
+          "incident_2025_03_memory_leak"
+        ],
+        "retrieved": [
+          "incident_2025_03_memory_leak",
+          "disk_space_runbook",
+          "search_indexing_architecture",
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.29
+      },
+      {
+        "query": "What caused a certificate rotation job to stop working without anyone noticing for months?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2025_07_tls_cert_expiry",
+          "scheduled_jobs_architecture",
+          "incident_2026_04_push_notification_delivery_failure",
+          "disk_space_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 0.3
+      },
+      {
+        "query": "What caused a backlog in message processing that delayed downstream fulfillment triggers?",
+        "expected": [
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_11_duplicate_order_processing",
+          "message_queue_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 0.27
+      },
+      {
+        "query": "Which incidents were caused by an automated background job silently failing without an alert?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6240505200038379,
+        "latency_ms": 0.29
+      },
+      {
+        "query": "Which documents describe how a stuck consumer or event backlog can affect order processing?",
+        "expected": [
+          "message_queue_architecture",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "message_queue_architecture",
+          "incident_2026_07_payment_webhook_backlog",
+          "search_indexing_architecture",
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.29
+      },
+      {
+        "query": "Which documents together explain what happens to logins when the external identity provider has an outage?",
+        "expected": [
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "retrieved": [
+          "incident_2025_11_auth_provider_outage",
+          "auth_service_architecture",
+          "auth_outage_runbook",
+          "api_gateway_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.31
+      },
+      {
+        "query": "Which documents relate to checkout or payment failures?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "checkout_architecture",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_04_rate_limit",
+          "checkout_architecture",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2026_06_feature_flag_misconfiguration",
+          "api_gateway_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 0.3333333333333333,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.2960819109658652,
+        "latency_ms": 0.23
+      },
+      {
+        "query": "Why did the pricing page keep showing stale content after a deploy?",
+        "expected": [
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "retrieved": [
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture",
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.27
+      },
+      {
+        "query": "Why did the nightly inventory reconciliation job stop running without anyone noticing?",
+        "expected": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_job_failure_runbook",
+          "scheduled_jobs_architecture",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.29
+      },
+      {
+        "query": "Why did a database migration block all checkout writes for 35 minutes?",
+        "expected": [
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "retrieved": [
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_12_billing_data_corruption",
+          "checkout_architecture",
+          "incident_2025_06_cache_stampede",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.35
+      },
+      {
+        "query": "Why did push notifications stop being delivered after a certificate rotation?",
+        "expected": [
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_delivery_runbook",
+          "incident_2025_07_tls_cert_expiry",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.25
+      },
+      {
+        "query": "Why didn't newly published products appear in search results?",
+        "expected": [
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_lag_runbook",
+          "search_indexing_architecture",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.27
+      },
+      {
+        "query": "Why was an unfinished checkout redesign shown to all users instead of just 1 percent?",
+        "expected": [
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "retrieved": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_04_rate_limit",
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.35
+      },
+      {
+        "query": "Why were order confirmation emails delayed even though payments had already succeeded?",
+        "expected": [
+          "incident_2026_07_payment_webhook_backlog"
+        ],
+        "retrieved": [
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag",
+          "message_queue_architecture",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.27
+      },
+      {
+        "query": "Why were a large number of users logged out at the same time?",
+        "expected": [
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2025_04_rate_limit",
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.3
+      },
+      {
+        "query": "Why was search API traffic routed to the recommendations service instead?",
+        "expected": [
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "retrieved": [
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_06_cache_stampede",
+          "api_gateway_architecture",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.27
+      },
+      {
+        "query": "Why were sellers unable to upload product images for almost an hour?",
+        "expected": [
+          "incident_2026_10_image_upload_outage"
+        ],
+        "retrieved": [
+          "incident_2026_10_image_upload_outage",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.28
+      },
+      {
+        "query": "Why were some customers charged twice for the same order?",
+        "expected": [
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 0.34
+      },
+      {
+        "query": "Why did personalized recommendations stay disabled long after a brief network blip had already resolved?",
+        "expected": [
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "retrieved": [
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.3
+      },
+      {
+        "query": "What should I check when users report seeing outdated content shortly after a deploy?",
+        "expected": [
+          "cdn_stale_content_runbook"
+        ],
+        "retrieved": [
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture",
+          "scheduled_jobs_architecture",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.28
+      },
+      {
+        "query": "What steps should I follow if a nightly job doesn't seem to have run?",
+        "expected": [
+          "scheduled_job_failure_runbook"
+        ],
+        "retrieved": [
+          "scheduled_jobs_architecture",
+          "incident_2025_12_billing_data_corruption",
+          "scheduled_job_failure_runbook",
+          "notification_service_architecture",
+          "incident_2026_10_image_upload_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 0.31
+      },
+      {
+        "query": "What should I check when the notification sent count drops but the triggering events continue normally?",
+        "expected": [
+          "notification_delivery_runbook"
+        ],
+        "retrieved": [
+          "notification_delivery_runbook",
+          "incident_2026_04_push_notification_delivery_failure",
+          "cdn_stale_content_runbook",
+          "incident_2026_12_circuit_breaker_misfire",
+          "auth_outage_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.32
+      },
+      {
+        "query": "What should I check when new products don't show up in search but load fine via a direct link?",
+        "expected": [
+          "search_indexing_lag_runbook"
+        ],
+        "retrieved": [
+          "search_indexing_lag_runbook",
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_architecture",
+          "notification_delivery_runbook",
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.36
+      },
+      {
+        "query": "Which document explains how a CDN purge step can fall out of sync with routing changes?",
+        "expected": [
+          "cdn_caching_architecture"
+        ],
+        "retrieved": [
+          "cdn_caching_architecture",
+          "cdn_stale_content_runbook",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.32
+      },
+      {
+        "query": "Which document describes queuing notifications internally to protect against a provider outage?",
+        "expected": [
+          "notification_service_architecture"
+        ],
+        "retrieved": [
+          "notification_service_architecture",
+          "notification_delivery_runbook",
+          "auth_outage_runbook",
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.28
+      },
+      {
+        "query": "Which document explains why the search index can lag behind the product catalog?",
+        "expected": [
+          "search_indexing_architecture"
+        ],
+        "retrieved": [
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.28
+      },
+      {
+        "query": "Which document explains why a scheduled job can silently stop running after a host migration?",
+        "expected": [
+          "scheduled_jobs_architecture"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_12_billing_data_corruption",
+          "scheduled_job_failure_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 0.3
+      },
+      {
+        "query": "What caused new product listings to be invisible in search even though the products existed in the catalog?",
+        "expected": [
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_architecture",
+          "incident_2026_10_image_upload_outage",
+          "search_indexing_lag_runbook",
+          "cdn_caching_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.34
+      },
+      {
+        "query": "What made a large share of active users get signed out all at once?",
+        "expected": [
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_06_cache_stampede",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.33
+      },
+      {
+        "query": "Why did checkout stop working during a routine schema change?",
+        "expected": [
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "retrieved": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 0.26
+      },
+      {
+        "query": "What caused customers to be billed more than once for the same purchase?",
+        "expected": [
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "cache_failure_runbook",
+          "database_latency_runbook",
+          "incident_2026_11_duplicate_order_processing",
+          "scheduled_job_failure_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.25,
+        "ndcg_at_10": 0.43067655807339306,
+        "latency_ms": 0.29
+      },
+      {
+        "query": "Which runbook covers troubleshooting when search indexing falls behind?",
+        "expected": [
+          "search_indexing_lag_runbook"
+        ],
+        "retrieved": [
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_lag_runbook",
+          "cdn_caching_architecture",
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 0.23
+      },
+      {
+        "query": "Which incident involved a CDN serving outdated pricing information after a release?",
+        "expected": [
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "retrieved": [
+          "incident_2026_01_cdn_stale_content",
+          "cdn_caching_architecture",
+          "cdn_stale_content_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.88
+      },
+      {
+        "query": "Which documents together explain why a scheduled job can stop running silently and describe a real case where that happened?",
+        "expected": [
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "retrieved": [
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_job_failure_runbook",
+          "incident_2025_12_billing_data_corruption",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.37
+      },
+      {
+        "query": "Which documents describe both the general failure modes of the search indexing pipeline and a specific incident where it fell behind?",
+        "expected": [
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "cdn_stale_content_runbook",
+          "auth_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.38
+      },
+      {
+        "query": "Which documents connect how notifications are queued for delivery with an actual delivery failure caused by an expired certificate?",
+        "expected": [
+          "notification_service_architecture",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_service_architecture",
+          "notification_delivery_runbook",
+          "incident_2025_07_tls_cert_expiry",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 0.38
+      },
+      {
+        "query": "Which incidents were caused by an incorrect numeric value being set in a configuration -- a percentage, weight, or duration?",
+        "expected": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_05_dns_failure",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 0.6666666666666666,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.4776237035032179,
+        "latency_ms": 0.36
+      }
+    ],
+    "dense_only": [
+      {
+        "query": "Why did shopping cart requests start failing after a deployment?",
+        "expected": [
+          "incident_2025_01_checkout_timeout"
+        ],
+        "retrieved": [
+          "incident_2026_03_migration_lock_contention",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 58.57
+      },
+      {
+        "query": "What caused search API response times to degrade after cache maintenance?",
+        "expected": [
+          "incident_2025_02_search_latency"
+        ],
+        "retrieved": [
+          "incident_2025_02_search_latency",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2025_03_memory_leak",
+          "search_indexing_lag_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 17.5
+      },
+      {
+        "query": "What steps should an on-call engineer follow when database query times are slow?",
+        "expected": [
+          "database_latency_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_06_cache_stampede",
+          "database_latency_runbook",
+          "cache_failure_runbook",
+          "search_indexing_lag_runbook",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 17.94
+      },
+      {
+        "query": "Which document describes how the checkout flow depends on the payment service?",
+        "expected": [
+          "checkout_architecture"
+        ],
+        "retrieved": [
+          "checkout_architecture",
+          "api_gateway_architecture",
+          "message_queue_architecture",
+          "incident_2025_04_rate_limit",
+          "incident_2026_07_payment_webhook_backlog"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 17.03
+      },
+      {
+        "query": "What caused the user service to restart repeatedly with out-of-memory errors?",
+        "expected": [
+          "incident_2025_03_memory_leak"
+        ],
+        "retrieved": [
+          "incident_2025_03_memory_leak",
+          "disk_space_runbook",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2025_05_dns_failure",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.11
+      },
+      {
+        "query": "Which incident was caused by a third-party provider rejecting requests during a flash sale?",
+        "expected": [
+          "incident_2025_04_rate_limit"
+        ],
+        "retrieved": [
+          "incident_2025_04_rate_limit",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_10_image_upload_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 16.36
+      },
+      {
+        "query": "Why did microservices fail to reach each other by hostname?",
+        "expected": [
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "incident_2025_05_dns_failure",
+          "api_gateway_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 14.48
+      },
+      {
+        "query": "What happened to the database when the caching layer was restarted?",
+        "expected": [
+          "incident_2025_06_cache_stampede"
+        ],
+        "retrieved": [
+          "incident_2025_06_cache_stampede",
+          "incident_2025_02_search_latency",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_01_checkout_timeout",
+          "incident_2025_03_memory_leak"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.21
+      },
+      {
+        "query": "What should I check when the cache hit rate drops and database CPU spikes?",
+        "expected": [
+          "cache_failure_runbook"
+        ],
+        "retrieved": [
+          "cache_failure_runbook",
+          "incident_2025_02_search_latency",
+          "database_latency_runbook",
+          "incident_2025_06_cache_stampede",
+          "checkout_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.91
+      },
+      {
+        "query": "Which incidents involved connection pool saturation as part of the root cause?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "database_latency_runbook"
+        ],
+        "retrieved": [
+          "checkout_architecture",
+          "incident_2025_01_checkout_timeout",
+          "database_latency_runbook",
+          "incident_2025_05_dns_failure",
+          "api_gateway_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6934264036172708,
+        "latency_ms": 4.17
+      },
+      {
+        "query": "Which incidents identified missing alerting as a follow-up action?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "incident_2025_03_memory_leak",
+          "incident_2025_06_cache_stampede"
+        ],
+        "retrieved": [
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag",
+          "notification_delivery_runbook",
+          "notification_service_architecture",
+          "auth_outage_runbook"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 4.57
+      },
+      {
+        "query": "What role does the API gateway play when a downstream service experiences DNS failures?",
+        "expected": [
+          "api_gateway_architecture",
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "api_gateway_architecture",
+          "incident_2025_05_dns_failure",
+          "checkout_architecture",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.1
+      },
+      {
+        "query": "Why did outbound calls to the payment processor start failing with TLS handshake errors?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2025_05_dns_failure",
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2025_04_rate_limit",
+          "api_gateway_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 17.1
+      },
+      {
+        "query": "What caused order confirmation emails to be delayed for hours?",
+        "expected": [
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_03_migration_lock_contention",
+          "notification_delivery_runbook",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 5.19
+      },
+      {
+        "query": "Why did one backend instance return 503 errors while other instances sat idle during a deployment?",
+        "expected": [
+          "incident_2025_09_load_balancer_misconfig"
+        ],
+        "retrieved": [
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_03_memory_leak",
+          "incident_2025_01_checkout_timeout",
+          "notification_service_architecture",
+          "disk_space_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.08
+      },
+      {
+        "query": "What caused the search service to crash-loop because its disk filled up?",
+        "expected": [
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "retrieved": [
+          "incident_2025_10_disk_space_exhaustion",
+          "disk_space_runbook",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_02_search_latency",
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.73
+      },
+      {
+        "query": "Why were new user logins blocked while existing sessions kept working normally?",
+        "expected": [
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "retrieved": [
+          "incident_2025_11_auth_provider_outage",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "auth_service_architecture",
+          "auth_outage_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.92
+      },
+      {
+        "query": "What caused orders to be billed with the wrong tax amount after a database migration?",
+        "expected": [
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 5.81
+      },
+      {
+        "query": "What steps should I follow when a host's disk usage alert fires above 85 percent?",
+        "expected": [
+          "disk_space_runbook"
+        ],
+        "retrieved": [
+          "disk_space_runbook",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2025_03_memory_leak",
+          "incident_2025_01_checkout_timeout",
+          "notification_delivery_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 16.0
+      },
+      {
+        "query": "What should an on-call engineer check when login failures spike but internal auth service metrics look normal?",
+        "expected": [
+          "auth_outage_runbook"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2025_03_memory_leak",
+          "auth_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 16.89
+      },
+      {
+        "query": "Which document describes how the checkout service and order-processing consumers communicate through a queue?",
+        "expected": [
+          "message_queue_architecture"
+        ],
+        "retrieved": [
+          "message_queue_architecture",
+          "incident_2026_07_payment_webhook_backlog",
+          "checkout_architecture",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.0
+      },
+      {
+        "query": "Which document explains why existing sessions still work when the external identity provider goes down?",
+        "expected": [
+          "auth_service_architecture"
+        ],
+        "retrieved": [
+          "auth_service_architecture",
+          "auth_outage_runbook",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.13
+      },
+      {
+        "query": "Why couldn't services find each other by internal hostname after a configuration change?",
+        "expected": [
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "incident_2025_05_dns_failure",
+          "incident_2025_11_auth_provider_outage",
+          "api_gateway_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 5.58
+      },
+      {
+        "query": "Which incident involved a service being killed repeatedly due to excessive memory usage?",
+        "expected": [
+          "incident_2025_03_memory_leak"
+        ],
+        "retrieved": [
+          "incident_2025_03_memory_leak",
+          "disk_space_runbook",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_05_dns_failure",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.83
+      },
+      {
+        "query": "What caused a certificate rotation job to stop working without anyone noticing for months?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2025_02_search_latency",
+          "disk_space_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.85
+      },
+      {
+        "query": "What caused a backlog in message processing that delayed downstream fulfillment triggers?",
+        "expected": [
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "notification_service_architecture",
+          "incident_2026_11_duplicate_order_processing",
+          "notification_delivery_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 7.21
+      },
+      {
+        "query": "Which incidents were caused by an automated background job silently failing without an alert?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "retrieved": [
+          "scheduled_job_failure_runbook",
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2026_07_payment_webhook_backlog",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 3.97
+      },
+      {
+        "query": "Which documents describe how a stuck consumer or event backlog can affect order processing?",
+        "expected": [
+          "message_queue_architecture",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "notification_service_architecture",
+          "message_queue_architecture",
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.8772153153380493,
+        "latency_ms": 4.85
+      },
+      {
+        "query": "Which documents together explain what happens to logins when the external identity provider has an outage?",
+        "expected": [
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6934264036172708,
+        "latency_ms": 5.17
+      },
+      {
+        "query": "Which documents relate to checkout or payment failures?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "checkout_architecture",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_04_rate_limit",
+          "checkout_architecture",
+          "incident_2025_01_checkout_timeout",
+          "incident_2025_07_tls_cert_expiry",
+          "api_gateway_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.7328286204777911,
+        "latency_ms": 18.91
+      },
+      {
+        "query": "Why did the pricing page keep showing stale content after a deploy?",
+        "expected": [
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "retrieved": [
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 5.38
+      },
+      {
+        "query": "Why did the nightly inventory reconciliation job stop running without anyone noticing?",
+        "expected": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_job_failure_runbook",
+          "scheduled_jobs_architecture",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.72
+      },
+      {
+        "query": "Why did a database migration block all checkout writes for 35 minutes?",
+        "expected": [
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "retrieved": [
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_01_checkout_timeout",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2025_04_rate_limit",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.03
+      },
+      {
+        "query": "Why did push notifications stop being delivered after a certificate rotation?",
+        "expected": [
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2025_07_tls_cert_expiry",
+          "notification_delivery_runbook",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.82
+      },
+      {
+        "query": "Why didn't newly published products appear in search results?",
+        "expected": [
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_lag_runbook",
+          "search_indexing_architecture",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 15.34
+      },
+      {
+        "query": "Why was an unfinished checkout redesign shown to all users instead of just 1 percent?",
+        "expected": [
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "retrieved": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_01_checkout_timeout",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2025_04_rate_limit",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.54
+      },
+      {
+        "query": "Why were order confirmation emails delayed even though payments had already succeeded?",
+        "expected": [
+          "incident_2026_07_payment_webhook_backlog"
+        ],
+        "retrieved": [
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_delivery_runbook",
+          "message_queue_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.77
+      },
+      {
+        "query": "Why were a large number of users logged out at the same time?",
+        "expected": [
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2025_03_memory_leak",
+          "incident_2025_01_checkout_timeout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 5.22
+      },
+      {
+        "query": "Why was search API traffic routed to the recommendations service instead?",
+        "expected": [
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "retrieved": [
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2025_02_search_latency",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.78
+      },
+      {
+        "query": "Why were sellers unable to upload product images for almost an hour?",
+        "expected": [
+          "incident_2026_10_image_upload_outage"
+        ],
+        "retrieved": [
+          "incident_2026_10_image_upload_outage",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2025_04_rate_limit",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.87
+      },
+      {
+        "query": "Why were some customers charged twice for the same order?",
+        "expected": [
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "retrieved": [
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_04_rate_limit"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.94
+      },
+      {
+        "query": "Why did personalized recommendations stay disabled long after a brief network blip had already resolved?",
+        "expected": [
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "retrieved": [
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 5.03
+      },
+      {
+        "query": "What should I check when users report seeing outdated content shortly after a deploy?",
+        "expected": [
+          "cdn_stale_content_runbook"
+        ],
+        "retrieved": [
+          "cdn_stale_content_runbook",
+          "database_latency_runbook",
+          "scheduled_job_failure_runbook",
+          "cdn_caching_architecture",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.66
+      },
+      {
+        "query": "What steps should I follow if a nightly job doesn't seem to have run?",
+        "expected": [
+          "scheduled_job_failure_runbook"
+        ],
+        "retrieved": [
+          "scheduled_job_failure_runbook",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.9
+      },
+      {
+        "query": "What should I check when the notification sent count drops but the triggering events continue normally?",
+        "expected": [
+          "notification_delivery_runbook"
+        ],
+        "retrieved": [
+          "notification_delivery_runbook",
+          "notification_service_architecture",
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 6.38
+      },
+      {
+        "query": "What should I check when new products don't show up in search but load fine via a direct link?",
+        "expected": [
+          "search_indexing_lag_runbook"
+        ],
+        "retrieved": [
+          "search_indexing_lag_runbook",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2025_10_disk_space_exhaustion",
+          "search_indexing_architecture",
+          "incident_2026_10_image_upload_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 16.54
+      },
+      {
+        "query": "Which document explains how a CDN purge step can fall out of sync with routing changes?",
+        "expected": [
+          "cdn_caching_architecture"
+        ],
+        "retrieved": [
+          "cdn_caching_architecture",
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.77
+      },
+      {
+        "query": "Which document describes queuing notifications internally to protect against a provider outage?",
+        "expected": [
+          "notification_service_architecture"
+        ],
+        "retrieved": [
+          "notification_delivery_runbook",
+          "notification_service_architecture",
+          "auth_outage_runbook",
+          "incident_2025_04_rate_limit",
+          "message_queue_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 5.25
+      },
+      {
+        "query": "Which document explains why the search index can lag behind the product catalog?",
+        "expected": [
+          "search_indexing_architecture"
+        ],
+        "retrieved": [
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2025_06_cache_stampede",
+          "incident_2025_02_search_latency"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.07
+      },
+      {
+        "query": "Which document explains why a scheduled job can silently stop running after a host migration?",
+        "expected": [
+          "scheduled_jobs_architecture"
+        ],
+        "retrieved": [
+          "scheduled_job_failure_runbook",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 4.22
+      },
+      {
+        "query": "What caused new product listings to be invisible in search even though the products existed in the catalog?",
+        "expected": [
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_lag_runbook",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 5.14
+      },
+      {
+        "query": "What made a large share of active users get signed out all at once?",
+        "expected": [
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2025_03_memory_leak",
+          "auth_outage_runbook",
+          "incident_2025_06_cache_stampede"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.07
+      },
+      {
+        "query": "Why did checkout stop working during a routine schema change?",
+        "expected": [
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "retrieved": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_01_checkout_timeout",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 4.67
+      },
+      {
+        "query": "What caused customers to be billed more than once for the same purchase?",
+        "expected": [
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "retrieved": [
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2025_04_rate_limit",
+          "incident_2026_07_payment_webhook_backlog"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.85
+      },
+      {
+        "query": "Which runbook covers troubleshooting when search indexing falls behind?",
+        "expected": [
+          "search_indexing_lag_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_10_disk_space_exhaustion",
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 4.18
+      },
+      {
+        "query": "Which incident involved a CDN serving outdated pricing information after a release?",
+        "expected": [
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "retrieved": [
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 8.68
+      },
+      {
+        "query": "Which documents together explain why a scheduled job can stop running silently and describe a real case where that happened?",
+        "expected": [
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "retrieved": [
+          "scheduled_job_failure_runbook",
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "disk_space_runbook",
+          "incident_2026_10_image_upload_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6934264036172708,
+        "latency_ms": 19.04
+      },
+      {
+        "query": "Which documents describe both the general failure modes of the search indexing pipeline and a specific incident where it fell behind?",
+        "expected": [
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 7.15
+      },
+      {
+        "query": "Which documents connect how notifications are queued for delivery with an actual delivery failure caused by an expired certificate?",
+        "expected": [
+          "notification_service_architecture",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "retrieved": [
+          "notification_delivery_runbook",
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6934264036172708,
+        "latency_ms": 4.96
+      },
+      {
+        "query": "Which incidents were caused by an incorrect numeric value being set in a configuration -- a percentage, weight, or duration?",
+        "expected": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "retrieved": [
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2025_04_rate_limit",
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 0.6666666666666666,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.7653606369886217,
+        "latency_ms": 39.4
+      }
+    ],
+    "hybrid_no_rerank": [
+      {
+        "query": "Why did shopping cart requests start failing after a deployment?",
+        "expected": [
+          "incident_2025_01_checkout_timeout"
+        ],
+        "retrieved": [
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_09_load_balancer_misconfig",
+          "auth_outage_runbook",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 8.25
+      },
+      {
+        "query": "What caused search API response times to degrade after cache maintenance?",
+        "expected": [
+          "incident_2025_02_search_latency"
+        ],
+        "retrieved": [
+          "incident_2025_02_search_latency",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_06_cache_stampede",
+          "cdn_stale_content_runbook",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 5.03
+      },
+      {
+        "query": "What steps should an on-call engineer follow when database query times are slow?",
+        "expected": [
+          "database_latency_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_06_cache_stampede",
+          "checkout_architecture",
+          "cache_failure_runbook",
+          "database_latency_runbook",
+          "incident_2025_01_checkout_timeout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.25,
+        "ndcg_at_10": 0.43067655807339306,
+        "latency_ms": 4.73
+      },
+      {
+        "query": "Which document describes how the checkout flow depends on the payment service?",
+        "expected": [
+          "checkout_architecture"
+        ],
+        "retrieved": [
+          "checkout_architecture",
+          "message_queue_architecture",
+          "api_gateway_architecture",
+          "incident_2025_04_rate_limit",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.24
+      },
+      {
+        "query": "What caused the user service to restart repeatedly with out-of-memory errors?",
+        "expected": [
+          "incident_2025_03_memory_leak"
+        ],
+        "retrieved": [
+          "incident_2025_03_memory_leak",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_05_dns_failure",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.01
+      },
+      {
+        "query": "Which incident was caused by a third-party provider rejecting requests during a flash sale?",
+        "expected": [
+          "incident_2025_04_rate_limit"
+        ],
+        "retrieved": [
+          "incident_2025_04_rate_limit",
+          "incident_2026_11_duplicate_order_processing",
+          "notification_service_architecture",
+          "auth_service_architecture",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.58
+      },
+      {
+        "query": "Why did microservices fail to reach each other by hostname?",
+        "expected": [
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "incident_2025_05_dns_failure",
+          "api_gateway_architecture",
+          "incident_2025_07_tls_cert_expiry",
+          "message_queue_architecture",
+          "scheduled_jobs_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.36
+      },
+      {
+        "query": "What happened to the database when the caching layer was restarted?",
+        "expected": [
+          "incident_2025_06_cache_stampede"
+        ],
+        "retrieved": [
+          "incident_2025_06_cache_stampede",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2025_02_search_latency",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.96
+      },
+      {
+        "query": "What should I check when the cache hit rate drops and database CPU spikes?",
+        "expected": [
+          "cache_failure_runbook"
+        ],
+        "retrieved": [
+          "cache_failure_runbook",
+          "database_latency_runbook",
+          "incident_2025_02_search_latency",
+          "cdn_stale_content_runbook",
+          "incident_2025_06_cache_stampede"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.92
+      },
+      {
+        "query": "Which incidents involved connection pool saturation as part of the root cause?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "database_latency_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_01_checkout_timeout",
+          "checkout_architecture",
+          "database_latency_runbook",
+          "incident_2026_10_image_upload_outage",
+          "disk_space_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.9197207891481876,
+        "latency_ms": 3.92
+      },
+      {
+        "query": "Which incidents identified missing alerting as a follow-up action?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "incident_2025_03_memory_leak",
+          "incident_2025_06_cache_stampede"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_07_payment_webhook_backlog",
+          "notification_service_architecture",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_10_image_upload_outage"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 4.16
+      },
+      {
+        "query": "What role does the API gateway play when a downstream service experiences DNS failures?",
+        "expected": [
+          "api_gateway_architecture",
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "api_gateway_architecture",
+          "incident_2025_05_dns_failure",
+          "checkout_architecture",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_04_rate_limit"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.95
+      },
+      {
+        "query": "Why did outbound calls to the payment processor start failing with TLS handshake errors?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_04_push_notification_delivery_failure",
+          "auth_outage_runbook",
+          "incident_2025_05_dns_failure",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.38
+      },
+      {
+        "query": "What caused order confirmation emails to be delayed for hours?",
+        "expected": [
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "message_queue_architecture",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.77
+      },
+      {
+        "query": "Why did one backend instance return 503 errors while other instances sat idle during a deployment?",
+        "expected": [
+          "incident_2025_09_load_balancer_misconfig"
+        ],
+        "retrieved": [
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_03_memory_leak",
+          "incident_2025_01_checkout_timeout",
+          "incident_2026_11_duplicate_order_processing",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.96
+      },
+      {
+        "query": "What caused the search service to crash-loop because its disk filled up?",
+        "expected": [
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "retrieved": [
+          "incident_2025_10_disk_space_exhaustion",
+          "disk_space_runbook",
+          "incident_2025_05_dns_failure",
+          "api_gateway_architecture",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.31
+      },
+      {
+        "query": "Why were new user logins blocked while existing sessions kept working normally?",
+        "expected": [
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "retrieved": [
+          "incident_2025_11_auth_provider_outage",
+          "auth_service_architecture",
+          "auth_outage_runbook",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2026_10_image_upload_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.09
+      },
+      {
+        "query": "What caused orders to be billed with the wrong tax amount after a database migration?",
+        "expected": [
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2026_11_duplicate_order_processing",
+          "scheduled_job_failure_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.05
+      },
+      {
+        "query": "What steps should I follow when a host's disk usage alert fires above 85 percent?",
+        "expected": [
+          "disk_space_runbook"
+        ],
+        "retrieved": [
+          "disk_space_runbook",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2025_03_memory_leak",
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.52
+      },
+      {
+        "query": "What should an on-call engineer check when login failures spike but internal auth service metrics look normal?",
+        "expected": [
+          "auth_outage_runbook"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "auth_service_architecture",
+          "api_gateway_architecture",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2026_07_payment_webhook_backlog"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.51
+      },
+      {
+        "query": "Which document describes how the checkout service and order-processing consumers communicate through a queue?",
+        "expected": [
+          "message_queue_architecture"
+        ],
+        "retrieved": [
+          "message_queue_architecture",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_11_duplicate_order_processing",
+          "checkout_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.13
+      },
+      {
+        "query": "Which document explains why existing sessions still work when the external identity provider goes down?",
+        "expected": [
+          "auth_service_architecture"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage",
+          "api_gateway_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 3.82
+      },
+      {
+        "query": "Why couldn't services find each other by internal hostname after a configuration change?",
+        "expected": [
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "incident_2025_05_dns_failure",
+          "api_gateway_architecture",
+          "scheduled_jobs_architecture",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.99
+      },
+      {
+        "query": "Which incident involved a service being killed repeatedly due to excessive memory usage?",
+        "expected": [
+          "incident_2025_03_memory_leak"
+        ],
+        "retrieved": [
+          "incident_2025_03_memory_leak",
+          "disk_space_runbook",
+          "search_indexing_architecture",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.97
+      },
+      {
+        "query": "What caused a certificate rotation job to stop working without anyone noticing for months?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_04_push_notification_delivery_failure",
+          "disk_space_runbook",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.95
+      },
+      {
+        "query": "What caused a backlog in message processing that delayed downstream fulfillment triggers?",
+        "expected": [
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_11_duplicate_order_processing",
+          "message_queue_architecture",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.92
+      },
+      {
+        "query": "Which incidents were caused by an automated background job silently failing without an alert?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "incident_2026_04_push_notification_delivery_failure",
+          "scheduled_job_failure_runbook",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "mrr": 0.2,
+        "ndcg_at_10": 0.23719771276929622,
+        "latency_ms": 3.92
+      },
+      {
+        "query": "Which documents describe how a stuck consumer or event backlog can affect order processing?",
+        "expected": [
+          "message_queue_architecture",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "message_queue_architecture",
+          "notification_service_architecture",
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.9197207891481876,
+        "latency_ms": 3.84
+      },
+      {
+        "query": "Which documents together explain what happens to logins when the external identity provider has an outage?",
+        "expected": [
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "incident_2025_11_auth_provider_outage",
+          "auth_service_architecture",
+          "api_gateway_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6934264036172708,
+        "latency_ms": 4.41
+      },
+      {
+        "query": "Which documents relate to checkout or payment failures?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "checkout_architecture",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_04_rate_limit",
+          "checkout_architecture",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_01_checkout_timeout",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 0.6666666666666666,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.49818925746641285,
+        "latency_ms": 4.1
+      },
+      {
+        "query": "Why did the pricing page keep showing stale content after a deploy?",
+        "expected": [
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "retrieved": [
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.88
+      },
+      {
+        "query": "Why did the nightly inventory reconciliation job stop running without anyone noticing?",
+        "expected": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_job_failure_runbook",
+          "scheduled_jobs_architecture",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.81
+      },
+      {
+        "query": "Why did a database migration block all checkout writes for 35 minutes?",
+        "expected": [
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "retrieved": [
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2025_01_checkout_timeout",
+          "checkout_architecture",
+          "incident_2025_06_cache_stampede"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.88
+      },
+      {
+        "query": "Why did push notifications stop being delivered after a certificate rotation?",
+        "expected": [
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_delivery_runbook",
+          "incident_2025_07_tls_cert_expiry",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.03
+      },
+      {
+        "query": "Why didn't newly published products appear in search results?",
+        "expected": [
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_lag_runbook",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.02
+      },
+      {
+        "query": "Why was an unfinished checkout redesign shown to all users instead of just 1 percent?",
+        "expected": [
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "retrieved": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_04_rate_limit",
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2025_01_checkout_timeout",
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.26
+      },
+      {
+        "query": "Why were order confirmation emails delayed even though payments had already succeeded?",
+        "expected": [
+          "incident_2026_07_payment_webhook_backlog"
+        ],
+        "retrieved": [
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_04_push_notification_delivery_failure",
+          "message_queue_architecture",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.16
+      },
+      {
+        "query": "Why were a large number of users logged out at the same time?",
+        "expected": [
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2025_04_rate_limit",
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.97
+      },
+      {
+        "query": "Why was search API traffic routed to the recommendations service instead?",
+        "expected": [
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "retrieved": [
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_06_cache_stampede"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.98
+      },
+      {
+        "query": "Why were sellers unable to upload product images for almost an hour?",
+        "expected": [
+          "incident_2026_10_image_upload_outage"
+        ],
+        "retrieved": [
+          "incident_2026_10_image_upload_outage",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.14
+      },
+      {
+        "query": "Why were some customers charged twice for the same order?",
+        "expected": [
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "retrieved": [
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.98
+      },
+      {
+        "query": "Why did personalized recommendations stay disabled long after a brief network blip had already resolved?",
+        "expected": [
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "retrieved": [
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.93
+      },
+      {
+        "query": "What should I check when users report seeing outdated content shortly after a deploy?",
+        "expected": [
+          "cdn_stale_content_runbook"
+        ],
+        "retrieved": [
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture",
+          "incident_2026_01_cdn_stale_content",
+          "database_latency_runbook",
+          "scheduled_jobs_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.23
+      },
+      {
+        "query": "What steps should I follow if a nightly job doesn't seem to have run?",
+        "expected": [
+          "scheduled_job_failure_runbook"
+        ],
+        "retrieved": [
+          "scheduled_jobs_architecture",
+          "scheduled_job_failure_runbook",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 4.34
+      },
+      {
+        "query": "What should I check when the notification sent count drops but the triggering events continue normally?",
+        "expected": [
+          "notification_delivery_runbook"
+        ],
+        "retrieved": [
+          "notification_delivery_runbook",
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_service_architecture",
+          "incident_2026_07_payment_webhook_backlog",
+          "cdn_stale_content_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.61
+      },
+      {
+        "query": "What should I check when new products don't show up in search but load fine via a direct link?",
+        "expected": [
+          "search_indexing_lag_runbook"
+        ],
+        "retrieved": [
+          "search_indexing_lag_runbook",
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_architecture",
+          "incident_2026_09_api_gateway_misrouting",
+          "notification_delivery_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.33
+      },
+      {
+        "query": "Which document explains how a CDN purge step can fall out of sync with routing changes?",
+        "expected": [
+          "cdn_caching_architecture"
+        ],
+        "retrieved": [
+          "cdn_caching_architecture",
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook",
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.2
+      },
+      {
+        "query": "Which document describes queuing notifications internally to protect against a provider outage?",
+        "expected": [
+          "notification_service_architecture"
+        ],
+        "retrieved": [
+          "notification_delivery_runbook",
+          "notification_service_architecture",
+          "auth_outage_runbook",
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 4.02
+      },
+      {
+        "query": "Which document explains why the search index can lag behind the product catalog?",
+        "expected": [
+          "search_indexing_architecture"
+        ],
+        "retrieved": [
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2025_06_cache_stampede",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.99
+      },
+      {
+        "query": "Which document explains why a scheduled job can silently stop running after a host migration?",
+        "expected": [
+          "scheduled_jobs_architecture"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "scheduled_job_failure_runbook",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 3.95
+      },
+      {
+        "query": "What caused new product listings to be invisible in search even though the products existed in the catalog?",
+        "expected": [
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_lag_runbook",
+          "search_indexing_architecture",
+          "incident_2026_10_image_upload_outage",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.07
+      },
+      {
+        "query": "What made a large share of active users get signed out all at once?",
+        "expected": [
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2025_06_cache_stampede",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 3.84
+      },
+      {
+        "query": "Why did checkout stop working during a routine schema change?",
+        "expected": [
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "retrieved": [
+          "incident_2026_03_migration_lock_contention",
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.28
+      },
+      {
+        "query": "What caused customers to be billed more than once for the same purchase?",
+        "expected": [
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_11_duplicate_order_processing",
+          "cache_failure_runbook",
+          "database_latency_runbook",
+          "scheduled_job_failure_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 4.28
+      },
+      {
+        "query": "Which runbook covers troubleshooting when search indexing falls behind?",
+        "expected": [
+          "search_indexing_lag_runbook"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "incident_2025_10_disk_space_exhaustion",
+          "cdn_caching_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 3.95
+      },
+      {
+        "query": "Which incident involved a CDN serving outdated pricing information after a release?",
+        "expected": [
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "retrieved": [
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 10.45
+      },
+      {
+        "query": "Which documents together explain why a scheduled job can stop running silently and describe a real case where that happened?",
+        "expected": [
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "retrieved": [
+          "scheduled_job_failure_runbook",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "incident_2025_12_billing_data_corruption",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6934264036172708,
+        "latency_ms": 4.74
+      },
+      {
+        "query": "Which documents describe both the general failure modes of the search indexing pipeline and a specific incident where it fell behind?",
+        "expected": [
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "incident_2026_09_api_gateway_misrouting",
+          "cdn_stale_content_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 4.86
+      },
+      {
+        "query": "Which documents connect how notifications are queued for delivery with an actual delivery failure caused by an expired certificate?",
+        "expected": [
+          "notification_service_architecture",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_delivery_runbook",
+          "notification_service_architecture",
+          "incident_2025_07_tls_cert_expiry",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.9197207891481876,
+        "latency_ms": 4.2
+      },
+      {
+        "query": "Which incidents were caused by an incorrect numeric value being set in a configuration -- a percentage, weight, or duration?",
+        "expected": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_05_dns_failure",
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 0.6666666666666666,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.5307212739772434,
+        "latency_ms": 4.82
+      }
+    ],
+    "hybrid_rerank": [
+      {
+        "query": "Why did shopping cart requests start failing after a deployment?",
+        "expected": [
+          "incident_2025_01_checkout_timeout"
+        ],
+        "retrieved": [
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2025_01_checkout_timeout",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.25,
+        "ndcg_at_10": 0.43067655807339306,
+        "latency_ms": 92.64
+      },
+      {
+        "query": "What caused search API response times to degrade after cache maintenance?",
+        "expected": [
+          "incident_2025_02_search_latency"
+        ],
+        "retrieved": [
+          "incident_2025_02_search_latency",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2025_06_cache_stampede",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 37.82
+      },
+      {
+        "query": "What steps should an on-call engineer follow when database query times are slow?",
+        "expected": [
+          "database_latency_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_06_cache_stampede",
+          "checkout_architecture",
+          "database_latency_runbook",
+          "incident_2025_03_memory_leak",
+          "incident_2025_01_checkout_timeout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 38.37
+      },
+      {
+        "query": "Which document describes how the checkout flow depends on the payment service?",
+        "expected": [
+          "checkout_architecture"
+        ],
+        "retrieved": [
+          "checkout_architecture",
+          "message_queue_architecture",
+          "incident_2025_04_rate_limit",
+          "api_gateway_architecture",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 35.05
+      },
+      {
+        "query": "What caused the user service to restart repeatedly with out-of-memory errors?",
+        "expected": [
+          "incident_2025_03_memory_leak"
+        ],
+        "retrieved": [
+          "incident_2025_03_memory_leak",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 34.21
+      },
+      {
+        "query": "Which incident was caused by a third-party provider rejecting requests during a flash sale?",
+        "expected": [
+          "incident_2025_04_rate_limit"
+        ],
+        "retrieved": [
+          "incident_2025_04_rate_limit",
+          "notification_service_architecture",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_07_tls_cert_expiry",
+          "auth_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 39.64
+      },
+      {
+        "query": "Why did microservices fail to reach each other by hostname?",
+        "expected": [
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 37.08
+      },
+      {
+        "query": "What happened to the database when the caching layer was restarted?",
+        "expected": [
+          "incident_2025_06_cache_stampede"
+        ],
+        "retrieved": [
+          "incident_2025_06_cache_stampede",
+          "incident_2025_03_memory_leak",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2025_02_search_latency",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 43.0
+      },
+      {
+        "query": "What should I check when the cache hit rate drops and database CPU spikes?",
+        "expected": [
+          "cache_failure_runbook"
+        ],
+        "retrieved": [
+          "cache_failure_runbook",
+          "incident_2025_06_cache_stampede",
+          "incident_2025_02_search_latency",
+          "database_latency_runbook",
+          "cdn_stale_content_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 32.09
+      },
+      {
+        "query": "Which incidents involved connection pool saturation as part of the root cause?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "database_latency_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_01_checkout_timeout",
+          "checkout_architecture",
+          "database_latency_runbook",
+          "incident_2026_10_image_upload_outage",
+          "incident_2025_02_search_latency"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.9197207891481876,
+        "latency_ms": 350.98
+      },
+      {
+        "query": "Which incidents identified missing alerting as a follow-up action?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "incident_2025_03_memory_leak",
+          "incident_2025_06_cache_stampede"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_10": 0.0,
+        "latency_ms": 40.12
+      },
+      {
+        "query": "What role does the API gateway play when a downstream service experiences DNS failures?",
+        "expected": [
+          "api_gateway_architecture",
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "api_gateway_architecture",
+          "incident_2025_05_dns_failure",
+          "checkout_architecture",
+          "incident_2026_09_api_gateway_misrouting",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 40.29
+      },
+      {
+        "query": "Why did outbound calls to the payment processor start failing with TLS handshake errors?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2025_04_rate_limit",
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 21.61
+      },
+      {
+        "query": "What caused order confirmation emails to be delayed for hours?",
+        "expected": [
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "notification_service_architecture",
+          "incident_2026_04_push_notification_delivery_failure",
+          "message_queue_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 31.11
+      },
+      {
+        "query": "Why did one backend instance return 503 errors while other instances sat idle during a deployment?",
+        "expected": [
+          "incident_2025_09_load_balancer_misconfig"
+        ],
+        "retrieved": [
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_03_memory_leak",
+          "incident_2025_01_checkout_timeout",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 38.04
+      },
+      {
+        "query": "What caused the search service to crash-loop because its disk filled up?",
+        "expected": [
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "retrieved": [
+          "incident_2025_10_disk_space_exhaustion",
+          "disk_space_runbook",
+          "incident_2025_05_dns_failure",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2025_02_search_latency"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 39.08
+      },
+      {
+        "query": "Why were new user logins blocked while existing sessions kept working normally?",
+        "expected": [
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "retrieved": [
+          "incident_2025_11_auth_provider_outage",
+          "auth_service_architecture",
+          "auth_outage_runbook",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 138.85
+      },
+      {
+        "query": "What caused orders to be billed with the wrong tax amount after a database migration?",
+        "expected": [
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 82.16
+      },
+      {
+        "query": "What steps should I follow when a host's disk usage alert fires above 85 percent?",
+        "expected": [
+          "disk_space_runbook"
+        ],
+        "retrieved": [
+          "incident_2025_10_disk_space_exhaustion",
+          "disk_space_runbook",
+          "scheduled_jobs_architecture",
+          "incident_2025_03_memory_leak",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 212.61
+      },
+      {
+        "query": "What should an on-call engineer check when login failures spike but internal auth service metrics look normal?",
+        "expected": [
+          "auth_outage_runbook"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2025_03_memory_leak",
+          "auth_service_architecture",
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 48.13
+      },
+      {
+        "query": "Which document describes how the checkout service and order-processing consumers communicate through a queue?",
+        "expected": [
+          "message_queue_architecture"
+        ],
+        "retrieved": [
+          "message_queue_architecture",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 38.92
+      },
+      {
+        "query": "Which document explains why existing sessions still work when the external identity provider goes down?",
+        "expected": [
+          "auth_service_architecture"
+        ],
+        "retrieved": [
+          "auth_service_architecture",
+          "auth_outage_runbook",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 70.81
+      },
+      {
+        "query": "Why couldn't services find each other by internal hostname after a configuration change?",
+        "expected": [
+          "incident_2025_05_dns_failure"
+        ],
+        "retrieved": [
+          "incident_2025_05_dns_failure",
+          "scheduled_jobs_architecture",
+          "incident_2025_09_load_balancer_misconfig",
+          "api_gateway_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 39.29
+      },
+      {
+        "query": "Which incident involved a service being killed repeatedly due to excessive memory usage?",
+        "expected": [
+          "incident_2025_03_memory_leak"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_03_memory_leak",
+          "incident_2025_05_dns_failure",
+          "disk_space_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 36.31
+      },
+      {
+        "query": "What caused a certificate rotation job to stop working without anyone noticing for months?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2026_04_push_notification_delivery_failure",
+          "scheduled_jobs_architecture",
+          "disk_space_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 30.5
+      },
+      {
+        "query": "What caused a backlog in message processing that delayed downstream fulfillment triggers?",
+        "expected": [
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_11_duplicate_order_processing",
+          "notification_service_architecture",
+          "message_queue_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 24.62
+      },
+      {
+        "query": "Which incidents were caused by an automated background job silently failing without an alert?",
+        "expected": [
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2025_12_billing_data_corruption"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "scheduled_jobs_architecture",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2025_05_dns_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.3065735963827292,
+        "latency_ms": 34.49
+      },
+      {
+        "query": "Which documents describe how a stuck consumer or event backlog can affect order processing?",
+        "expected": [
+          "message_queue_architecture",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "retrieved": [
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_11_duplicate_order_processing",
+          "message_queue_architecture",
+          "incident_2026_07_payment_webhook_backlog",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.9197207891481876,
+        "latency_ms": 101.9
+      },
+      {
+        "query": "Which documents together explain what happens to logins when the external identity provider has an outage?",
+        "expected": [
+          "auth_service_architecture",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "retrieved": [
+          "auth_outage_runbook",
+          "incident_2025_11_auth_provider_outage",
+          "auth_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6934264036172708,
+        "latency_ms": 31.47
+      },
+      {
+        "query": "Which documents relate to checkout or payment failures?",
+        "expected": [
+          "incident_2025_01_checkout_timeout",
+          "checkout_architecture",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "retrieved": [
+          "incident_2025_04_rate_limit",
+          "checkout_architecture",
+          "incident_2025_07_tls_cert_expiry",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 0.6666666666666666,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.5307212739772434,
+        "latency_ms": 74.37
+      },
+      {
+        "query": "Why did the pricing page keep showing stale content after a deploy?",
+        "expected": [
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "retrieved": [
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 28.06
+      },
+      {
+        "query": "Why did the nightly inventory reconciliation job stop running without anyone noticing?",
+        "expected": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "incident_2025_12_billing_data_corruption",
+          "scheduled_jobs_architecture",
+          "scheduled_job_failure_runbook",
+          "incident_2026_10_image_upload_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 30.23
+      },
+      {
+        "query": "Why did a database migration block all checkout writes for 35 minutes?",
+        "expected": [
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "retrieved": [
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2025_04_rate_limit",
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_01_checkout_timeout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 34.81
+      },
+      {
+        "query": "Why did push notifications stop being delivered after a certificate rotation?",
+        "expected": [
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_delivery_runbook",
+          "incident_2025_07_tls_cert_expiry",
+          "notification_service_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 17.57
+      },
+      {
+        "query": "Why didn't newly published products appear in search results?",
+        "expected": [
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_lag_runbook",
+          "search_indexing_architecture",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 29.38
+      },
+      {
+        "query": "Why was an unfinished checkout redesign shown to all users instead of just 1 percent?",
+        "expected": [
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "retrieved": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_04_rate_limit",
+          "incident_2026_01_cdn_stale_content",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_01_checkout_timeout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 43.63
+      },
+      {
+        "query": "Why were order confirmation emails delayed even though payments had already succeeded?",
+        "expected": [
+          "incident_2026_07_payment_webhook_backlog"
+        ],
+        "retrieved": [
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_04_push_notification_delivery_failure",
+          "message_queue_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 28.99
+      },
+      {
+        "query": "Why were a large number of users logged out at the same time?",
+        "expected": [
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 35.21
+      },
+      {
+        "query": "Why was search API traffic routed to the recommendations service instead?",
+        "expected": [
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "retrieved": [
+          "incident_2026_09_api_gateway_misrouting",
+          "incident_2025_10_disk_space_exhaustion",
+          "incident_2026_12_circuit_breaker_misfire",
+          "api_gateway_architecture",
+          "incident_2025_06_cache_stampede"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 33.67
+      },
+      {
+        "query": "Why were sellers unable to upload product images for almost an hour?",
+        "expected": [
+          "incident_2026_10_image_upload_outage"
+        ],
+        "retrieved": [
+          "incident_2026_10_image_upload_outage",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 30.87
+      },
+      {
+        "query": "Why were some customers charged twice for the same order?",
+        "expected": [
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "retrieved": [
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2025_08_queue_consumer_lag",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 31.19
+      },
+      {
+        "query": "Why did personalized recommendations stay disabled long after a brief network blip had already resolved?",
+        "expected": [
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "retrieved": [
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_02_search_latency",
+          "incident_2025_11_auth_provider_outage"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 94.0
+      },
+      {
+        "query": "What should I check when users report seeing outdated content shortly after a deploy?",
+        "expected": [
+          "cdn_stale_content_runbook"
+        ],
+        "retrieved": [
+          "cdn_stale_content_runbook",
+          "cdn_caching_architecture",
+          "database_latency_runbook",
+          "incident_2025_12_billing_data_corruption",
+          "scheduled_job_failure_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 42.34
+      },
+      {
+        "query": "What steps should I follow if a nightly job doesn't seem to have run?",
+        "expected": [
+          "scheduled_job_failure_runbook"
+        ],
+        "retrieved": [
+          "scheduled_job_failure_runbook",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "incident_2025_12_billing_data_corruption",
+          "disk_space_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 260.58
+      },
+      {
+        "query": "What should I check when the notification sent count drops but the triggering events continue normally?",
+        "expected": [
+          "notification_delivery_runbook"
+        ],
+        "retrieved": [
+          "notification_delivery_runbook",
+          "notification_service_architecture",
+          "incident_2026_04_push_notification_delivery_failure",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2025_08_queue_consumer_lag"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 41.56
+      },
+      {
+        "query": "What should I check when new products don't show up in search but load fine via a direct link?",
+        "expected": [
+          "search_indexing_lag_runbook"
+        ],
+        "retrieved": [
+          "search_indexing_lag_runbook",
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2026_10_image_upload_outage",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 39.16
+      },
+      {
+        "query": "Which document explains how a CDN purge step can fall out of sync with routing changes?",
+        "expected": [
+          "cdn_caching_architecture"
+        ],
+        "retrieved": [
+          "cdn_caching_architecture",
+          "incident_2026_01_cdn_stale_content",
+          "cdn_stale_content_runbook",
+          "incident_2026_09_api_gateway_misrouting"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 35.05
+      },
+      {
+        "query": "Which document describes queuing notifications internally to protect against a provider outage?",
+        "expected": [
+          "notification_service_architecture"
+        ],
+        "retrieved": [
+          "notification_service_architecture",
+          "notification_delivery_runbook",
+          "incident_2025_11_auth_provider_outage",
+          "auth_service_architecture",
+          "auth_outage_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 32.38
+      },
+      {
+        "query": "Which document explains why the search index can lag behind the product catalog?",
+        "expected": [
+          "search_indexing_architecture"
+        ],
+        "retrieved": [
+          "search_indexing_architecture",
+          "search_indexing_lag_runbook",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2025_06_cache_stampede"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 34.82
+      },
+      {
+        "query": "Which document explains why a scheduled job can silently stop running after a host migration?",
+        "expected": [
+          "scheduled_jobs_architecture"
+        ],
+        "retrieved": [
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_job_failure_runbook",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 34.05
+      },
+      {
+        "query": "What caused new product listings to be invisible in search even though the products existed in the catalog?",
+        "expected": [
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2026_10_image_upload_outage",
+          "search_indexing_lag_runbook",
+          "incident_2025_10_disk_space_exhaustion"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 24.45
+      },
+      {
+        "query": "What made a large share of active users get signed out all at once?",
+        "expected": [
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "retrieved": [
+          "incident_2026_08_session_cache_eviction_mass_logout",
+          "incident_2025_11_auth_provider_outage",
+          "incident_2025_06_cache_stampede"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 26.82
+      },
+      {
+        "query": "Why did checkout stop working during a routine schema change?",
+        "expected": [
+          "incident_2026_03_migration_lock_contention"
+        ],
+        "retrieved": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2026_05_search_indexing_lag",
+          "incident_2026_03_migration_lock_contention",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 39.88
+      },
+      {
+        "query": "What caused customers to be billed more than once for the same purchase?",
+        "expected": [
+          "incident_2026_11_duplicate_order_processing"
+        ],
+        "retrieved": [
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_11_duplicate_order_processing",
+          "incident_2025_04_rate_limit",
+          "incident_2026_07_payment_webhook_backlog",
+          "incident_2026_08_session_cache_eviction_mass_logout"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 44.96
+      },
+      {
+        "query": "Which runbook covers troubleshooting when search indexing falls behind?",
+        "expected": [
+          "search_indexing_lag_runbook"
+        ],
+        "retrieved": [
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag",
+          "search_indexing_lag_runbook",
+          "cdn_caching_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_10": 0.5,
+        "latency_ms": 38.33
+      },
+      {
+        "query": "Which incident involved a CDN serving outdated pricing information after a release?",
+        "expected": [
+          "incident_2026_01_cdn_stale_content"
+        ],
+        "retrieved": [
+          "cdn_stale_content_runbook",
+          "incident_2026_01_cdn_stale_content",
+          "cdn_caching_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_10": 0.6309297535714575,
+        "latency_ms": 39.58
+      },
+      {
+        "query": "Which documents together explain why a scheduled job can stop running silently and describe a real case where that happened?",
+        "expected": [
+          "scheduled_jobs_architecture",
+          "incident_2026_02_nightly_reconciliation_job_silent_failure"
+        ],
+        "retrieved": [
+          "incident_2026_02_nightly_reconciliation_job_silent_failure",
+          "scheduled_jobs_architecture",
+          "scheduled_job_failure_runbook",
+          "disk_space_runbook",
+          "search_indexing_architecture"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 37.47
+      },
+      {
+        "query": "Which documents describe both the general failure modes of the search indexing pipeline and a specific incident where it fell behind?",
+        "expected": [
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag"
+        ],
+        "retrieved": [
+          "search_indexing_architecture",
+          "incident_2026_05_search_indexing_lag",
+          "auth_service_architecture",
+          "search_indexing_lag_runbook",
+          "cdn_stale_content_runbook"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 1.0,
+        "latency_ms": 41.35
+      },
+      {
+        "query": "Which documents connect how notifications are queued for delivery with an actual delivery failure caused by an expired certificate?",
+        "expected": [
+          "notification_service_architecture",
+          "incident_2026_04_push_notification_delivery_failure"
+        ],
+        "retrieved": [
+          "incident_2026_04_push_notification_delivery_failure",
+          "notification_delivery_runbook",
+          "notification_service_architecture",
+          "incident_2025_07_tls_cert_expiry"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.9197207891481876,
+        "latency_ms": 37.9
+      },
+      {
+        "query": "Which incidents were caused by an incorrect numeric value being set in a configuration -- a percentage, weight, or duration?",
+        "expected": [
+          "incident_2026_06_feature_flag_misconfiguration",
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2026_12_circuit_breaker_misfire"
+        ],
+        "retrieved": [
+          "incident_2025_09_load_balancer_misconfig",
+          "incident_2025_12_billing_data_corruption",
+          "incident_2026_12_circuit_breaker_misfire",
+          "incident_2026_06_feature_flag_misconfiguration"
+        ],
+        "hit_rate_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_10": 0.9060254355346823,
+        "latency_ms": 73.56
+      }
+    ]
+  }
+}
