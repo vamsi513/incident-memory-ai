@@ -22,13 +22,27 @@ services:
       - redis
 
   postgres:
-    image: postgres:16
+    # pgvector/pgvector:pg16 is postgres:16 with the pgvector extension
+    # compiled in -- a strict superset, not a separate database. Existing
+    # app-metadata tables are unaffected; this just makes `CREATE EXTENSION
+    # vector` available for the new document_chunks table.
+    #
+    # This config is correct and untested-but-should-work through Docker;
+    # local dev/eval work so far actually ran against a native Homebrew
+    # Postgres 17 + pgvector install instead (`brew install postgresql@17
+    # pgvector`), since Docker Desktop's Rosetta install failed on this
+    # machine. Same schema (scripts/sql/init_pgvector.sql), same DSN
+    # shape, same result -- documented here so this isn't silently assumed
+    # to have been verified through Compose when it wasn't.
+    image: pgvector/pgvector:pg16
     environment:
       POSTGRES_DB: incidentmemory
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    volumes:
+      - ./scripts/sql/init_pgvector.sql:/docker-entrypoint-initdb.d/init_pgvector.sql
 
   redis:
     image: redis:7
