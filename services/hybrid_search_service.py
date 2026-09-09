@@ -138,6 +138,7 @@ class HybridSearchService:
         asks_for_runbook_steps = any(
             term in query_lower for term in ["runbook", "steps", "checks"]
         )
+        query_terms = {term for term in _SERVICE_TERMS if term in query_lower}
 
         boosted: list[ChunkRecord] = []
         for hit in hits:
@@ -145,16 +146,35 @@ class HybridSearchService:
             section = (item.metadata.section or "").strip().lower()
             boost = 0.0
 
-            if "root cause" in query_lower and section == "root cause":
+            # Same specificity gate as _inject_section_candidates: a chunk
+            # only earns the resolution/root-cause boosts below if it
+            # matches every service term the query names, not just one.
+            if query_terms:
+                haystack = " ".join(
+                    [item.document_id, item.text, item.metadata.service or ""]
+                ).lower()
+                specific_enough = all(term in haystack for term in query_terms)
+            else:
+                specific_enough = True
+
+            # Naming two or more specific service terms together is a
+            # strong, deterministic signal of which document is meant --
+            # see the matching comment in retrieval/postprocess.py's
+            # apply_section_boosts for the full explanation. Applies
+            # regardless of section.
+            if len(query_terms) >= 2 and specific_enough:
+                boost += 8.0
+
+            if "root cause" in query_lower and section == "root cause" and specific_enough:
                 boost += 3.0
             elif "root cause" in query_lower and section in {"summary", "impact"}:
                 boost -= 1.0
 
-            if asks_for_resolution and section in {"mitigation", "mitigation steps"}:
+            if asks_for_resolution and section in {"mitigation", "mitigation steps"} and specific_enough:
                 boost += 6.0
             elif asks_for_resolution and section in {"summary", "impact"}:
                 boost -= 2.0
-            elif asks_for_resolution and section == "root cause":
+            elif asks_for_resolution and section == "root cause" and specific_enough:
                 boost += 0.5
 
             if asks_for_runbook_steps and section in {
