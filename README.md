@@ -14,7 +14,7 @@ The engineering focus is on retrieval quality: hybrid BM25 + FAISS dense search,
 
 The live API previously served BM25 and vector search from 4 hardcoded records instead of the fully ingested corpus, which also hid a Reciprocal Rank Fusion bug (a single-source hit could keep its raw retrieval score instead of a proper RRF score, letting it outrank chunks both retrievers actually agreed on). Both are fixed:
 
-- **Real corpus wired into search** — `services/bm25_service.py` and `services/vector_service.py` now index the full 46-chunk ingested corpus (`data/processed/chunks.json`) instead of a 4-record in-code stub
+- **Real corpus wired into search** — `services/bm25_service.py` and `services/vector_service.py` now index the full 178-chunk ingested corpus across 40 documents (`data/processed/chunks.json`) instead of a 4-record in-code stub
 - **RRF fusion bug fixed** — fusion now accumulates pure rank-based scores; it no longer lets a vector-only hit's raw cosine similarity leak into its fused rank
 - **Metadata filters actually apply** — `service` / `severity` / `source` filters were accepted by the API and rendered in the UI but silently ignored; they now filter results, with dropdown options pulled live from `GET /v1/facets`
 - **Relevance scores normalized correctly** — parent and per-chunk relevance now run through the same sigmoid, and results below a relevance floor are dropped instead of shown as low-confidence noise
