@@ -28,6 +28,10 @@ The live API previously served BM25 and vector search from 4 hardcoded records i
 
 **API:** `http://23.21.42.197:8002` — `GET /health`, `POST /v1/search`
 
+### Demo Video
+
+https://github.com/user-attachments/assets/8dd1936f-39e6-4d60-b047-ed4a27a8ff87
+
 ---
 
 ## Architecture
