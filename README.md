@@ -28,6 +28,12 @@ The live API previously served BM25 and vector search from 4 hardcoded records i
 
 **API:** `http://23.21.42.197:8002` — `GET /health`, `POST /v1/search`
 
+### Demo Video
+
+<video src="https://github.com/vamsi513/incident-memory-ai/raw/main/docs/demo.mp4" controls width="720">
+  Video not rendering? Watch it directly: docs/demo.mp4
+</video>
+
 ---
 
 ## Architecture
