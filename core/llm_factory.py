@@ -1,7 +1,11 @@
+import asyncio
+import json
 import re
 from dataclasses import dataclass
 
+import boto3
 from anthropic import AsyncAnthropic
+from botocore.exceptions import ClientError, NoCredentialsError, PartialCredentialsError
 from openai import AsyncOpenAI
 
 from core.config import settings
@@ -86,10 +90,45 @@ class AnthropicJudgeProvider(BaseJudgeProvider):
         return JudgeResult(score=score, rationale=rationale)
 
 
+class BedrockJudgeProvider(BaseJudgeProvider):
+    def __init__(self) -> None:
+        self.client = boto3.client("bedrock-runtime", region_name=settings.aws_region)
+        self.model_id = settings.bedrock_model_id
+
+    def _invoke(self, prompt: str, answer: str, context: str) -> str:
+        body = json.dumps(
+            {
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 128,
+                "temperature": 0.0,
+                "system": _JUDGE_SYSTEM,
+                "messages": [
+                    {"role": "user", "content": _build_judge_prompt(prompt, answer, context)}
+                ],
+            }
+        )
+        try:
+            response = self.client.invoke_model(modelId=self.model_id, body=body)
+        except (NoCredentialsError, PartialCredentialsError) as exc:
+            raise ProviderError(f"AWS credentials not configured for Bedrock: {exc}") from exc
+        except ClientError as exc:
+            raise ProviderError(f"Bedrock request failed: {exc}") from exc
+        payload = json.loads(response["body"].read())
+        content = payload.get("content", [])
+        return content[0]["text"] if content else ""
+
+    async def judge_retrieval(self, prompt: str, answer: str, context: str) -> JudgeResult:
+        text = await asyncio.to_thread(self._invoke, prompt, answer, context)
+        score, rationale = _parse_judge_response(text)
+        return JudgeResult(score=score, rationale=rationale)
+
+
 class LLMProviderFactory:
     def create_judge_provider(self) -> BaseJudgeProvider:
         if settings.llm_provider == "openai":
             return OpenAIJudgeProvider()
         if settings.llm_provider == "anthropic":
             return AnthropicJudgeProvider()
+        if settings.llm_provider == "bedrock":
+            return BedrockJudgeProvider()
         raise ProviderError(f"Unsupported provider: {settings.llm_provider}")

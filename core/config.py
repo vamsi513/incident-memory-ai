@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     mistral_api_key: str = ""
     langsmith_api_key: str = ""
+    aws_region: str = "us-east-1"
+    bedrock_model_id: str = "us.anthropic.claude-haiku-4-5-20251001-v1:0"
     top_k: int = 10
     rerank_top_n: int = 5
 

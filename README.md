@@ -220,10 +220,21 @@ uvicorn api.main:app --reload --port 8000
 
 ```env
 # LLM provider — which backend generates answers (openai | anthropic | mistral)
+# and, separately, which backend core/llm_factory.py uses for LLM-as-judge
+# grounding scores (openai | anthropic | bedrock). Bedrock is judge-only --
+# app/llm.py's answer-generation path doesn't support it yet, so setting
+# LLM_PROVIDER=bedrock is only meaningful when running evaluation, not the
+# live generation service.
 LLM_PROVIDER=openai
 OPENAI_API_KEY=
 ANTHROPIC_API_KEY=
 MISTRAL_API_KEY=
+
+# Bedrock judge provider (used when LLM_PROVIDER=bedrock). Credentials come
+# from the standard AWS credential chain (env vars, ~/.aws/credentials, or
+# an IAM role), not from a key in this file.
+AWS_REGION=us-east-1
+BEDROCK_MODEL_ID=us.anthropic.claude-haiku-4-5-20251001-v1:0
 
 # Retrieval models
 EMBED_MODEL=sentence-transformers/all-MiniLM-L6-v2
@@ -298,7 +309,7 @@ incident-memory-ai/
 │   ├── security.py                 # Injection detection (8 patterns), PII redaction (email/phone/SSN/card)
 │   ├── logging.py                  # structlog configuration
 │   ├── tracing.py                  # traced_span: timed stage-logging (stage_timing log lines, not a real OTel tracer)
-│   └── llm_factory.py              # LLM-as-judge: scores answer grounding via OpenAI or Anthropic
+│   └── llm_factory.py              # LLM-as-judge: scores answer grounding via OpenAI, Anthropic, or Bedrock
 ├── ingestion/                      # Document loading and chunking
 │   ├── pipeline.py                 # Ingest raw docs → chunks with metadata inference
 │   ├── chunker.py
