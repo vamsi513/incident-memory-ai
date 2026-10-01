@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     langsmith_api_key: str = ""
     aws_region: str = "us-east-1"
     bedrock_model_id: str = "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+    ingestion_source: str = "local"
+    s3_ingestion_bucket: str = ""
+    s3_ingestion_prefix: str = ""
     top_k: int = 10
     rerank_top_n: int = 5
 

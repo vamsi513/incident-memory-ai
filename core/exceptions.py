@@ -12,3 +12,7 @@ class ProviderError(IncidentMemoryError):
 
 class EvaluationError(IncidentMemoryError):
     """Raised when evaluation pipeline fails."""
+
+
+class IngestionError(IncidentMemoryError):
+    """Raised when document ingestion fails."""

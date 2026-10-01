@@ -169,6 +169,11 @@ python -m scripts.run_ingestion
 python -m scripts.build_index
 ```
 
+By default this reads markdown from `data/raw/`. To ingest from an S3
+bucket instead, set `INGESTION_SOURCE=s3` and `S3_INGESTION_BUCKET` (and
+optionally `S3_INGESTION_PREFIX`) in `.env` — see Environment Variables
+below.
+
 ### 3. Start the app
 
 ```bash
@@ -235,6 +240,14 @@ MISTRAL_API_KEY=
 # an IAM role), not from a key in this file.
 AWS_REGION=us-east-1
 BEDROCK_MODEL_ID=us.anthropic.claude-haiku-4-5-20251001-v1:0
+
+# Ingestion source (local | s3). S3_INGESTION_BUCKET is required when
+# INGESTION_SOURCE=s3; S3_INGESTION_PREFIX restricts ingestion to a
+# subfolder of the bucket. Uses the same AWS credential chain as Bedrock
+# above.
+INGESTION_SOURCE=local
+S3_INGESTION_BUCKET=
+S3_INGESTION_PREFIX=
 
 # Retrieval models
 EMBED_MODEL=sentence-transformers/all-MiniLM-L6-v2

@@ -1,8 +1,11 @@
 import json
 from pathlib import Path
 
+from core.config import settings
+from core.exceptions import IngestionError
 from ingestion.chunker import chunk_section, split_markdown_sections
 from ingestion.connectors.local_files import load_markdown_files
+from ingestion.connectors.s3_files import load_markdown_files_from_s3
 
 
 def infer_metadata(doc) -> dict:
@@ -76,8 +79,22 @@ def build_chunks(docs: list) -> list[dict]:
     return chunk_records
 
 
+def load_documents() -> list:
+    if settings.ingestion_source == "s3":
+        if not settings.s3_ingestion_bucket:
+            raise IngestionError("s3_ingestion_bucket must be set when ingestion_source=s3")
+        return load_markdown_files_from_s3(
+            settings.s3_ingestion_bucket, settings.s3_ingestion_prefix
+        )
+
+    if settings.ingestion_source == "local":
+        return load_markdown_files("data/raw")
+
+    raise IngestionError(f"Unsupported ingestion_source: {settings.ingestion_source}")
+
+
 def run_ingestion() -> None:
-    docs = load_markdown_files("data/raw")
+    docs = load_documents()
 
     processed_dir = Path("data/processed")
     processed_dir.mkdir(parents=True, exist_ok=True)
