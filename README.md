@@ -84,6 +84,8 @@ The `app/` directory contains a standalone RAG app (`app/main.py`) with LLM gene
 - **Citations and a no-answer path** — `app/main.py`'s `/query` endpoint cites sources with `[1]`, `[2]` markers and returns a fixed refusal phrase when retrieved evidence doesn't actually answer the question, verified against real LLM calls in `tests/test_query_citations.py`
 - **Async service layer** — full async FastAPI + service layer for microservice deployment, with structlog structured logging throughout
 - **arq background workers** — wired in `workers/` for async ingestion and eval jobs (requires Redis; runs alongside the Docker Compose stack). Not part of the public EC2 deployment, which runs the API container alone with no Redis or worker process
+- **Bedrock judge provider** — `core/llm_factory.py`'s LLM-as-judge grounding scorer can run on AWS Bedrock (Claude via `invoke_model`) instead of OpenAI/Anthropic, selected via `LLM_PROVIDER=bedrock`
+- **Configurable ingestion source** — `ingestion/pipeline.py` loads markdown docs from the local `data/raw/` directory or an S3 bucket, selected via `INGESTION_SOURCE`
 
 ---
 
@@ -326,7 +328,9 @@ incident-memory-ai/
 ├── ingestion/                      # Document loading and chunking
 │   ├── pipeline.py                 # Ingest raw docs → chunks with metadata inference
 │   ├── chunker.py
-│   └── connectors/local_files.py   # Loads .md files, doc_id = filename stem
+│   └── connectors/
+│       ├── local_files.py          # Loads .md files from data/raw/, doc_id = filename stem
+│       └── s3_files.py             # Loads .md files from an S3 bucket/prefix
 ├── schemas/                        # Pydantic request/response models
 ├── evals/
 │   ├── dataset.json                # 60 labeled queries with expected_doc_ids
