@@ -57,7 +57,12 @@ jobs:
           # model ever loaded.
           # PYSEC-2026-2288/2289/2290 and CVE-2026-9856: same reasoning as
           # above (trust_remote_code bypass / save_pretrained path traversal).
-          pip-audit --ignore-vuln PYSEC-2025-217 --ignore-vuln PYSEC-2025-218 --ignore-vuln PYSEC-2026-2288 --ignore-vuln PYSEC-2026-2289 --ignore-vuln PYSEC-2026-2290 --ignore-vuln CVE-2026-9856
+          # PYSEC-2026-4164 (sentence-transformers trust_remote_code bypass
+          # via os.path.exists on a local path) and PYSEC-2026-4174
+          # (transformers writes remote code to disk via
+          # load_custom_generate()): same reasoning - neither path is used
+          # here, grepped for both, no matches.
+          pip-audit --ignore-vuln PYSEC-2025-217 --ignore-vuln PYSEC-2025-218 --ignore-vuln PYSEC-2026-2288 --ignore-vuln PYSEC-2026-2289 --ignore-vuln PYSEC-2026-2290 --ignore-vuln CVE-2026-9856 --ignore-vuln PYSEC-2026-4164 --ignore-vuln PYSEC-2026-4174
 
       - name: Security scan (deploy dependencies)
         run: |
@@ -72,7 +77,7 @@ jobs:
           python -m venv /tmp/deploy-audit-venv
           /tmp/deploy-audit-venv/bin/pip install --upgrade pip
           /tmp/deploy-audit-venv/bin/pip install -r requirements-deploy.txt pip-audit
-          /tmp/deploy-audit-venv/bin/pip-audit --ignore-vuln PYSEC-2025-217 --ignore-vuln PYSEC-2025-218 --ignore-vuln PYSEC-2026-2288 --ignore-vuln PYSEC-2026-2289 --ignore-vuln PYSEC-2026-2290 --ignore-vuln CVE-2026-9856
+          /tmp/deploy-audit-venv/bin/pip-audit --ignore-vuln PYSEC-2025-217 --ignore-vuln PYSEC-2025-218 --ignore-vuln PYSEC-2026-2288 --ignore-vuln PYSEC-2026-2289 --ignore-vuln PYSEC-2026-2290 --ignore-vuln CVE-2026-9856 --ignore-vuln PYSEC-2026-4164 --ignore-vuln PYSEC-2026-4174
 
       - name: Build Docker image
         run: docker build -t incidentmemai-api:${{ github.sha }} .
