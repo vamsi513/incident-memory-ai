@@ -381,6 +381,16 @@ Required GitHub Secrets: `EC2_HOST`, `EC2_SSH_KEY`, `DEPLOY_AWS_ACCESS_KEY_ID`, 
 
 ---
 
+## Limitations
+
+- The retrieval eval is 60 labeled queries against a 40-document corpus of incident reports, runbooks, and architecture docs that ships with the repo. Nothing here has been run against a real postmortem archive.
+- The ablation compares four retrieval configurations on that same 60-query set. It shows the full pipeline wins on this corpus, not that hybrid retrieval with reranking is better in general.
+- Hit Rate, Recall, MRR and NDCG are all computed against ground-truth document ids. There is no scoring of answer quality, faithfulness, or groundedness.
+- Latency is measured in-process against `HybridSearchService` over 180 sequential samples, timing retrieval only. It excludes network time, LLM generation, and any concurrency, so it is a floor rather than an end-to-end figure.
+- The test suite is 21 test functions. The citation tests make real provider API calls and skip automatically when no provider key is configured, so a key-less run exercises less than the full count suggests.
+- The deployed demo runs on a single EC2 instance over plain HTTP with no authentication and no TLS. It is a demo, not a hardened deployment.
+- `retrieval/pgvector_store.py` is a second dense backend that has been verified against a real query but is not what the live API runs. FAISS is.
+
 ## License
 
 MIT License — see [LICENSE](LICENSE) for details.
