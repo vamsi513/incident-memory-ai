@@ -96,9 +96,9 @@ Evaluated on 60 labeled queries against 40 documents (24 incident reports, 8 run
 | Metric | Score |
 |---|---|
 | Hit Rate@1 | 0.7833 |
-| Hit Rate@3 | 0.9667 |
+| Hit Rate@3 | 0.9500 |
 | Hit Rate@5 | 0.9833 |
-| MRR | 0.8681 |
+| MRR | 0.8667 |
 
 Exact values pulled from MLflow, not rounded console output. Queries include paraphrased variants (vocabulary mismatch from document text), cross-document queries requiring retrieval across multiple relevant sources, and deliberately ambiguous queries with more than one valid answer — the set is built to be genuinely hard to get a perfect score on, not tuned to look good. All metrics computed against ground-truth `expected_doc_ids` using `evals/metrics.py`, run via `python -m scripts.run_evals` against the same `HybridSearchService` that serves the live API. Results logged to MLflow.
 
