@@ -29,11 +29,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface/hub
-          key: hf-${{ runner.os }}-all-MiniLM-L6-v2
+          key: hf-${{ runner.os }}-all-MiniLM-L6-v2-ms-marco-MiniLM-L-6-v2
           restore-keys: hf-${{ runner.os }}-
 
-      - name: Pre-download embedding model
-        run: python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
+      - name: Pre-download retrieval models
+        run: |
+          python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
+          python -c "from sentence_transformers import CrossEncoder; CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')"
 
       - name: Lint
         run: ruff check app core retrieval rerank
