@@ -1,13 +1,16 @@
 import time
 import uuid
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 
 from app.generator import build_citations, build_user_prompt
 from app.llm import generate_answer
 from app.prompts import SYSTEM_PROMPT
 from app.schemas import QueryRequest, QueryResponse
+from core.auth import require_api_key, verify_production_config
 from core.config import settings
 from core.logging import configure_logging, get_logger
 from core.security import detect_prompt_injection, mask_pii
@@ -16,7 +19,14 @@ from retrieval.pipeline import run_retrieval
 configure_logging(settings.log_level)
 logger = get_logger(__name__)
 
-app = FastAPI(title="IncidentMemory AI")
+
+@asynccontextmanager
+async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    verify_production_config()
+    yield
+
+
+app = FastAPI(title="IncidentMemory AI", lifespan=lifespan)
 
 
 @app.middleware("http")
@@ -63,7 +73,7 @@ def health() -> dict:
     }
 
 
-@app.post("/query", response_model=QueryResponse)
+@app.post("/query", response_model=QueryResponse, dependencies=[Depends(require_api_key)])
 def query_rag(request: QueryRequest) -> QueryResponse:
     if detect_prompt_injection(request.query):
         logger.warning("query_rejected_prompt_injection", query=mask_pii(request.query))

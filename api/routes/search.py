@@ -3,6 +3,7 @@ import re
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from api.dependencies import get_hybrid_search_service
+from core.auth import require_api_key
 from core.exceptions import RetrievalError
 from core.logging import get_logger
 from core.rate_limit import check_rate_limit
@@ -21,8 +22,19 @@ def _safe_query(query: str) -> str:
     return masked[:120] + "…" if len(masked) > 120 else masked
 
 
-@router.get("/facets", response_model=FacetsResponse)
+@router.get(
+    "/facets",
+    response_model=FacetsResponse,
+    dependencies=[Depends(check_rate_limit), Depends(require_api_key)],
+)
 async def get_facets() -> FacetsResponse:
+    """List the facet values present in the corpus.
+
+    Rate limited and keyed like /search. It reads the whole chunk corpus off
+    disk per call and discloses the service, severity and source vocabulary,
+    so it is neither free to serve nor uninteresting to an unauthenticated
+    caller.
+    """
     records = load_chunk_records()
     services = {r.metadata.service for r in records if r.metadata.service}
     severities = {r.metadata.severity for r in records if r.metadata.severity}
@@ -34,7 +46,11 @@ async def get_facets() -> FacetsResponse:
     )
 
 
-@router.post("/search", response_model=SearchResponse, dependencies=[Depends(check_rate_limit)])
+@router.post(
+    "/search",
+    response_model=SearchResponse,
+    dependencies=[Depends(check_rate_limit), Depends(require_api_key)],
+)
 async def search_documents(
     payload: SearchRequest,
     search_service: HybridSearchService = Depends(get_hybrid_search_service),
