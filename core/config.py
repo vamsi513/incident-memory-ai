@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     app_env: str = "dev"
     log_level: str = "INFO"
     api_port: int = 8000
+    # Shared key callers must present in an X-API-Key header. Empty means the
+    # endpoints are open, which is the development default. app_env=production
+    # with this empty stops either app from starting.
+    api_key: str = ""
     postgres_dsn: str = Field(
         default="postgresql+asyncpg://postgres:postgres@localhost:5432/incidentmemory"
     )

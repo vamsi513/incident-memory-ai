@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from api.routes.search import router as search_router
+from core.auth import verify_production_config
 from core.config import settings
 from core.logging import configure_logging, get_logger
 
@@ -10,6 +11,7 @@ from core.logging import configure_logging, get_logger
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     configure_logging(settings.log_level)
+    verify_production_config()
     logger = get_logger(__name__)
     logger.info("app_startup", app_name=settings.app_name, environment=settings.app_env)
     yield
